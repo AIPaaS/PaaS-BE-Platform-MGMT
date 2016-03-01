@@ -1,0 +1,288 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap namespace="PC_KV_PAIR">
+
+
+	<resultMap class="com.aic.paas.provider.ps.bean.PcKvPair" id="queryResult">
+		<result column="ID" jdbcType="BIGINT" property="id"/>	<!-- ID -->
+		<result column="TYPE_ID" jdbcType="INTEGER" property="typeId"/>	<!-- 定义类型 -->
+		<result column="SOURCE_ID" jdbcType="BIGINT" property="sourceId"/>	<!-- 来源ID -->
+		<result column="KEY_DESC" jdbcType="VARCHAR" property="keyDesc"/>	<!-- 键描述 -->
+		<result column="KV_KEY" jdbcType="VARCHAR" property="kvKey"/>	<!-- 键名 -->
+		<result column="KEY_ALIAS" jdbcType="VARCHAR" property="keyAlias"/>	<!-- 键别名 -->
+		<result column="KV_VAL" jdbcType="VARCHAR" property="kvVal"/>	<!-- 值 -->
+		<result column="CUSTOM_1" jdbcType="BIGINT" property="custom1"/>	<!-- 备用字段_1 -->
+		<result column="CUSTOM_2" jdbcType="BIGINT" property="custom2"/>	<!-- 备用字段_2 -->
+		<result column="CUSTOM_3" jdbcType="BIGINT" property="custom3"/>	<!-- 备用字段_3 -->
+		<result column="CUSTOM_4" jdbcType="VARCHAR" property="custom4"/>	<!-- 备用字段_4 -->
+		<result column="CUSTOM_5" jdbcType="VARCHAR" property="custom5"/>	<!-- 备用字段_5 -->
+		<result column="CUSTOM_6" jdbcType="VARCHAR" property="custom6"/>	<!-- 备用字段_6 -->
+		<result column="CREATE_TIME" jdbcType="BIGINT" property="createTime"/>	<!-- 创建时间 -->
+		<result column="MODIFY_TIME" jdbcType="BIGINT" property="modifyTime"/>	<!-- 修改时间 -->
+	</resultMap>
+	
+
+	<sql id="sql_query_where">
+		<isNotEmpty prepend="and" property="cdt.id" >
+			ID = #cdt.id:BIGINT#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="ids" >
+			ID in ($ids$)
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="cdt.startId" >
+			<![CDATA[ ID >= #cdt.startId:BIGINT# ]]>
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="cdt.endId" >
+			<![CDATA[ ID <= #cdt.endId:BIGINT# ]]>
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="cdt.typeId" >
+			TYPE_ID = #cdt.typeId:INTEGER#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="typeIds" >
+			TYPE_ID in ($typeIds$)
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="cdt.startTypeId" >
+			<![CDATA[ TYPE_ID >= #cdt.startTypeId:INTEGER# ]]>
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="cdt.endTypeId" >
+			<![CDATA[ TYPE_ID <= #cdt.endTypeId:INTEGER# ]]>
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="cdt.sourceId" >
+			SOURCE_ID = #cdt.sourceId:BIGINT#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="sourceIds" >
+			SOURCE_ID in ($sourceIds$)
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="cdt.startSourceId" >
+			<![CDATA[ SOURCE_ID >= #cdt.startSourceId:BIGINT# ]]>
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="cdt.endSourceId" >
+			<![CDATA[ SOURCE_ID <= #cdt.endSourceId:BIGINT# ]]>
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="cdt.keyDesc" >
+			KEY_DESC like #cdt.keyDesc:VARCHAR# 
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="cdt.keyDescEqual" >
+			KEY_DESC = #cdt.keyDescEqual:VARCHAR#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="keyDescs" >
+			KEY_DESC in ($keyDescs$)
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="cdt.kvKey" >
+			KV_KEY like #cdt.kvKey:VARCHAR# 
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="cdt.keyAlias" >
+			KEY_ALIAS like #cdt.keyAlias:VARCHAR# 
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="cdt.kvVal" >
+			KV_VAL like #cdt.kvVal:VARCHAR# 
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="cdt.custom1" >
+			CUSTOM_1 = #cdt.custom1:BIGINT#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="custom1s" >
+			CUSTOM_1 in ($custom1s$)
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="cdt.startCustom1" >
+			<![CDATA[ CUSTOM_1 >= #cdt.startCustom1:BIGINT# ]]>
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="cdt.endCustom1" >
+			<![CDATA[ CUSTOM_1 <= #cdt.endCustom1:BIGINT# ]]>
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="cdt.custom2" >
+			CUSTOM_2 = #cdt.custom2:BIGINT#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="custom2s" >
+			CUSTOM_2 in ($custom2s$)
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="cdt.startCustom2" >
+			<![CDATA[ CUSTOM_2 >= #cdt.startCustom2:BIGINT# ]]>
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="cdt.endCustom2" >
+			<![CDATA[ CUSTOM_2 <= #cdt.endCustom2:BIGINT# ]]>
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="cdt.custom3" >
+			CUSTOM_3 = #cdt.custom3:BIGINT#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="custom3s" >
+			CUSTOM_3 in ($custom3s$)
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="cdt.startCustom3" >
+			<![CDATA[ CUSTOM_3 >= #cdt.startCustom3:BIGINT# ]]>
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="cdt.endCustom3" >
+			<![CDATA[ CUSTOM_3 <= #cdt.endCustom3:BIGINT# ]]>
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="cdt.custom4" >
+			CUSTOM_4 like #cdt.custom4:VARCHAR# 
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="cdt.custom5" >
+			CUSTOM_5 like #cdt.custom5:VARCHAR# 
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="cdt.custom6" >
+			CUSTOM_6 like #cdt.custom6:VARCHAR# 
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="cdt.createTime" >
+			CREATE_TIME = #cdt.createTime:BIGINT#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="createTimes" >
+			CREATE_TIME in ($createTimes$)
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="cdt.startCreateTime" >
+			<![CDATA[ CREATE_TIME >= #cdt.startCreateTime:BIGINT# ]]>
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="cdt.endCreateTime" >
+			<![CDATA[ CREATE_TIME <= #cdt.endCreateTime:BIGINT# ]]>
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="cdt.modifyTime" >
+			MODIFY_TIME = #cdt.modifyTime:BIGINT#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="modifyTimes" >
+			MODIFY_TIME in ($modifyTimes$)
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="cdt.startModifyTime" >
+			<![CDATA[ MODIFY_TIME >= #cdt.startModifyTime:BIGINT# ]]>
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="cdt.endModifyTime" >
+			<![CDATA[ MODIFY_TIME <= #cdt.endModifyTime:BIGINT# ]]>
+		</isNotEmpty>
+	</sql>
+	
+
+	<sql id="sql_update_columns">
+		<isNotNull prepend="," property="record.id"> 
+			ID = #record.id:BIGINT#
+		</isNotNull>
+		<isNotNull prepend="," property="record.typeId"> 
+			TYPE_ID = #record.typeId:INTEGER#
+		</isNotNull>
+		<isNotNull prepend="," property="record.sourceId"> 
+			SOURCE_ID = #record.sourceId:BIGINT#
+		</isNotNull>
+		<isNotNull prepend="," property="record.keyDesc"> 
+			KEY_DESC = #record.keyDesc:VARCHAR#
+		</isNotNull>
+		<isNotNull prepend="," property="record.kvKey"> 
+			KV_KEY = #record.kvKey:VARCHAR#
+		</isNotNull>
+		<isNotNull prepend="," property="record.keyAlias"> 
+			KEY_ALIAS = #record.keyAlias:VARCHAR#
+		</isNotNull>
+		<isNotNull prepend="," property="record.kvVal"> 
+			KV_VAL = #record.kvVal:VARCHAR#
+		</isNotNull>
+		<isNotNull prepend="," property="record.custom1"> 
+			CUSTOM_1 = #record.custom1:BIGINT#
+		</isNotNull>
+		<isNotNull prepend="," property="record.custom2"> 
+			CUSTOM_2 = #record.custom2:BIGINT#
+		</isNotNull>
+		<isNotNull prepend="," property="record.custom3"> 
+			CUSTOM_3 = #record.custom3:BIGINT#
+		</isNotNull>
+		<isNotNull prepend="," property="record.custom4"> 
+			CUSTOM_4 = #record.custom4:VARCHAR#
+		</isNotNull>
+		<isNotNull prepend="," property="record.custom5"> 
+			CUSTOM_5 = #record.custom5:VARCHAR#
+		</isNotNull>
+		<isNotNull prepend="," property="record.custom6"> 
+			CUSTOM_6 = #record.custom6:VARCHAR#
+		</isNotNull>
+		<isNotNull prepend="," property="record.createTime"> 
+			CREATE_TIME = #record.createTime:BIGINT#
+		</isNotNull>
+		<isNotNull prepend="," property="record.modifyTime"> 
+			MODIFY_TIME = #record.modifyTime:BIGINT#
+		</isNotNull>
+	</sql>
+	
+
+	<sql id="sql_query_columns">
+		ID, TYPE_ID, SOURCE_ID, KEY_DESC, KV_KEY, KEY_ALIAS, 
+		KV_VAL, CUSTOM_1, CUSTOM_2, CUSTOM_3, CUSTOM_4, CUSTOM_5, 
+		CUSTOM_6, CREATE_TIME, MODIFY_TIME
+	</sql>
+	
+
+	
+
+	<select id="selectList" parameterClass="java.util.Map" resultMap="queryResult">
+		select 
+			<include refid="PC_KV_PAIR.sql_query_columns" />
+		from PC_KV_PAIR 
+			<dynamic prepend="where" >
+				<include refid="PC_KV_PAIR.sql_query_where"/>
+			</dynamic>
+		order by 
+			<isNotEmpty property="orders" >
+				$orders$
+			</isNotEmpty>
+			<isEmpty property="orders" >
+				ID
+			</isEmpty>
+	</select>
+	<select id="selectCount" parameterClass="java.util.Map" resultClass="java.lang.Long">
+		select count(1) from PC_KV_PAIR 
+			<dynamic prepend="where" >
+				<include refid="PC_KV_PAIR.sql_query_where"/>
+			</dynamic>
+	</select>
+	<select id="selectById" parameterClass="java.util.Map" resultMap="queryResult">
+		select 
+			<include refid="PC_KV_PAIR.sql_query_columns" />
+		from PC_KV_PAIR where ID=#id:BIGINT# 
+	</select>
+	
+
+	
+
+	<insert id="insert" parameterClass="java.util.Map">
+		insert into PC_KV_PAIR(
+			ID, TYPE_ID, SOURCE_ID, KEY_DESC, KV_KEY, 
+			KEY_ALIAS, KV_VAL, CUSTOM_1, CUSTOM_2, CUSTOM_3, 
+			CUSTOM_4, CUSTOM_5, CUSTOM_6, CREATE_TIME, MODIFY_TIME)
+		values (
+			#record.id:BIGINT#, #record.typeId:INTEGER#, #record.sourceId:BIGINT#, #record.keyDesc:VARCHAR#, #record.kvKey:VARCHAR#, 
+			#record.keyAlias:VARCHAR#, #record.kvVal:VARCHAR#, #record.custom1:BIGINT#, #record.custom2:BIGINT#, #record.custom3:BIGINT#, 
+			#record.custom4:VARCHAR#, #record.custom5:VARCHAR#, #record.custom6:VARCHAR#, #record.createTime:BIGINT#, #record.modifyTime:BIGINT#)
+	</insert>
+	
+
+	
+
+	<update id="updateById" parameterClass="java.util.Map">
+		update PC_KV_PAIR
+			<dynamic prepend="set" > 
+				<include refid="PC_KV_PAIR.sql_update_columns"/> 
+			</dynamic>
+		where ID = #id:BIGINT#
+	</update>
+	<update id="updateByCdt" parameterClass="java.util.Map">
+		update PC_KV_PAIR
+			<dynamic prepend="set" > 
+				<include refid="PC_KV_PAIR.sql_update_columns"/> 
+			</dynamic>
+			<dynamic prepend="where" > 
+				<include refid="PC_KV_PAIR.sql_query_where"/> 
+			</dynamic>
+	</update>
+	
+	
+
+	
+
+	<delete id="deleteById" parameterClass="java.util.Map">
+		delete from PC_KV_PAIR where ID = #id:BIGINT#
+	</delete>
+	<delete id="deleteByCdt" parameterClass="java.util.Map">
+		delete from PC_KV_PAIR
+			<dynamic prepend="where" > 
+				<include refid="PC_KV_PAIR.sql_query_where"/> 
+			</dynamic>
+	</delete>
+	
+
+
+
+</sqlMap>

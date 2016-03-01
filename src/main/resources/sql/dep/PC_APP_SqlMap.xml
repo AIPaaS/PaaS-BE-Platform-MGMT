@@ -1,0 +1,327 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap namespace="PC_APP">
+
+
+	<resultMap class="com.aic.paas.provider.ps.bean.PcApp" id="queryResult">
+		<result column="ID" jdbcType="BIGINT" property="id"/>	<!-- ID -->
+		<result column="MNT_ID" jdbcType="BIGINT" property="mntId"/>	<!-- 所属租户 -->
+		<result column="APP_CODE" jdbcType="VARCHAR" property="appCode"/>	<!-- 应用代码 -->
+		<result column="APP_NAME" jdbcType="VARCHAR" property="appName"/>	<!-- 应用名称 -->
+		<result column="DATA_CENTER_ID" jdbcType="BIGINT" property="dataCenterId"/>	<!-- 所属数据中心 -->
+		<result column="RES_CENTER_ID" jdbcType="BIGINT" property="resCenterId"/>	<!-- 所属资源中心 -->
+		<result column="VERSION_ID" jdbcType="BIGINT" property="versionId"/>	<!-- 最近版本ID -->
+		<result column="VERSION_NO" jdbcType="VARCHAR" property="versionNo"/>	<!-- 最近版本号 -->
+		<result column="LAST_START_TIME" jdbcType="BIGINT" property="lastStartTime"/>	<!-- 最近启动时间 -->
+		<result column="STATUS" jdbcType="INTEGER" property="status"/>	<!-- 状态 -->
+		<result column="REMARK" jdbcType="VARCHAR" property="remark"/>	<!-- 描述 -->
+		<result column="DATA_STATUS" jdbcType="INTEGER" property="dataStatus"/>	<!-- 数据状态 -->
+		<result column="CREATOR" jdbcType="VARCHAR" property="creator"/>	<!-- 创建人 -->
+		<result column="CREATE_TIME" jdbcType="BIGINT" property="createTime"/>	<!-- 创建时间 -->
+		<result column="MODIFIER" jdbcType="VARCHAR" property="modifier"/>	<!-- 修改人 -->
+		<result column="MODIFY_TIME" jdbcType="BIGINT" property="modifyTime"/>	<!-- 修改时间 -->
+	</resultMap>
+	
+
+	<sql id="sql_query_where">
+		<isNotEmpty prepend="and" property="cdt.id" >
+			ID = #cdt.id:BIGINT#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="ids" >
+			ID in ($ids$)
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="cdt.startId" >
+			<![CDATA[ ID >= #cdt.startId:BIGINT# ]]>
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="cdt.endId" >
+			<![CDATA[ ID <= #cdt.endId:BIGINT# ]]>
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="cdt.mntId" >
+			MNT_ID = #cdt.mntId:BIGINT#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="mntIds" >
+			MNT_ID in ($mntIds$)
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="cdt.startMntId" >
+			<![CDATA[ MNT_ID >= #cdt.startMntId:BIGINT# ]]>
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="cdt.endMntId" >
+			<![CDATA[ MNT_ID <= #cdt.endMntId:BIGINT# ]]>
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="cdt.appCode" >
+			APP_CODE like #cdt.appCode:VARCHAR# 
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="cdt.appCodeEqual" >
+			APP_CODE = #cdt.appCodeEqual:VARCHAR#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="appCodes" >
+			APP_CODE in ($appCodes$)
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="cdt.appName" >
+			APP_NAME like #cdt.appName:VARCHAR# 
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="cdt.appNameEqual" >
+			APP_NAME = #cdt.appNameEqual:VARCHAR#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="appNames" >
+			APP_NAME in ($appNames$)
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="cdt.dataCenterId" >
+			DATA_CENTER_ID = #cdt.dataCenterId:BIGINT#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="dataCenterIds" >
+			DATA_CENTER_ID in ($dataCenterIds$)
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="cdt.startDataCenterId" >
+			<![CDATA[ DATA_CENTER_ID >= #cdt.startDataCenterId:BIGINT# ]]>
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="cdt.endDataCenterId" >
+			<![CDATA[ DATA_CENTER_ID <= #cdt.endDataCenterId:BIGINT# ]]>
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="cdt.resCenterId" >
+			RES_CENTER_ID = #cdt.resCenterId:BIGINT#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="resCenterIds" >
+			RES_CENTER_ID in ($resCenterIds$)
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="cdt.startResCenterId" >
+			<![CDATA[ RES_CENTER_ID >= #cdt.startResCenterId:BIGINT# ]]>
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="cdt.endResCenterId" >
+			<![CDATA[ RES_CENTER_ID <= #cdt.endResCenterId:BIGINT# ]]>
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="cdt.versionId" >
+			VERSION_ID = #cdt.versionId:BIGINT#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="versionIds" >
+			VERSION_ID in ($versionIds$)
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="cdt.startVersionId" >
+			<![CDATA[ VERSION_ID >= #cdt.startVersionId:BIGINT# ]]>
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="cdt.endVersionId" >
+			<![CDATA[ VERSION_ID <= #cdt.endVersionId:BIGINT# ]]>
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="cdt.versionNo" >
+			VERSION_NO like #cdt.versionNo:VARCHAR# 
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="cdt.versionNoEqual" >
+			VERSION_NO = #cdt.versionNoEqual:VARCHAR#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="versionNos" >
+			VERSION_NO in ($versionNos$)
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="cdt.lastStartTime" >
+			LAST_START_TIME = #cdt.lastStartTime:BIGINT#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="lastStartTimes" >
+			LAST_START_TIME in ($lastStartTimes$)
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="cdt.startLastStartTime" >
+			<![CDATA[ LAST_START_TIME >= #cdt.startLastStartTime:BIGINT# ]]>
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="cdt.endLastStartTime" >
+			<![CDATA[ LAST_START_TIME <= #cdt.endLastStartTime:BIGINT# ]]>
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="cdt.status" >
+			STATUS = #cdt.status:INTEGER#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="statuss" >
+			STATUS in ($statuss$)
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="cdt.startStatus" >
+			<![CDATA[ STATUS >= #cdt.startStatus:INTEGER# ]]>
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="cdt.endStatus" >
+			<![CDATA[ STATUS <= #cdt.endStatus:INTEGER# ]]>
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="cdt.remark" >
+			REMARK like #cdt.remark:VARCHAR# 
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="cdt.dataStatus" >
+			DATA_STATUS = #cdt.dataStatus:INTEGER#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="dataStatuss" >
+			DATA_STATUS in ($dataStatuss$)
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="cdt.startDataStatus" >
+			<![CDATA[ DATA_STATUS >= #cdt.startDataStatus:INTEGER# ]]>
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="cdt.endDataStatus" >
+			<![CDATA[ DATA_STATUS <= #cdt.endDataStatus:INTEGER# ]]>
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="cdt.creator" >
+			CREATOR like #cdt.creator:VARCHAR# 
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="cdt.createTime" >
+			CREATE_TIME = #cdt.createTime:BIGINT#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="createTimes" >
+			CREATE_TIME in ($createTimes$)
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="cdt.startCreateTime" >
+			<![CDATA[ CREATE_TIME >= #cdt.startCreateTime:BIGINT# ]]>
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="cdt.endCreateTime" >
+			<![CDATA[ CREATE_TIME <= #cdt.endCreateTime:BIGINT# ]]>
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="cdt.modifier" >
+			MODIFIER like #cdt.modifier:VARCHAR# 
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="cdt.modifyTime" >
+			MODIFY_TIME = #cdt.modifyTime:BIGINT#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="modifyTimes" >
+			MODIFY_TIME in ($modifyTimes$)
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="cdt.startModifyTime" >
+			<![CDATA[ MODIFY_TIME >= #cdt.startModifyTime:BIGINT# ]]>
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="cdt.endModifyTime" >
+			<![CDATA[ MODIFY_TIME <= #cdt.endModifyTime:BIGINT# ]]>
+		</isNotEmpty>
+	</sql>
+	
+
+	<sql id="sql_update_columns">
+		<isNotNull prepend="," property="record.id"> 
+			ID = #record.id:BIGINT#
+		</isNotNull>
+		<isNotNull prepend="," property="record.mntId"> 
+			MNT_ID = #record.mntId:BIGINT#
+		</isNotNull>
+		<isNotNull prepend="," property="record.appCode"> 
+			APP_CODE = #record.appCode:VARCHAR#
+		</isNotNull>
+		<isNotNull prepend="," property="record.appName"> 
+			APP_NAME = #record.appName:VARCHAR#
+		</isNotNull>
+		<isNotNull prepend="," property="record.dataCenterId"> 
+			DATA_CENTER_ID = #record.dataCenterId:BIGINT#
+		</isNotNull>
+		<isNotNull prepend="," property="record.resCenterId"> 
+			RES_CENTER_ID = #record.resCenterId:BIGINT#
+		</isNotNull>
+		<isNotNull prepend="," property="record.versionId"> 
+			VERSION_ID = #record.versionId:BIGINT#
+		</isNotNull>
+		<isNotNull prepend="," property="record.versionNo"> 
+			VERSION_NO = #record.versionNo:VARCHAR#
+		</isNotNull>
+		<isNotNull prepend="," property="record.lastStartTime"> 
+			LAST_START_TIME = #record.lastStartTime:BIGINT#
+		</isNotNull>
+		<isNotNull prepend="," property="record.status"> 
+			STATUS = #record.status:INTEGER#
+		</isNotNull>
+		<isNotNull prepend="," property="record.remark"> 
+			REMARK = #record.remark:VARCHAR#
+		</isNotNull>
+		<isNotNull prepend="," property="record.dataStatus"> 
+			DATA_STATUS = #record.dataStatus:INTEGER#
+		</isNotNull>
+		<isNotNull prepend="," property="record.creator"> 
+			CREATOR = #record.creator:VARCHAR#
+		</isNotNull>
+		<isNotNull prepend="," property="record.createTime"> 
+			CREATE_TIME = #record.createTime:BIGINT#
+		</isNotNull>
+		<isNotNull prepend="," property="record.modifier"> 
+			MODIFIER = #record.modifier:VARCHAR#
+		</isNotNull>
+		<isNotNull prepend="," property="record.modifyTime"> 
+			MODIFY_TIME = #record.modifyTime:BIGINT#
+		</isNotNull>
+	</sql>
+	
+
+	<sql id="sql_query_columns">
+		ID, MNT_ID, APP_CODE, APP_NAME, DATA_CENTER_ID, RES_CENTER_ID, 
+		VERSION_ID, VERSION_NO, LAST_START_TIME, STATUS, REMARK, DATA_STATUS, 
+		CREATOR, CREATE_TIME, MODIFIER, MODIFY_TIME
+	</sql>
+	
+
+	
+
+	<select id="selectList" parameterClass="java.util.Map" resultMap="queryResult">
+		select 
+			<include refid="PC_APP.sql_query_columns" />
+		from PC_APP 
+			<dynamic prepend="where" >
+				<include refid="PC_APP.sql_query_where"/>
+			</dynamic>
+		order by 
+			<isNotEmpty property="orders" >
+				$orders$
+			</isNotEmpty>
+			<isEmpty property="orders" >
+				ID
+			</isEmpty>
+	</select>
+	<select id="selectCount" parameterClass="java.util.Map" resultClass="java.lang.Long">
+		select count(1) from PC_APP 
+			<dynamic prepend="where" >
+				<include refid="PC_APP.sql_query_where"/>
+			</dynamic>
+	</select>
+	<select id="selectById" parameterClass="java.util.Map" resultMap="queryResult">
+		select 
+			<include refid="PC_APP.sql_query_columns" />
+		from PC_APP where ID=#id:BIGINT# and DATA_STATUS=1  
+	</select>
+	
+
+	
+
+	<insert id="insert" parameterClass="java.util.Map">
+		insert into PC_APP(
+			ID, MNT_ID, APP_CODE, APP_NAME, DATA_CENTER_ID, 
+			RES_CENTER_ID, VERSION_ID, VERSION_NO, LAST_START_TIME, STATUS, 
+			REMARK, DATA_STATUS, CREATOR, CREATE_TIME, MODIFIER, 
+			MODIFY_TIME)
+		values (
+			#record.id:BIGINT#, #record.mntId:BIGINT#, #record.appCode:VARCHAR#, #record.appName:VARCHAR#, #record.dataCenterId:BIGINT#, 
+			#record.resCenterId:BIGINT#, #record.versionId:BIGINT#, #record.versionNo:VARCHAR#, #record.lastStartTime:BIGINT#, #record.status:INTEGER#, 
+			#record.remark:VARCHAR#, #record.dataStatus:INTEGER#, #record.creator:VARCHAR#, #record.createTime:BIGINT#, #record.modifier:VARCHAR#, 
+			#record.modifyTime:BIGINT#)
+	</insert>
+	
+
+	
+
+	<update id="updateById" parameterClass="java.util.Map">
+		update PC_APP
+			<dynamic prepend="set" > 
+				<include refid="PC_APP.sql_update_columns"/> 
+			</dynamic>
+		where ID = #id:BIGINT#
+	</update>
+	<update id="updateByCdt" parameterClass="java.util.Map">
+		update PC_APP
+			<dynamic prepend="set" > 
+				<include refid="PC_APP.sql_update_columns"/> 
+			</dynamic>
+			<dynamic prepend="where" > 
+				<include refid="PC_APP.sql_query_where"/> 
+			</dynamic>
+	</update>
+	
+	
+
+	
+
+	<delete id="deleteById" parameterClass="java.util.Map">
+		delete from PC_APP where ID = #id:BIGINT#
+	</delete>
+	<delete id="deleteByCdt" parameterClass="java.util.Map">
+		delete from PC_APP
+			<dynamic prepend="where" > 
+				<include refid="PC_APP.sql_query_where"/> 
+			</dynamic>
+	</delete>
+	
+
+
+
+</sqlMap>

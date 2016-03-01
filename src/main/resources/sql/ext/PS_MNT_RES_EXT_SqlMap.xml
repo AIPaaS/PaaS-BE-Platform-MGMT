@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap namespace="PS_MNT_RES">
+
+
+	<update id="increTotalResById" parameterClass="java.util.Map">
+		update PS_MNT_RES 
+			<dynamic prepend="set" > 
+				<isNotNull prepend="," property="cpuCount"> 
+					TOTAL_CPU_COUNT = TOTAL_CPU_COUNT+#cpuCount:BIGINT#
+				</isNotNull>
+				<isNotNull prepend="," property="memSize"> 
+					TOTAL_MEM_SIZE = TOTAL_MEM_SIZE+#memSize:BIGINT#
+				</isNotNull>
+				<isNotNull prepend="," property="diskSize"> 
+					TOTAL_DISK_SIZE = TOTAL_DISK_SIZE+#diskSize:BIGINT#
+				</isNotNull>
+			</dynamic>
+			where ID = #id:BIGINT# and DATA_STATUS=1
+	</update>
+	
+	
+	
+
+	<update id="increResById" parameterClass="java.util.Map">
+		update PS_MNT_RES
+			<dynamic prepend="set" >  
+				<isNotNull prepend="," property="cpuCount"> 
+					CPU_COUNT = CPU_COUNT+#cpuCount:BIGINT#
+				</isNotNull>
+				<isNotNull prepend="," property="memSize"> 
+					MEM_SIZE = MEM_SIZE+#memSize:BIGINT#
+				</isNotNull>
+				<isNotNull prepend="," property="diskSize"> 
+					DISK_SIZE = DISK_SIZE+#diskSize:BIGINT#
+				</isNotNull>
+			</dynamic>
+			where ID = #id:BIGINT# and DATA_STATUS=1
+				<isNotNull prepend="and" property="cdtCpuCount">
+					<![CDATA[ CPU_COUNT >= #cdtCpuCount:BIGINT# ]]>
+				</isNotNull>
+				<isNotNull prepend="and" property="cdtMemSize"> 
+					<![CDATA[ MEM_SIZE >= #cdtMemSize:BIGINT# ]]>
+				</isNotNull>
+				<isNotNull prepend="and" property="cdtDiskSize"> 
+					<![CDATA[ DISK_SIZE >= #cdtDiskSize:BIGINT# ]]>
+				</isNotNull>
+	</update>
+	
+	
+	
+
+
+</sqlMap>

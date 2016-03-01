@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap namespace="PC_COMPUTER_TAG">
+
+
+	<resultMap class="com.aic.paas.provider.ps.bean.PcComputerTag" id="queryByNetZoneIdResult">
+		<result column="TAG_NAME" jdbcType="VARCHAR" property="tagName"/>	<!-- 标签名 -->
+		<result column="TAG_VALUE" jdbcType="VARCHAR" property="tagValue"/>	<!-- 标签值 -->
+		<result column="TAG_DESC" jdbcType="VARCHAR" property="tagDesc"/>	<!-- 标签描述 -->
+	</resultMap>
+
+	
+
+	<select id="selectListByNetZoneId" parameterClass="java.util.Map" resultMap="queryByNetZoneIdResult">
+		select distinct a.TAG_NAME, a.TAG_VALUE, a.TAG_DESC
+		       from PC_COMPUTER_TAG a
+		            inner join PC_COMPUTER b on a.computer_id=b.id and b.data_status=1 and b.status=1
+		            inner join PC_NET_ZONE c on b.net_zone_id=c.id and c.data_status=1 and c.status=1 and c.id=#netZoneId:BIGINT#
+		       order by a.TAG_NAME
+	</select>
+	
+
+
+
+</sqlMap>

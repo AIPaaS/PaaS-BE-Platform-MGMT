@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE sqlMapConfig PUBLIC "-//ibatis.apache.org//DTD SQL Map Config 2.0//EN"
+    "http://ibatis.apache.org/dtd/sql-map-config-2.dtd">
+
+<sqlMapConfig>
+
+	<settings cacheModelsEnabled="true" lazyLoadingEnabled="false"
+		useStatementNamespaces="true" enhancementEnabled="true" />
+
+	
+	<!-- res -->
+	<sqlMap resource="sql/res/PC_APP_RES_APPLY_SqlMap.xml" />
+	<sqlMap resource="sql/res/PC_APP_RES_FLOW_SqlMap.xml" />
+	<sqlMap resource="sql/res/PC_APP_RES_SqlMap.xml" />
+	<sqlMap resource="sql/res/PC_COMP_ROOM_SqlMap.xml" />
+	<sqlMap resource="sql/res/PC_COMPUTER_SqlMap.xml" />
+	<sqlMap resource="sql/res/PC_DATA_CENTER_SqlMap.xml" />
+	<sqlMap resource="sql/res/PC_NET_ZONE_SqlMap.xml" />
+	<sqlMap resource="sql/res/PC_RES_CENTER_SqlMap.xml" />
+	<sqlMap resource="sql/res/PS_MNT_RES_APPLY_SqlMap.xml" />
+	<sqlMap resource="sql/res/PS_MNT_RES_FLOW_SqlMap.xml" />
+	<sqlMap resource="sql/res/PS_MNT_RES_SqlMap.xml" />
+	<sqlMap resource="sql/res/PS_RES_FLOW_SqlMap.xml" />
+	<sqlMap resource="sql/res/PS_RES_CENTER_RES_SqlMap.xml" />
+	<sqlMap resource="sql/res/PC_COMPUTER_TAG_SqlMap.xml" />
+	<sqlMap resource="sql/res/PC_IMAGE_REPOSITORY_SqlMap.xml" />
+	
+	
+	
+	
+	<!-- dep -->
+	<sqlMap resource="sql/dep/PC_APP_IMAGE_SqlMap.xml" />
+	<sqlMap resource="sql/dep/PC_APP_IMG_SVC_SqlMap.xml" />
+	<sqlMap resource="sql/dep/PC_APP_SqlMap.xml" />
+	<sqlMap resource="sql/dep/PC_APP_TASK_LOG_SqlMap.xml" />
+	<sqlMap resource="sql/dep/PC_APP_TASK_SqlMap.xml" />
+	<sqlMap resource="sql/dep/PC_KV_PAIR_SqlMap.xml" />
+	<sqlMap resource="sql/dep/PC_SERVICE_SqlMap.xml" />
+	<sqlMap resource="sql/dep/PC_SVC_APPLY_SqlMap.xml" />
+	<sqlMap resource="sql/dep/PC_APP_MGR_SqlMap.xml" />
+	<sqlMap resource="sql/dep/PC_APP_DEP_HISTORY_SqlMap.xml" />
+	<sqlMap resource="sql/dep/PC_APP_DEP_KV_HISTORY_SqlMap.xml" />
+	<sqlMap resource="sql/dep/PC_APP_DEP_SVC_HISTORY_SqlMap.xml" />
+	<sqlMap resource="sql/dep/PC_APP_DEP_INSTANCE_SqlMap.xml" />
+	<sqlMap resource="sql/dep/PC_APP_VERSION_SqlMap.xml" />
+	
+	
+	
+	
+	<!-- ext -->
+	<sqlMap resource="sql/ext/PS_RES_CENTER_RES_EXT_SqlMap.xml" />
+	<sqlMap resource="sql/ext/PS_MNT_RES_EXT_SqlMap.xml" />
+	<sqlMap resource="sql/ext/PC_APP_RES_EXT_SqlMap.xml" />
+	<sqlMap resource="sql/ext/PS_MNT_RES_APPLY_EXT_SqlMap.xml" />
+	<sqlMap resource="sql/ext/PC_APP_EXT_SqlMap.xml" />
+	<sqlMap resource="sql/ext/PC_APP_RES_APPLY_EXT_SqlMap.xml" />
+	<sqlMap resource="sql/ext/PC_APP_IMAGE_EXT_SqlMap.xml" />
+	<sqlMap resource="sql/ext/PC_SERVICE_EXT_SqlMap.xml" />
+	<sqlMap resource="sql/ext/PC_COMPUTER_TAG_EXT_SqlMap.xml" />
+	<sqlMap resource="sql/ext/PC_APP_TASK_EXT_SqlMap.xml" />
+	
+	
+	
+</sqlMapConfig>

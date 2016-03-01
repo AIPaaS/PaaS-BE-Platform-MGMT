@@ -1,0 +1,214 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap namespace="PC_APP_IMG_SVC">
+
+
+	<resultMap class="com.aic.paas.provider.ps.bean.PcAppImgSvc" id="queryResult">
+		<result column="ID" jdbcType="BIGINT" property="id"/>	<!-- ID -->
+		<result column="APP_IMG_ID" jdbcType="BIGINT" property="appImgId"/>	<!-- 应用镜像ID -->
+		<result column="SVC_ID" jdbcType="BIGINT" property="svcId"/>	<!-- 服务ID -->
+		<result column="SVC_TYPE" jdbcType="INTEGER" property="svcType"/>	<!-- 服务类型 -->
+		<result column="CALL_TYPE" jdbcType="INTEGER" property="callType"/>	<!-- 调用类型 -->
+		<result column="CREATE_TIME" jdbcType="BIGINT" property="createTime"/>	<!-- 创建时间 -->
+		<result column="MODIFY_TIME" jdbcType="BIGINT" property="modifyTime"/>	<!-- 修改时间 -->
+	</resultMap>
+	
+
+	<sql id="sql_query_where">
+		<isNotEmpty prepend="and" property="cdt.id" >
+			ID = #cdt.id:BIGINT#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="ids" >
+			ID in ($ids$)
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="cdt.startId" >
+			<![CDATA[ ID >= #cdt.startId:BIGINT# ]]>
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="cdt.endId" >
+			<![CDATA[ ID <= #cdt.endId:BIGINT# ]]>
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="cdt.appImgId" >
+			APP_IMG_ID = #cdt.appImgId:BIGINT#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="appImgIds" >
+			APP_IMG_ID in ($appImgIds$)
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="cdt.startAppImgId" >
+			<![CDATA[ APP_IMG_ID >= #cdt.startAppImgId:BIGINT# ]]>
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="cdt.endAppImgId" >
+			<![CDATA[ APP_IMG_ID <= #cdt.endAppImgId:BIGINT# ]]>
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="cdt.svcId" >
+			SVC_ID = #cdt.svcId:BIGINT#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="svcIds" >
+			SVC_ID in ($svcIds$)
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="cdt.startSvcId" >
+			<![CDATA[ SVC_ID >= #cdt.startSvcId:BIGINT# ]]>
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="cdt.endSvcId" >
+			<![CDATA[ SVC_ID <= #cdt.endSvcId:BIGINT# ]]>
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="cdt.svcType" >
+			SVC_TYPE = #cdt.svcType:INTEGER#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="svcTypes" >
+			SVC_TYPE in ($svcTypes$)
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="cdt.startSvcType" >
+			<![CDATA[ SVC_TYPE >= #cdt.startSvcType:INTEGER# ]]>
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="cdt.endSvcType" >
+			<![CDATA[ SVC_TYPE <= #cdt.endSvcType:INTEGER# ]]>
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="cdt.callType" >
+			CALL_TYPE = #cdt.callType:INTEGER#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="callTypes" >
+			CALL_TYPE in ($callTypes$)
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="cdt.startCallType" >
+			<![CDATA[ CALL_TYPE >= #cdt.startCallType:INTEGER# ]]>
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="cdt.endCallType" >
+			<![CDATA[ CALL_TYPE <= #cdt.endCallType:INTEGER# ]]>
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="cdt.createTime" >
+			CREATE_TIME = #cdt.createTime:BIGINT#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="createTimes" >
+			CREATE_TIME in ($createTimes$)
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="cdt.startCreateTime" >
+			<![CDATA[ CREATE_TIME >= #cdt.startCreateTime:BIGINT# ]]>
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="cdt.endCreateTime" >
+			<![CDATA[ CREATE_TIME <= #cdt.endCreateTime:BIGINT# ]]>
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="cdt.modifyTime" >
+			MODIFY_TIME = #cdt.modifyTime:BIGINT#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="modifyTimes" >
+			MODIFY_TIME in ($modifyTimes$)
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="cdt.startModifyTime" >
+			<![CDATA[ MODIFY_TIME >= #cdt.startModifyTime:BIGINT# ]]>
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="cdt.endModifyTime" >
+			<![CDATA[ MODIFY_TIME <= #cdt.endModifyTime:BIGINT# ]]>
+		</isNotEmpty>
+	</sql>
+	
+
+	<sql id="sql_update_columns">
+		<isNotNull prepend="," property="record.id"> 
+			ID = #record.id:BIGINT#
+		</isNotNull>
+		<isNotNull prepend="," property="record.appImgId"> 
+			APP_IMG_ID = #record.appImgId:BIGINT#
+		</isNotNull>
+		<isNotNull prepend="," property="record.svcId"> 
+			SVC_ID = #record.svcId:BIGINT#
+		</isNotNull>
+		<isNotNull prepend="," property="record.svcType"> 
+			SVC_TYPE = #record.svcType:INTEGER#
+		</isNotNull>
+		<isNotNull prepend="," property="record.callType"> 
+			CALL_TYPE = #record.callType:INTEGER#
+		</isNotNull>
+		<isNotNull prepend="," property="record.createTime"> 
+			CREATE_TIME = #record.createTime:BIGINT#
+		</isNotNull>
+		<isNotNull prepend="," property="record.modifyTime"> 
+			MODIFY_TIME = #record.modifyTime:BIGINT#
+		</isNotNull>
+	</sql>
+	
+
+	<sql id="sql_query_columns">
+		ID, APP_IMG_ID, SVC_ID, SVC_TYPE, CALL_TYPE, CREATE_TIME, 
+		MODIFY_TIME
+	</sql>
+	
+
+	
+
+	<select id="selectList" parameterClass="java.util.Map" resultMap="queryResult">
+		select 
+			<include refid="PC_APP_IMG_SVC.sql_query_columns" />
+		from PC_APP_IMG_SVC 
+			<dynamic prepend="where" >
+				<include refid="PC_APP_IMG_SVC.sql_query_where"/>
+			</dynamic>
+		order by 
+			<isNotEmpty property="orders" >
+				$orders$
+			</isNotEmpty>
+			<isEmpty property="orders" >
+				ID
+			</isEmpty>
+	</select>
+	<select id="selectCount" parameterClass="java.util.Map" resultClass="java.lang.Long">
+		select count(1) from PC_APP_IMG_SVC 
+			<dynamic prepend="where" >
+				<include refid="PC_APP_IMG_SVC.sql_query_where"/>
+			</dynamic>
+	</select>
+	<select id="selectById" parameterClass="java.util.Map" resultMap="queryResult">
+		select 
+			<include refid="PC_APP_IMG_SVC.sql_query_columns" />
+		from PC_APP_IMG_SVC where ID=#id:BIGINT# 
+	</select>
+	
+
+	
+
+	<insert id="insert" parameterClass="java.util.Map">
+		insert into PC_APP_IMG_SVC(
+			ID, APP_IMG_ID, SVC_ID, SVC_TYPE, CALL_TYPE, 
+			CREATE_TIME, MODIFY_TIME)
+		values (
+			#record.id:BIGINT#, #record.appImgId:BIGINT#, #record.svcId:BIGINT#, #record.svcType:INTEGER#, #record.callType:INTEGER#, 
+			#record.createTime:BIGINT#, #record.modifyTime:BIGINT#)
+	</insert>
+	
+
+	
+
+	<update id="updateById" parameterClass="java.util.Map">
+		update PC_APP_IMG_SVC
+			<dynamic prepend="set" > 
+				<include refid="PC_APP_IMG_SVC.sql_update_columns"/> 
+			</dynamic>
+		where ID = #id:BIGINT#
+	</update>
+	<update id="updateByCdt" parameterClass="java.util.Map">
+		update PC_APP_IMG_SVC
+			<dynamic prepend="set" > 
+				<include refid="PC_APP_IMG_SVC.sql_update_columns"/> 
+			</dynamic>
+			<dynamic prepend="where" > 
+				<include refid="PC_APP_IMG_SVC.sql_query_where"/> 
+			</dynamic>
+	</update>
+	
+	
+
+	
+
+	<delete id="deleteById" parameterClass="java.util.Map">
+		delete from PC_APP_IMG_SVC where ID = #id:BIGINT#
+	</delete>
+	<delete id="deleteByCdt" parameterClass="java.util.Map">
+		delete from PC_APP_IMG_SVC
+			<dynamic prepend="where" > 
+				<include refid="PC_APP_IMG_SVC.sql_query_where"/> 
+			</dynamic>
+	</delete>
+	
+
+
+
+</sqlMap>

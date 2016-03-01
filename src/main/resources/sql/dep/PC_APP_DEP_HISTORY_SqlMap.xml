@@ -1,0 +1,722 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap namespace="PC_APP_DEP_HISTORY">
+
+
+	<resultMap class="com.aic.paas.provider.ps.bean.PcAppDepHistory" id="queryResult">
+		<result column="ID" jdbcType="BIGINT" property="id"/>	<!-- ID -->
+		<result column="MNT_ID" jdbcType="BIGINT" property="mntId"/>	<!-- 租户ID -->
+		<result column="APP_ID" jdbcType="BIGINT" property="appId"/>	<!-- 应用ID -->
+		<result column="APP_VNO_ID" jdbcType="BIGINT" property="appVnoId"/>	<!-- 应用版本ID -->
+		<result column="APP_CODE" jdbcType="VARCHAR" property="appCode"/>	<!-- 应用代码 -->
+		<result column="APP_NAME" jdbcType="VARCHAR" property="appName"/>	<!-- 应用名称 -->
+		<result column="APP_VERSION_NO" jdbcType="VARCHAR" property="appVersionNo"/>	<!-- 应用版本号 -->
+		<result column="IMAGE_ID" jdbcType="BIGINT" property="imageId"/>	<!-- 镜像ID -->
+		<result column="IMAGE_DEF_ID" jdbcType="BIGINT" property="imageDefId"/>	<!-- 镜像定义ID -->
+		<result column="IMAGE_RESP_ID" jdbcType="BIGINT" property="imageRespId"/>	<!-- 所属镜像库 -->
+		<result column="IMAGE_NAME" jdbcType="VARCHAR" property="imageName"/>	<!-- 镜像名 -->
+		<result column="IMAGE_FULL_NAME" jdbcType="VARCHAR" property="imageFullName"/>	<!-- 镜像全名 -->
+		<result column="BUILD_NO" jdbcType="VARCHAR" property="buildNo"/>	<!-- BUILD号 -->
+		<result column="CONTAINER_NAME" jdbcType="VARCHAR" property="containerName"/>	<!-- 容器名 -->
+		<result column="CONTAINER_FULL_NAME" jdbcType="VARCHAR" property="containerFullName"/>	<!-- 容器全名 -->
+		<result column="DATA_CENTER_ID" jdbcType="BIGINT" property="dataCenterId"/>	<!-- 所属数据中心 -->
+		<result column="RES_CENTER_ID" jdbcType="BIGINT" property="resCenterId"/>	<!-- 所属资源中心 -->
+		<result column="NET_ZONE_ID" jdbcType="BIGINT" property="netZoneId"/>	<!-- 所在网络区域 -->
+		<result column="CPU_COUNT" jdbcType="INTEGER" property="cpuCount"/>	<!-- CPU个数 -->
+		<result column="MEM_SIZE" jdbcType="BIGINT" property="memSize"/>	<!-- 内存大小 -->
+		<result column="DISK_SIZE" jdbcType="BIGINT" property="diskSize"/>	<!-- 存储大小 -->
+		<result column="INSTANCE_COUNT" jdbcType="INTEGER" property="instanceCount"/>	<!-- 容器实例数 -->
+		<result column="IS_SUPPORT_FLEX" jdbcType="INTEGER" property="isSupportFlex"/>	<!-- 是否自动伸缩 -->
+		<result column="CPU_FLEX_UPPER_LIMIT" jdbcType="INTEGER" property="cpuFlexUpperLimit"/>	<!-- 容器伸缩CPU上限值 -->
+		<result column="CPU_FLEX_LOWER_LIMIT" jdbcType="INTEGER" property="cpuFlexLowerLimit"/>	<!-- 容器伸缩CPU下限值 -->
+		<result column="MAX_INSTANCE_COUNT" jdbcType="INTEGER" property="maxInstanceCount"/>	<!-- 最大实例数量 -->
+		<result column="MIN_INSTANCE_COUNT" jdbcType="INTEGER" property="minInstanceCount"/>	<!-- 最小实例数量 -->
+		<result column="LOG_MP_PATH" jdbcType="VARCHAR" property="logMpPath"/>	<!-- 日志目录 -->
+		<result column="DATA_MP_PATH" jdbcType="VARCHAR" property="dataMpPath"/>	<!-- 数据目录 -->
+		<result column="IS_UNIFORM" jdbcType="INTEGER" property="isUniform"/>	<!-- 是否均匀分布 -->
+		<result column="TARGS" jdbcType="VARCHAR" property="targs"/>	<!-- 容器标签 -->
+		<result column="DEPEND_CONT_IDS" jdbcType="VARCHAR" property="dependContIds"/>	<!-- 依赖容器ID列表 -->
+		<result column="DEPEND_CONT_NAMES" jdbcType="VARCHAR" property="dependContNames"/>	<!-- 依赖容器名称列表 -->
+		<result column="CUSTOM_1" jdbcType="BIGINT" property="custom1"/>	<!-- 备用字段_1 -->
+		<result column="CUSTOM_2" jdbcType="BIGINT" property="custom2"/>	<!-- 备用字段_2 -->
+		<result column="CUSTOM_3" jdbcType="BIGINT" property="custom3"/>	<!-- 备用字段_3 -->
+		<result column="CUSTOM_4" jdbcType="VARCHAR" property="custom4"/>	<!-- 备用字段_4 -->
+		<result column="CUSTOM_5" jdbcType="VARCHAR" property="custom5"/>	<!-- 备用字段_5 -->
+		<result column="CUSTOM_6" jdbcType="VARCHAR" property="custom6"/>	<!-- 备用字段_6 -->
+		<result column="DEP_STATUS" jdbcType="INTEGER" property="depStatus"/>	<!-- 部署状态 -->
+		<result column="RUN_STATUS" jdbcType="INTEGER" property="runStatus"/>	<!-- 运行状态 -->
+		<result column="DATA_STATUS" jdbcType="INTEGER" property="dataStatus"/>	<!-- 数据状态 -->
+		<result column="CREATOR" jdbcType="VARCHAR" property="creator"/>	<!-- 创建人 -->
+		<result column="CREATE_TIME" jdbcType="BIGINT" property="createTime"/>	<!-- 创建时间 -->
+		<result column="MODIFIER" jdbcType="VARCHAR" property="modifier"/>	<!-- 修改人 -->
+		<result column="MODIFY_TIME" jdbcType="BIGINT" property="modifyTime"/>	<!-- 修改时间 -->
+	</resultMap>
+	
+
+	<sql id="sql_query_where">
+		<isNotEmpty prepend="and" property="cdt.id" >
+			ID = #cdt.id:BIGINT#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="ids" >
+			ID in ($ids$)
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="cdt.startId" >
+			<![CDATA[ ID >= #cdt.startId:BIGINT# ]]>
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="cdt.endId" >
+			<![CDATA[ ID <= #cdt.endId:BIGINT# ]]>
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="cdt.mntId" >
+			MNT_ID = #cdt.mntId:BIGINT#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="mntIds" >
+			MNT_ID in ($mntIds$)
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="cdt.startMntId" >
+			<![CDATA[ MNT_ID >= #cdt.startMntId:BIGINT# ]]>
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="cdt.endMntId" >
+			<![CDATA[ MNT_ID <= #cdt.endMntId:BIGINT# ]]>
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="cdt.appId" >
+			APP_ID = #cdt.appId:BIGINT#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="appIds" >
+			APP_ID in ($appIds$)
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="cdt.startAppId" >
+			<![CDATA[ APP_ID >= #cdt.startAppId:BIGINT# ]]>
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="cdt.endAppId" >
+			<![CDATA[ APP_ID <= #cdt.endAppId:BIGINT# ]]>
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="cdt.appVnoId" >
+			APP_VNO_ID = #cdt.appVnoId:BIGINT#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="appVnoIds" >
+			APP_VNO_ID in ($appVnoIds$)
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="cdt.startAppVnoId" >
+			<![CDATA[ APP_VNO_ID >= #cdt.startAppVnoId:BIGINT# ]]>
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="cdt.endAppVnoId" >
+			<![CDATA[ APP_VNO_ID <= #cdt.endAppVnoId:BIGINT# ]]>
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="cdt.appCode" >
+			APP_CODE like #cdt.appCode:VARCHAR# 
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="cdt.appCodeEqual" >
+			APP_CODE = #cdt.appCodeEqual:VARCHAR#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="appCodes" >
+			APP_CODE in ($appCodes$)
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="cdt.appName" >
+			APP_NAME like #cdt.appName:VARCHAR# 
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="cdt.appNameEqual" >
+			APP_NAME = #cdt.appNameEqual:VARCHAR#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="appNames" >
+			APP_NAME in ($appNames$)
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="cdt.appVersionNo" >
+			APP_VERSION_NO like #cdt.appVersionNo:VARCHAR# 
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="cdt.appVersionNoEqual" >
+			APP_VERSION_NO = #cdt.appVersionNoEqual:VARCHAR#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="appVersionNos" >
+			APP_VERSION_NO in ($appVersionNos$)
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="cdt.imageId" >
+			IMAGE_ID = #cdt.imageId:BIGINT#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="imageIds" >
+			IMAGE_ID in ($imageIds$)
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="cdt.startImageId" >
+			<![CDATA[ IMAGE_ID >= #cdt.startImageId:BIGINT# ]]>
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="cdt.endImageId" >
+			<![CDATA[ IMAGE_ID <= #cdt.endImageId:BIGINT# ]]>
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="cdt.imageDefId" >
+			IMAGE_DEF_ID = #cdt.imageDefId:BIGINT#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="imageDefIds" >
+			IMAGE_DEF_ID in ($imageDefIds$)
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="cdt.startImageDefId" >
+			<![CDATA[ IMAGE_DEF_ID >= #cdt.startImageDefId:BIGINT# ]]>
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="cdt.endImageDefId" >
+			<![CDATA[ IMAGE_DEF_ID <= #cdt.endImageDefId:BIGINT# ]]>
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="cdt.imageRespId" >
+			IMAGE_RESP_ID = #cdt.imageRespId:BIGINT#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="imageRespIds" >
+			IMAGE_RESP_ID in ($imageRespIds$)
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="cdt.startImageRespId" >
+			<![CDATA[ IMAGE_RESP_ID >= #cdt.startImageRespId:BIGINT# ]]>
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="cdt.endImageRespId" >
+			<![CDATA[ IMAGE_RESP_ID <= #cdt.endImageRespId:BIGINT# ]]>
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="cdt.imageName" >
+			IMAGE_NAME like #cdt.imageName:VARCHAR# 
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="cdt.imageFullName" >
+			IMAGE_FULL_NAME like #cdt.imageFullName:VARCHAR# 
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="cdt.buildNo" >
+			BUILD_NO like #cdt.buildNo:VARCHAR# 
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="cdt.buildNoEqual" >
+			BUILD_NO = #cdt.buildNoEqual:VARCHAR#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="buildNos" >
+			BUILD_NO in ($buildNos$)
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="cdt.containerName" >
+			CONTAINER_NAME like #cdt.containerName:VARCHAR# 
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="cdt.containerFullName" >
+			CONTAINER_FULL_NAME like #cdt.containerFullName:VARCHAR# 
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="cdt.dataCenterId" >
+			DATA_CENTER_ID = #cdt.dataCenterId:BIGINT#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="dataCenterIds" >
+			DATA_CENTER_ID in ($dataCenterIds$)
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="cdt.startDataCenterId" >
+			<![CDATA[ DATA_CENTER_ID >= #cdt.startDataCenterId:BIGINT# ]]>
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="cdt.endDataCenterId" >
+			<![CDATA[ DATA_CENTER_ID <= #cdt.endDataCenterId:BIGINT# ]]>
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="cdt.resCenterId" >
+			RES_CENTER_ID = #cdt.resCenterId:BIGINT#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="resCenterIds" >
+			RES_CENTER_ID in ($resCenterIds$)
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="cdt.startResCenterId" >
+			<![CDATA[ RES_CENTER_ID >= #cdt.startResCenterId:BIGINT# ]]>
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="cdt.endResCenterId" >
+			<![CDATA[ RES_CENTER_ID <= #cdt.endResCenterId:BIGINT# ]]>
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="cdt.netZoneId" >
+			NET_ZONE_ID = #cdt.netZoneId:BIGINT#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="netZoneIds" >
+			NET_ZONE_ID in ($netZoneIds$)
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="cdt.startNetZoneId" >
+			<![CDATA[ NET_ZONE_ID >= #cdt.startNetZoneId:BIGINT# ]]>
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="cdt.endNetZoneId" >
+			<![CDATA[ NET_ZONE_ID <= #cdt.endNetZoneId:BIGINT# ]]>
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="cdt.cpuCount" >
+			CPU_COUNT = #cdt.cpuCount:INTEGER#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="cpuCounts" >
+			CPU_COUNT in ($cpuCounts$)
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="cdt.startCpuCount" >
+			<![CDATA[ CPU_COUNT >= #cdt.startCpuCount:INTEGER# ]]>
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="cdt.endCpuCount" >
+			<![CDATA[ CPU_COUNT <= #cdt.endCpuCount:INTEGER# ]]>
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="cdt.memSize" >
+			MEM_SIZE = #cdt.memSize:BIGINT#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="memSizes" >
+			MEM_SIZE in ($memSizes$)
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="cdt.startMemSize" >
+			<![CDATA[ MEM_SIZE >= #cdt.startMemSize:BIGINT# ]]>
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="cdt.endMemSize" >
+			<![CDATA[ MEM_SIZE <= #cdt.endMemSize:BIGINT# ]]>
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="cdt.diskSize" >
+			DISK_SIZE = #cdt.diskSize:BIGINT#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="diskSizes" >
+			DISK_SIZE in ($diskSizes$)
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="cdt.startDiskSize" >
+			<![CDATA[ DISK_SIZE >= #cdt.startDiskSize:BIGINT# ]]>
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="cdt.endDiskSize" >
+			<![CDATA[ DISK_SIZE <= #cdt.endDiskSize:BIGINT# ]]>
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="cdt.instanceCount" >
+			INSTANCE_COUNT = #cdt.instanceCount:INTEGER#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="instanceCounts" >
+			INSTANCE_COUNT in ($instanceCounts$)
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="cdt.startInstanceCount" >
+			<![CDATA[ INSTANCE_COUNT >= #cdt.startInstanceCount:INTEGER# ]]>
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="cdt.endInstanceCount" >
+			<![CDATA[ INSTANCE_COUNT <= #cdt.endInstanceCount:INTEGER# ]]>
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="cdt.isSupportFlex" >
+			IS_SUPPORT_FLEX = #cdt.isSupportFlex:INTEGER#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="isSupportFlexs" >
+			IS_SUPPORT_FLEX in ($isSupportFlexs$)
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="cdt.startIsSupportFlex" >
+			<![CDATA[ IS_SUPPORT_FLEX >= #cdt.startIsSupportFlex:INTEGER# ]]>
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="cdt.endIsSupportFlex" >
+			<![CDATA[ IS_SUPPORT_FLEX <= #cdt.endIsSupportFlex:INTEGER# ]]>
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="cdt.cpuFlexUpperLimit" >
+			CPU_FLEX_UPPER_LIMIT = #cdt.cpuFlexUpperLimit:INTEGER#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="cpuFlexUpperLimits" >
+			CPU_FLEX_UPPER_LIMIT in ($cpuFlexUpperLimits$)
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="cdt.startCpuFlexUpperLimit" >
+			<![CDATA[ CPU_FLEX_UPPER_LIMIT >= #cdt.startCpuFlexUpperLimit:INTEGER# ]]>
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="cdt.endCpuFlexUpperLimit" >
+			<![CDATA[ CPU_FLEX_UPPER_LIMIT <= #cdt.endCpuFlexUpperLimit:INTEGER# ]]>
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="cdt.cpuFlexLowerLimit" >
+			CPU_FLEX_LOWER_LIMIT = #cdt.cpuFlexLowerLimit:INTEGER#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="cpuFlexLowerLimits" >
+			CPU_FLEX_LOWER_LIMIT in ($cpuFlexLowerLimits$)
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="cdt.startCpuFlexLowerLimit" >
+			<![CDATA[ CPU_FLEX_LOWER_LIMIT >= #cdt.startCpuFlexLowerLimit:INTEGER# ]]>
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="cdt.endCpuFlexLowerLimit" >
+			<![CDATA[ CPU_FLEX_LOWER_LIMIT <= #cdt.endCpuFlexLowerLimit:INTEGER# ]]>
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="cdt.maxInstanceCount" >
+			MAX_INSTANCE_COUNT = #cdt.maxInstanceCount:INTEGER#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="maxInstanceCounts" >
+			MAX_INSTANCE_COUNT in ($maxInstanceCounts$)
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="cdt.startMaxInstanceCount" >
+			<![CDATA[ MAX_INSTANCE_COUNT >= #cdt.startMaxInstanceCount:INTEGER# ]]>
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="cdt.endMaxInstanceCount" >
+			<![CDATA[ MAX_INSTANCE_COUNT <= #cdt.endMaxInstanceCount:INTEGER# ]]>
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="cdt.minInstanceCount" >
+			MIN_INSTANCE_COUNT = #cdt.minInstanceCount:INTEGER#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="minInstanceCounts" >
+			MIN_INSTANCE_COUNT in ($minInstanceCounts$)
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="cdt.startMinInstanceCount" >
+			<![CDATA[ MIN_INSTANCE_COUNT >= #cdt.startMinInstanceCount:INTEGER# ]]>
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="cdt.endMinInstanceCount" >
+			<![CDATA[ MIN_INSTANCE_COUNT <= #cdt.endMinInstanceCount:INTEGER# ]]>
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="cdt.logMpPath" >
+			LOG_MP_PATH like #cdt.logMpPath:VARCHAR# 
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="cdt.dataMpPath" >
+			DATA_MP_PATH like #cdt.dataMpPath:VARCHAR# 
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="cdt.isUniform" >
+			IS_UNIFORM = #cdt.isUniform:INTEGER#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="isUniforms" >
+			IS_UNIFORM in ($isUniforms$)
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="cdt.startIsUniform" >
+			<![CDATA[ IS_UNIFORM >= #cdt.startIsUniform:INTEGER# ]]>
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="cdt.endIsUniform" >
+			<![CDATA[ IS_UNIFORM <= #cdt.endIsUniform:INTEGER# ]]>
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="cdt.targs" >
+			TARGS like #cdt.targs:VARCHAR# 
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="cdt.dependContIds" >
+			DEPEND_CONT_IDS like #cdt.dependContIds:VARCHAR# 
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="cdt.dependContNames" >
+			DEPEND_CONT_NAMES like #cdt.dependContNames:VARCHAR# 
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="cdt.custom1" >
+			CUSTOM_1 = #cdt.custom1:BIGINT#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="custom1s" >
+			CUSTOM_1 in ($custom1s$)
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="cdt.startCustom1" >
+			<![CDATA[ CUSTOM_1 >= #cdt.startCustom1:BIGINT# ]]>
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="cdt.endCustom1" >
+			<![CDATA[ CUSTOM_1 <= #cdt.endCustom1:BIGINT# ]]>
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="cdt.custom2" >
+			CUSTOM_2 = #cdt.custom2:BIGINT#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="custom2s" >
+			CUSTOM_2 in ($custom2s$)
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="cdt.startCustom2" >
+			<![CDATA[ CUSTOM_2 >= #cdt.startCustom2:BIGINT# ]]>
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="cdt.endCustom2" >
+			<![CDATA[ CUSTOM_2 <= #cdt.endCustom2:BIGINT# ]]>
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="cdt.custom3" >
+			CUSTOM_3 = #cdt.custom3:BIGINT#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="custom3s" >
+			CUSTOM_3 in ($custom3s$)
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="cdt.startCustom3" >
+			<![CDATA[ CUSTOM_3 >= #cdt.startCustom3:BIGINT# ]]>
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="cdt.endCustom3" >
+			<![CDATA[ CUSTOM_3 <= #cdt.endCustom3:BIGINT# ]]>
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="cdt.custom4" >
+			CUSTOM_4 like #cdt.custom4:VARCHAR# 
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="cdt.custom5" >
+			CUSTOM_5 like #cdt.custom5:VARCHAR# 
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="cdt.custom6" >
+			CUSTOM_6 like #cdt.custom6:VARCHAR# 
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="cdt.depStatus" >
+			DEP_STATUS = #cdt.depStatus:INTEGER#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="depStatuss" >
+			DEP_STATUS in ($depStatuss$)
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="cdt.startDepStatus" >
+			<![CDATA[ DEP_STATUS >= #cdt.startDepStatus:INTEGER# ]]>
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="cdt.endDepStatus" >
+			<![CDATA[ DEP_STATUS <= #cdt.endDepStatus:INTEGER# ]]>
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="cdt.runStatus" >
+			RUN_STATUS = #cdt.runStatus:INTEGER#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="runStatuss" >
+			RUN_STATUS in ($runStatuss$)
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="cdt.startRunStatus" >
+			<![CDATA[ RUN_STATUS >= #cdt.startRunStatus:INTEGER# ]]>
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="cdt.endRunStatus" >
+			<![CDATA[ RUN_STATUS <= #cdt.endRunStatus:INTEGER# ]]>
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="cdt.dataStatus" >
+			DATA_STATUS = #cdt.dataStatus:INTEGER#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="dataStatuss" >
+			DATA_STATUS in ($dataStatuss$)
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="cdt.startDataStatus" >
+			<![CDATA[ DATA_STATUS >= #cdt.startDataStatus:INTEGER# ]]>
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="cdt.endDataStatus" >
+			<![CDATA[ DATA_STATUS <= #cdt.endDataStatus:INTEGER# ]]>
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="cdt.creator" >
+			CREATOR like #cdt.creator:VARCHAR# 
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="cdt.createTime" >
+			CREATE_TIME = #cdt.createTime:BIGINT#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="createTimes" >
+			CREATE_TIME in ($createTimes$)
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="cdt.startCreateTime" >
+			<![CDATA[ CREATE_TIME >= #cdt.startCreateTime:BIGINT# ]]>
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="cdt.endCreateTime" >
+			<![CDATA[ CREATE_TIME <= #cdt.endCreateTime:BIGINT# ]]>
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="cdt.modifier" >
+			MODIFIER like #cdt.modifier:VARCHAR# 
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="cdt.modifyTime" >
+			MODIFY_TIME = #cdt.modifyTime:BIGINT#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="modifyTimes" >
+			MODIFY_TIME in ($modifyTimes$)
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="cdt.startModifyTime" >
+			<![CDATA[ MODIFY_TIME >= #cdt.startModifyTime:BIGINT# ]]>
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="cdt.endModifyTime" >
+			<![CDATA[ MODIFY_TIME <= #cdt.endModifyTime:BIGINT# ]]>
+		</isNotEmpty>
+	</sql>
+	
+
+	<sql id="sql_update_columns">
+		<isNotNull prepend="," property="record.id"> 
+			ID = #record.id:BIGINT#
+		</isNotNull>
+		<isNotNull prepend="," property="record.mntId"> 
+			MNT_ID = #record.mntId:BIGINT#
+		</isNotNull>
+		<isNotNull prepend="," property="record.appId"> 
+			APP_ID = #record.appId:BIGINT#
+		</isNotNull>
+		<isNotNull prepend="," property="record.appVnoId"> 
+			APP_VNO_ID = #record.appVnoId:BIGINT#
+		</isNotNull>
+		<isNotNull prepend="," property="record.appCode"> 
+			APP_CODE = #record.appCode:VARCHAR#
+		</isNotNull>
+		<isNotNull prepend="," property="record.appName"> 
+			APP_NAME = #record.appName:VARCHAR#
+		</isNotNull>
+		<isNotNull prepend="," property="record.appVersionNo"> 
+			APP_VERSION_NO = #record.appVersionNo:VARCHAR#
+		</isNotNull>
+		<isNotNull prepend="," property="record.imageId"> 
+			IMAGE_ID = #record.imageId:BIGINT#
+		</isNotNull>
+		<isNotNull prepend="," property="record.imageDefId"> 
+			IMAGE_DEF_ID = #record.imageDefId:BIGINT#
+		</isNotNull>
+		<isNotNull prepend="," property="record.imageRespId"> 
+			IMAGE_RESP_ID = #record.imageRespId:BIGINT#
+		</isNotNull>
+		<isNotNull prepend="," property="record.imageName"> 
+			IMAGE_NAME = #record.imageName:VARCHAR#
+		</isNotNull>
+		<isNotNull prepend="," property="record.imageFullName"> 
+			IMAGE_FULL_NAME = #record.imageFullName:VARCHAR#
+		</isNotNull>
+		<isNotNull prepend="," property="record.buildNo"> 
+			BUILD_NO = #record.buildNo:VARCHAR#
+		</isNotNull>
+		<isNotNull prepend="," property="record.containerName"> 
+			CONTAINER_NAME = #record.containerName:VARCHAR#
+		</isNotNull>
+		<isNotNull prepend="," property="record.containerFullName"> 
+			CONTAINER_FULL_NAME = #record.containerFullName:VARCHAR#
+		</isNotNull>
+		<isNotNull prepend="," property="record.dataCenterId"> 
+			DATA_CENTER_ID = #record.dataCenterId:BIGINT#
+		</isNotNull>
+		<isNotNull prepend="," property="record.resCenterId"> 
+			RES_CENTER_ID = #record.resCenterId:BIGINT#
+		</isNotNull>
+		<isNotNull prepend="," property="record.netZoneId"> 
+			NET_ZONE_ID = #record.netZoneId:BIGINT#
+		</isNotNull>
+		<isNotNull prepend="," property="record.cpuCount"> 
+			CPU_COUNT = #record.cpuCount:INTEGER#
+		</isNotNull>
+		<isNotNull prepend="," property="record.memSize"> 
+			MEM_SIZE = #record.memSize:BIGINT#
+		</isNotNull>
+		<isNotNull prepend="," property="record.diskSize"> 
+			DISK_SIZE = #record.diskSize:BIGINT#
+		</isNotNull>
+		<isNotNull prepend="," property="record.instanceCount"> 
+			INSTANCE_COUNT = #record.instanceCount:INTEGER#
+		</isNotNull>
+		<isNotNull prepend="," property="record.isSupportFlex"> 
+			IS_SUPPORT_FLEX = #record.isSupportFlex:INTEGER#
+		</isNotNull>
+		<isNotNull prepend="," property="record.cpuFlexUpperLimit"> 
+			CPU_FLEX_UPPER_LIMIT = #record.cpuFlexUpperLimit:INTEGER#
+		</isNotNull>
+		<isNotNull prepend="," property="record.cpuFlexLowerLimit"> 
+			CPU_FLEX_LOWER_LIMIT = #record.cpuFlexLowerLimit:INTEGER#
+		</isNotNull>
+		<isNotNull prepend="," property="record.maxInstanceCount"> 
+			MAX_INSTANCE_COUNT = #record.maxInstanceCount:INTEGER#
+		</isNotNull>
+		<isNotNull prepend="," property="record.minInstanceCount"> 
+			MIN_INSTANCE_COUNT = #record.minInstanceCount:INTEGER#
+		</isNotNull>
+		<isNotNull prepend="," property="record.logMpPath"> 
+			LOG_MP_PATH = #record.logMpPath:VARCHAR#
+		</isNotNull>
+		<isNotNull prepend="," property="record.dataMpPath"> 
+			DATA_MP_PATH = #record.dataMpPath:VARCHAR#
+		</isNotNull>
+		<isNotNull prepend="," property="record.isUniform"> 
+			IS_UNIFORM = #record.isUniform:INTEGER#
+		</isNotNull>
+		<isNotNull prepend="," property="record.targs"> 
+			TARGS = #record.targs:VARCHAR#
+		</isNotNull>
+		<isNotNull prepend="," property="record.dependContIds"> 
+			DEPEND_CONT_IDS = #record.dependContIds:VARCHAR#
+		</isNotNull>
+		<isNotNull prepend="," property="record.dependContNames"> 
+			DEPEND_CONT_NAMES = #record.dependContNames:VARCHAR#
+		</isNotNull>
+		<isNotNull prepend="," property="record.custom1"> 
+			CUSTOM_1 = #record.custom1:BIGINT#
+		</isNotNull>
+		<isNotNull prepend="," property="record.custom2"> 
+			CUSTOM_2 = #record.custom2:BIGINT#
+		</isNotNull>
+		<isNotNull prepend="," property="record.custom3"> 
+			CUSTOM_3 = #record.custom3:BIGINT#
+		</isNotNull>
+		<isNotNull prepend="," property="record.custom4"> 
+			CUSTOM_4 = #record.custom4:VARCHAR#
+		</isNotNull>
+		<isNotNull prepend="," property="record.custom5"> 
+			CUSTOM_5 = #record.custom5:VARCHAR#
+		</isNotNull>
+		<isNotNull prepend="," property="record.custom6"> 
+			CUSTOM_6 = #record.custom6:VARCHAR#
+		</isNotNull>
+		<isNotNull prepend="," property="record.depStatus"> 
+			DEP_STATUS = #record.depStatus:INTEGER#
+		</isNotNull>
+		<isNotNull prepend="," property="record.runStatus"> 
+			RUN_STATUS = #record.runStatus:INTEGER#
+		</isNotNull>
+		<isNotNull prepend="," property="record.dataStatus"> 
+			DATA_STATUS = #record.dataStatus:INTEGER#
+		</isNotNull>
+		<isNotNull prepend="," property="record.creator"> 
+			CREATOR = #record.creator:VARCHAR#
+		</isNotNull>
+		<isNotNull prepend="," property="record.createTime"> 
+			CREATE_TIME = #record.createTime:BIGINT#
+		</isNotNull>
+		<isNotNull prepend="," property="record.modifier"> 
+			MODIFIER = #record.modifier:VARCHAR#
+		</isNotNull>
+		<isNotNull prepend="," property="record.modifyTime"> 
+			MODIFY_TIME = #record.modifyTime:BIGINT#
+		</isNotNull>
+	</sql>
+	
+
+	<sql id="sql_query_columns">
+		ID, MNT_ID, APP_ID, APP_VNO_ID, APP_CODE, APP_NAME, 
+		APP_VERSION_NO, IMAGE_ID, IMAGE_DEF_ID, IMAGE_RESP_ID, IMAGE_NAME, IMAGE_FULL_NAME, 
+		BUILD_NO, CONTAINER_NAME, CONTAINER_FULL_NAME, DATA_CENTER_ID, RES_CENTER_ID, NET_ZONE_ID, 
+		CPU_COUNT, MEM_SIZE, DISK_SIZE, INSTANCE_COUNT, IS_SUPPORT_FLEX, CPU_FLEX_UPPER_LIMIT, 
+		CPU_FLEX_LOWER_LIMIT, MAX_INSTANCE_COUNT, MIN_INSTANCE_COUNT, LOG_MP_PATH, DATA_MP_PATH, IS_UNIFORM, 
+		TARGS, DEPEND_CONT_IDS, DEPEND_CONT_NAMES, CUSTOM_1, CUSTOM_2, CUSTOM_3, 
+		CUSTOM_4, CUSTOM_5, CUSTOM_6, DEP_STATUS, RUN_STATUS, DATA_STATUS, 
+		CREATOR, CREATE_TIME, MODIFIER, MODIFY_TIME
+	</sql>
+	
+
+	
+
+	<select id="selectList" parameterClass="java.util.Map" resultMap="queryResult">
+		select 
+			<include refid="PC_APP_DEP_HISTORY.sql_query_columns" />
+		from PC_APP_DEP_HISTORY 
+			<dynamic prepend="where" >
+				<include refid="PC_APP_DEP_HISTORY.sql_query_where"/>
+			</dynamic>
+		order by 
+			<isNotEmpty property="orders" >
+				$orders$
+			</isNotEmpty>
+			<isEmpty property="orders" >
+				ID
+			</isEmpty>
+	</select>
+	<select id="selectCount" parameterClass="java.util.Map" resultClass="java.lang.Long">
+		select count(1) from PC_APP_DEP_HISTORY 
+			<dynamic prepend="where" >
+				<include refid="PC_APP_DEP_HISTORY.sql_query_where"/>
+			</dynamic>
+	</select>
+	<select id="selectById" parameterClass="java.util.Map" resultMap="queryResult">
+		select 
+			<include refid="PC_APP_DEP_HISTORY.sql_query_columns" />
+		from PC_APP_DEP_HISTORY where ID=#id:BIGINT# and DATA_STATUS=1  
+	</select>
+	
+
+	
+
+	<insert id="insert" parameterClass="java.util.Map">
+		insert into PC_APP_DEP_HISTORY(
+			ID, MNT_ID, APP_ID, APP_VNO_ID, APP_CODE, 
+			APP_NAME, APP_VERSION_NO, IMAGE_ID, IMAGE_DEF_ID, IMAGE_RESP_ID, 
+			IMAGE_NAME, IMAGE_FULL_NAME, BUILD_NO, CONTAINER_NAME, CONTAINER_FULL_NAME, 
+			DATA_CENTER_ID, RES_CENTER_ID, NET_ZONE_ID, CPU_COUNT, MEM_SIZE, 
+			DISK_SIZE, INSTANCE_COUNT, IS_SUPPORT_FLEX, CPU_FLEX_UPPER_LIMIT, CPU_FLEX_LOWER_LIMIT, 
+			MAX_INSTANCE_COUNT, MIN_INSTANCE_COUNT, LOG_MP_PATH, DATA_MP_PATH, IS_UNIFORM, 
+			TARGS, DEPEND_CONT_IDS, DEPEND_CONT_NAMES, CUSTOM_1, CUSTOM_2, 
+			CUSTOM_3, CUSTOM_4, CUSTOM_5, CUSTOM_6, DEP_STATUS, 
+			RUN_STATUS, DATA_STATUS, CREATOR, CREATE_TIME, MODIFIER, 
+			MODIFY_TIME)
+		values (
+			#record.id:BIGINT#, #record.mntId:BIGINT#, #record.appId:BIGINT#, #record.appVnoId:BIGINT#, #record.appCode:VARCHAR#, 
+			#record.appName:VARCHAR#, #record.appVersionNo:VARCHAR#, #record.imageId:BIGINT#, #record.imageDefId:BIGINT#, #record.imageRespId:BIGINT#, 
+			#record.imageName:VARCHAR#, #record.imageFullName:VARCHAR#, #record.buildNo:VARCHAR#, #record.containerName:VARCHAR#, #record.containerFullName:VARCHAR#, 
+			#record.dataCenterId:BIGINT#, #record.resCenterId:BIGINT#, #record.netZoneId:BIGINT#, #record.cpuCount:INTEGER#, #record.memSize:BIGINT#, 
+			#record.diskSize:BIGINT#, #record.instanceCount:INTEGER#, #record.isSupportFlex:INTEGER#, #record.cpuFlexUpperLimit:INTEGER#, #record.cpuFlexLowerLimit:INTEGER#, 
+			#record.maxInstanceCount:INTEGER#, #record.minInstanceCount:INTEGER#, #record.logMpPath:VARCHAR#, #record.dataMpPath:VARCHAR#, #record.isUniform:INTEGER#, 
+			#record.targs:VARCHAR#, #record.dependContIds:VARCHAR#, #record.dependContNames:VARCHAR#, #record.custom1:BIGINT#, #record.custom2:BIGINT#, 
+			#record.custom3:BIGINT#, #record.custom4:VARCHAR#, #record.custom5:VARCHAR#, #record.custom6:VARCHAR#, #record.depStatus:INTEGER#, 
+			#record.runStatus:INTEGER#, #record.dataStatus:INTEGER#, #record.creator:VARCHAR#, #record.createTime:BIGINT#, #record.modifier:VARCHAR#, 
+			#record.modifyTime:BIGINT#)
+	</insert>
+	
+
+	
+
+	<update id="updateById" parameterClass="java.util.Map">
+		update PC_APP_DEP_HISTORY
+			<dynamic prepend="set" > 
+				<include refid="PC_APP_DEP_HISTORY.sql_update_columns"/> 
+			</dynamic>
+		where ID = #id:BIGINT#
+	</update>
+	<update id="updateByCdt" parameterClass="java.util.Map">
+		update PC_APP_DEP_HISTORY
+			<dynamic prepend="set" > 
+				<include refid="PC_APP_DEP_HISTORY.sql_update_columns"/> 
+			</dynamic>
+			<dynamic prepend="where" > 
+				<include refid="PC_APP_DEP_HISTORY.sql_query_where"/> 
+			</dynamic>
+	</update>
+	
+	
+
+	
+
+	<delete id="deleteById" parameterClass="java.util.Map">
+		delete from PC_APP_DEP_HISTORY where ID = #id:BIGINT#
+	</delete>
+	<delete id="deleteByCdt" parameterClass="java.util.Map">
+		delete from PC_APP_DEP_HISTORY
+			<dynamic prepend="where" > 
+				<include refid="PC_APP_DEP_HISTORY.sql_query_where"/> 
+			</dynamic>
+	</delete>
+	
+
+
+
+</sqlMap>

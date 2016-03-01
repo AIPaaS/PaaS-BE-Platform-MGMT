@@ -1,0 +1,205 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap namespace="PC_APP_TASK_LOG">
+
+
+	<resultMap class="com.aic.paas.provider.ps.bean.PcAppTaskLog" id="queryResult">
+		<result column="ID" jdbcType="BIGINT" property="id"/>	<!-- ID -->
+		<result column="LOG_TIME" jdbcType="BIGINT" property="logTime"/>	<!-- 日志时间 -->
+		<result column="TASK_ID" jdbcType="BIGINT" property="taskId"/>	<!-- 所属任务 -->
+		<result column="LOG_TYPE" jdbcType="INTEGER" property="logType"/>	<!-- 日志类型 -->
+		<result column="REMARK" jdbcType="VARCHAR" property="remark"/>	<!-- 日志描述 -->
+		<result column="CREATE_TIME" jdbcType="BIGINT" property="createTime"/>	<!-- 创建时间 -->
+		<result column="MODIFY_TIME" jdbcType="BIGINT" property="modifyTime"/>	<!-- 修改时间 -->
+	</resultMap>
+	
+
+	<sql id="sql_query_where">
+		<isNotEmpty prepend="and" property="cdt.id" >
+			ID = #cdt.id:BIGINT#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="ids" >
+			ID in ($ids$)
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="cdt.startId" >
+			<![CDATA[ ID >= #cdt.startId:BIGINT# ]]>
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="cdt.endId" >
+			<![CDATA[ ID <= #cdt.endId:BIGINT# ]]>
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="cdt.logTime" >
+			LOG_TIME = #cdt.logTime:BIGINT#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="logTimes" >
+			LOG_TIME in ($logTimes$)
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="cdt.startLogTime" >
+			<![CDATA[ LOG_TIME >= #cdt.startLogTime:BIGINT# ]]>
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="cdt.endLogTime" >
+			<![CDATA[ LOG_TIME <= #cdt.endLogTime:BIGINT# ]]>
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="cdt.taskId" >
+			TASK_ID = #cdt.taskId:BIGINT#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="taskIds" >
+			TASK_ID in ($taskIds$)
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="cdt.startTaskId" >
+			<![CDATA[ TASK_ID >= #cdt.startTaskId:BIGINT# ]]>
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="cdt.endTaskId" >
+			<![CDATA[ TASK_ID <= #cdt.endTaskId:BIGINT# ]]>
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="cdt.logType" >
+			LOG_TYPE = #cdt.logType:INTEGER#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="logTypes" >
+			LOG_TYPE in ($logTypes$)
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="cdt.startLogType" >
+			<![CDATA[ LOG_TYPE >= #cdt.startLogType:INTEGER# ]]>
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="cdt.endLogType" >
+			<![CDATA[ LOG_TYPE <= #cdt.endLogType:INTEGER# ]]>
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="cdt.remark" >
+			REMARK like #cdt.remark:VARCHAR# 
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="cdt.createTime" >
+			CREATE_TIME = #cdt.createTime:BIGINT#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="createTimes" >
+			CREATE_TIME in ($createTimes$)
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="cdt.startCreateTime" >
+			<![CDATA[ CREATE_TIME >= #cdt.startCreateTime:BIGINT# ]]>
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="cdt.endCreateTime" >
+			<![CDATA[ CREATE_TIME <= #cdt.endCreateTime:BIGINT# ]]>
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="cdt.modifyTime" >
+			MODIFY_TIME = #cdt.modifyTime:BIGINT#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="modifyTimes" >
+			MODIFY_TIME in ($modifyTimes$)
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="cdt.startModifyTime" >
+			<![CDATA[ MODIFY_TIME >= #cdt.startModifyTime:BIGINT# ]]>
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="cdt.endModifyTime" >
+			<![CDATA[ MODIFY_TIME <= #cdt.endModifyTime:BIGINT# ]]>
+		</isNotEmpty>
+	</sql>
+	
+
+	<sql id="sql_update_columns">
+		<isNotNull prepend="," property="record.id"> 
+			ID = #record.id:BIGINT#
+		</isNotNull>
+		<isNotNull prepend="," property="record.logTime"> 
+			LOG_TIME = #record.logTime:BIGINT#
+		</isNotNull>
+		<isNotNull prepend="," property="record.taskId"> 
+			TASK_ID = #record.taskId:BIGINT#
+		</isNotNull>
+		<isNotNull prepend="," property="record.logType"> 
+			LOG_TYPE = #record.logType:INTEGER#
+		</isNotNull>
+		<isNotNull prepend="," property="record.remark"> 
+			REMARK = #record.remark:VARCHAR#
+		</isNotNull>
+		<isNotNull prepend="," property="record.createTime"> 
+			CREATE_TIME = #record.createTime:BIGINT#
+		</isNotNull>
+		<isNotNull prepend="," property="record.modifyTime"> 
+			MODIFY_TIME = #record.modifyTime:BIGINT#
+		</isNotNull>
+	</sql>
+	
+
+	<sql id="sql_query_columns">
+		ID, LOG_TIME, TASK_ID, LOG_TYPE, REMARK, CREATE_TIME, 
+		MODIFY_TIME
+	</sql>
+	
+
+	
+
+	<select id="selectList" parameterClass="java.util.Map" resultMap="queryResult">
+		select 
+			<include refid="PC_APP_TASK_LOG.sql_query_columns" />
+		from PC_APP_TASK_LOG 
+			<dynamic prepend="where" >
+				<include refid="PC_APP_TASK_LOG.sql_query_where"/>
+			</dynamic>
+		order by 
+			<isNotEmpty property="orders" >
+				$orders$
+			</isNotEmpty>
+			<isEmpty property="orders" >
+				ID
+			</isEmpty>
+	</select>
+	<select id="selectCount" parameterClass="java.util.Map" resultClass="java.lang.Long">
+		select count(1) from PC_APP_TASK_LOG 
+			<dynamic prepend="where" >
+				<include refid="PC_APP_TASK_LOG.sql_query_where"/>
+			</dynamic>
+	</select>
+	<select id="selectById" parameterClass="java.util.Map" resultMap="queryResult">
+		select 
+			<include refid="PC_APP_TASK_LOG.sql_query_columns" />
+		from PC_APP_TASK_LOG where ID=#id:BIGINT# 
+	</select>
+	
+
+	
+
+	<insert id="insert" parameterClass="java.util.Map">
+		insert into PC_APP_TASK_LOG(
+			ID, LOG_TIME, TASK_ID, LOG_TYPE, REMARK, 
+			CREATE_TIME, MODIFY_TIME)
+		values (
+			#record.id:BIGINT#, #record.logTime:BIGINT#, #record.taskId:BIGINT#, #record.logType:INTEGER#, #record.remark:VARCHAR#, 
+			#record.createTime:BIGINT#, #record.modifyTime:BIGINT#)
+	</insert>
+	
+
+	
+
+	<update id="updateById" parameterClass="java.util.Map">
+		update PC_APP_TASK_LOG
+			<dynamic prepend="set" > 
+				<include refid="PC_APP_TASK_LOG.sql_update_columns"/> 
+			</dynamic>
+		where ID = #id:BIGINT#
+	</update>
+	<update id="updateByCdt" parameterClass="java.util.Map">
+		update PC_APP_TASK_LOG
+			<dynamic prepend="set" > 
+				<include refid="PC_APP_TASK_LOG.sql_update_columns"/> 
+			</dynamic>
+			<dynamic prepend="where" > 
+				<include refid="PC_APP_TASK_LOG.sql_query_where"/> 
+			</dynamic>
+	</update>
+	
+	
+
+	
+
+	<delete id="deleteById" parameterClass="java.util.Map">
+		delete from PC_APP_TASK_LOG where ID = #id:BIGINT#
+	</delete>
+	<delete id="deleteByCdt" parameterClass="java.util.Map">
+		delete from PC_APP_TASK_LOG
+			<dynamic prepend="where" > 
+				<include refid="PC_APP_TASK_LOG.sql_query_where"/> 
+			</dynamic>
+	</delete>
+	
+
+
+
+</sqlMap>

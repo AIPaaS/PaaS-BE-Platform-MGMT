@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:aop="http://www.springframework.org/schema/aop" xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:util="http://www.springframework.org/schema/util"
+	xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xsi:schemaLocation="
+		  http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+		  http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd
+		  http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-3.0.xsd
+          http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.0.xsd
+          http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-3.0.xsd
+          http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-3.0.xsd">
+        
+    
+    
+    <!-- res -->
+    <bean class="com.aic.paas.provider.ps.db.impl.PcAppResApplyDaoDefinition" />
+    <bean class="com.aic.paas.provider.ps.db.impl.PcAppResDaoDefinition" />
+    <bean class="com.aic.paas.provider.ps.db.impl.PcAppResFlowDaoDefinition" />
+    <bean class="com.aic.paas.provider.ps.db.impl.PcCompRoomDaoDefinition" />
+    <bean class="com.aic.paas.provider.ps.db.impl.PcComputerDaoDefinition" />
+    <bean class="com.aic.paas.provider.ps.db.impl.PcDataCenterDaoDefinition" />
+    <bean class="com.aic.paas.provider.ps.db.impl.PcNetZoneDaoDefinition" />
+    <bean class="com.aic.paas.provider.ps.db.impl.PcResCenterDaoDefinition" />
+    <bean class="com.aic.paas.provider.ps.db.impl.PsMntResApplyDaoDefinition" />
+    <bean class="com.aic.paas.provider.ps.db.impl.PsMntResDaoDefinition" />
+    <bean class="com.aic.paas.provider.ps.db.impl.PsMntResFlowDaoDefinition" />
+    <bean class="com.aic.paas.provider.ps.db.impl.PsResFlowDaoDefinition" />
+    <bean class="com.aic.paas.provider.ps.db.impl.PsResCenterResDaoDefinition" />
+    <bean class="com.aic.paas.provider.ps.db.impl.PcComputerTagDaoDefinition" />
+    <bean class="com.aic.paas.provider.ps.db.impl.PcImageRepositoryDaoDefinition" />
+    
+    
+    
+    
+    <!-- dep -->
+    <bean class="com.aic.paas.provider.ps.db.impl.PcAppDaoDefinition" />
+    <bean class="com.aic.paas.provider.ps.db.impl.PcAppImageDaoDefinition" />
+    <bean class="com.aic.paas.provider.ps.db.impl.PcAppImgSvcDaoDefinition" />
+    <bean class="com.aic.paas.provider.ps.db.impl.PcAppTaskDaoDefinition" />
+    <bean class="com.aic.paas.provider.ps.db.impl.PcAppTaskLogDaoDefinition" />
+    <bean class="com.aic.paas.provider.ps.db.impl.PcKvPairDaoDefinition" />
+    <bean class="com.aic.paas.provider.ps.db.impl.PcServiceDaoDefinition" />
+    <bean class="com.aic.paas.provider.ps.db.impl.PcSvcApplyDaoDefinition" />
+    <bean class="com.aic.paas.provider.ps.db.impl.PcAppMgrDaoDefinition" />
+    <bean class="com.aic.paas.provider.ps.db.impl.PcAppDepHistoryDaoDefinition" />
+    <bean class="com.aic.paas.provider.ps.db.impl.PcAppDepKvHistoryDaoDefinition" />
+    <bean class="com.aic.paas.provider.ps.db.impl.PcAppDepSvcHistoryDaoDefinition" />
+    <bean class="com.aic.paas.provider.ps.db.impl.PcAppDepInstanceDaoDefinition" />
+    <bean class="com.aic.paas.provider.ps.db.impl.PcAppVersionDaoDefinition" />
+    
+	
+	
+	
+</beans>

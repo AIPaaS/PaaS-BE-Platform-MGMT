@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:aop="http://www.springframework.org/schema/aop" xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:util="http://www.springframework.org/schema/util"
+	xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xsi:schemaLocation="
+		  http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+		  http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd
+		  http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-3.0.xsd
+          http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.0.xsd
+          http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-3.0.xsd
+          http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-3.0.xsd">
+        <context:component-scan base-package="com.aic.paas.db.**" />
+        
+        <import resource="classpath:spring/spring-paas-dep-db-definition.xml" />
+        
+        
+        <bean id="dataSource_paas_dep" class="com.binary.framework.spring.DataSourceAdapter">
+        	<constructor-arg value="${ds.jdbc.paas.dep.dsname}" />
+			<constructor-arg ref="com.binary.jdbc.JdbcOperatorFactory" />
+		</bean>
+		
+		
+		<bean id="sqlMapClientTemplate_paas_dep" class="com.binary.framework.ibatis.IBatisSqlMapClientTemplate" primary="true">
+			<property name="dataSource" ref="dataSource_paas_dep" />
+			<property name="sqlMapClient">
+				<bean class="com.binary.framework.ibatis.IBatisSqlMapClientFactory">
+					<property name="configLocations">
+						<list>
+							<description>排序：优先加载数据库表的sql定义（文件名带model字样），使得后续加载的自定义sql定义可以引用先加载的文件中的定义</description>
+							<value>classpath:sql/sql-map-paas-dep-config.xml</value>
+						</list>
+					</property>
+				</bean>
+			</property>
+			<property name="sqlExecutor">
+				<bean class="com.binary.framework.ibatis.IBatisSqlExecutor">
+					<property name="sqlHandlers">
+						<list>
+							<bean class="com.binary.framework.ibatis.PagingSqlHandler" />
+						</list>
+					</property>
+				</bean>
+			</property>
+		</bean>
+        
+        
+        
+        <!-- DAO -->
+        <bean abstract="true" id="dao.paas.dep.parent" >
+			<property name="sqlMapClientTemplate" ref="sqlMapClientTemplate_paas_dep"/>
+		</bean>
+		
+		
+		
+		<!-- res -->
+	    <bean class="com.aic.paas.provider.ps.db.impl.PcAppResApplyDaoImpl" parent="dao.paas.dep.parent" >
+			<property name="daoDefinition" ref="com.aic.paas.provider.ps.db.impl.PcAppResApplyDaoDefinition" />
+		</bean>
+		<bean class="com.aic.paas.provider.ps.db.impl.PcAppResDaoImpl" parent="dao.paas.dep.parent" >
+			<property name="daoDefinition" ref="com.aic.paas.provider.ps.db.impl.PcAppResDaoDefinition" />
+		</bean>
+		<bean class="com.aic.paas.provider.ps.db.impl.PcAppResFlowDaoImpl" parent="dao.paas.dep.parent" >
+			<property name="daoDefinition" ref="com.aic.paas.provider.ps.db.impl.PcAppResFlowDaoDefinition" />
+		</bean>
+		<bean class="com.aic.paas.provider.ps.db.impl.PcCompRoomDaoImpl" parent="dao.paas.dep.parent" >
+			<property name="daoDefinition" ref="com.aic.paas.provider.ps.db.impl.PcCompRoomDaoDefinition" />
+		</bean>
+		<bean class="com.aic.paas.provider.ps.db.impl.PcComputerDaoImpl" parent="dao.paas.dep.parent" >
+			<property name="daoDefinition" ref="com.aic.paas.provider.ps.db.impl.PcComputerDaoDefinition" />
+		</bean>
+		<bean class="com.aic.paas.provider.ps.db.impl.PcDataCenterDaoImpl" parent="dao.paas.dep.parent" >
+			<property name="daoDefinition" ref="com.aic.paas.provider.ps.db.impl.PcDataCenterDaoDefinition" />
+		</bean>
+		<bean class="com.aic.paas.provider.ps.db.impl.PcNetZoneDaoImpl" parent="dao.paas.dep.parent" >
+			<property name="daoDefinition" ref="com.aic.paas.provider.ps.db.impl.PcNetZoneDaoDefinition" />
+		</bean>
+		<bean class="com.aic.paas.provider.ps.db.impl.PcResCenterDaoImpl" parent="dao.paas.dep.parent" >
+			<property name="daoDefinition" ref="com.aic.paas.provider.ps.db.impl.PcResCenterDaoDefinition" />
+		</bean>
+		<bean class="com.aic.paas.provider.ps.db.impl.PsMntResApplyDaoImpl" parent="dao.paas.dep.parent" >
+			<property name="daoDefinition" ref="com.aic.paas.provider.ps.db.impl.PsMntResApplyDaoDefinition" />
+		</bean>
+		<bean class="com.aic.paas.provider.ps.db.impl.PsMntResDaoImpl" parent="dao.paas.dep.parent" >
+			<property name="daoDefinition" ref="com.aic.paas.provider.ps.db.impl.PsMntResDaoDefinition" />
+		</bean>
+		<bean class="com.aic.paas.provider.ps.db.impl.PsMntResFlowDaoImpl" parent="dao.paas.dep.parent" >
+			<property name="daoDefinition" ref="com.aic.paas.provider.ps.db.impl.PsMntResFlowDaoDefinition" />
+		</bean>
+		<bean class="com.aic.paas.provider.ps.db.impl.PsResFlowDaoImpl" parent="dao.paas.dep.parent" >
+			<property name="daoDefinition" ref="com.aic.paas.provider.ps.db.impl.PsResFlowDaoDefinition" />
+		</bean>
+		<bean class="com.aic.paas.provider.ps.db.impl.PsResCenterResDaoImpl" parent="dao.paas.dep.parent" >
+			<property name="daoDefinition" ref="com.aic.paas.provider.ps.db.impl.PsResCenterResDaoDefinition" />
+		</bean>
+		<bean class="com.aic.paas.provider.ps.db.impl.PcComputerTagDaoImpl" parent="dao.paas.dep.parent" >
+			<property name="daoDefinition" ref="com.aic.paas.provider.ps.db.impl.PcComputerTagDaoDefinition" />
+		</bean>
+		<bean class="com.aic.paas.provider.ps.db.impl.PcImageRepositoryDaoImpl" parent="dao.paas.dep.parent" >
+			<property name="daoDefinition" ref="com.aic.paas.provider.ps.db.impl.PcImageRepositoryDaoDefinition" />
+		</bean>
+		
+	    
+	    	    
+	    
+	    
+	    <!-- dep -->
+	    <bean class="com.aic.paas.provider.ps.db.impl.PcAppDaoImpl" parent="dao.paas.dep.parent" >
+			<property name="daoDefinition" ref="com.aic.paas.provider.ps.db.impl.PcAppDaoDefinition" />
+		</bean>
+		<bean class="com.aic.paas.provider.ps.db.impl.PcAppImageDaoImpl" parent="dao.paas.dep.parent" >
+			<property name="daoDefinition" ref="com.aic.paas.provider.ps.db.impl.PcAppImageDaoDefinition" />
+		</bean>
+		<bean class="com.aic.paas.provider.ps.db.impl.PcAppImgSvcDaoImpl" parent="dao.paas.dep.parent" >
+			<property name="daoDefinition" ref="com.aic.paas.provider.ps.db.impl.PcAppImgSvcDaoDefinition" />
+		</bean>
+		<bean class="com.aic.paas.provider.ps.db.impl.PcAppTaskDaoImpl" parent="dao.paas.dep.parent" >
+			<property name="daoDefinition" ref="com.aic.paas.provider.ps.db.impl.PcAppTaskDaoDefinition" />
+		</bean>
+		<bean class="com.aic.paas.provider.ps.db.impl.PcAppTaskLogDaoImpl" parent="dao.paas.dep.parent" >
+			<property name="daoDefinition" ref="com.aic.paas.provider.ps.db.impl.PcAppTaskLogDaoDefinition" />
+		</bean>
+		<bean class="com.aic.paas.provider.ps.db.impl.PcKvPairDaoImpl" parent="dao.paas.dep.parent" >
+			<property name="daoDefinition" ref="com.aic.paas.provider.ps.db.impl.PcKvPairDaoDefinition" />
+		</bean>
+		<bean class="com.aic.paas.provider.ps.db.impl.PcServiceDaoImpl" parent="dao.paas.dep.parent" >
+			<property name="daoDefinition" ref="com.aic.paas.provider.ps.db.impl.PcServiceDaoDefinition" />
+		</bean>
+		<bean class="com.aic.paas.provider.ps.db.impl.PcSvcApplyDaoImpl" parent="dao.paas.dep.parent" >
+			<property name="daoDefinition" ref="com.aic.paas.provider.ps.db.impl.PcSvcApplyDaoDefinition" />
+		</bean>
+		<bean class="com.aic.paas.provider.ps.db.impl.PcAppMgrDaoImpl" parent="dao.paas.dep.parent" >
+			<property name="daoDefinition" ref="com.aic.paas.provider.ps.db.impl.PcAppMgrDaoDefinition" />
+		</bean>
+		<bean class="com.aic.paas.provider.ps.db.impl.PcAppDepHistoryDaoImpl" parent="dao.paas.dep.parent" >
+			<property name="daoDefinition" ref="com.aic.paas.provider.ps.db.impl.PcAppDepHistoryDaoDefinition" />
+		</bean>
+		<bean class="com.aic.paas.provider.ps.db.impl.PcAppDepKvHistoryDaoImpl" parent="dao.paas.dep.parent" >
+			<property name="daoDefinition" ref="com.aic.paas.provider.ps.db.impl.PcAppDepKvHistoryDaoDefinition" />
+		</bean>
+		<bean class="com.aic.paas.provider.ps.db.impl.PcAppDepSvcHistoryDaoImpl" parent="dao.paas.dep.parent" >
+			<property name="daoDefinition" ref="com.aic.paas.provider.ps.db.impl.PcAppDepSvcHistoryDaoDefinition" />
+		</bean>
+		<bean class="com.aic.paas.provider.ps.db.impl.PcAppDepInstanceDaoImpl" parent="dao.paas.dep.parent" >
+			<property name="daoDefinition" ref="com.aic.paas.provider.ps.db.impl.PcAppDepInstanceDaoDefinition" />
+		</bean>
+		<bean class="com.aic.paas.provider.ps.db.impl.PcAppVersionDaoImpl" parent="dao.paas.dep.parent" >
+			<property name="daoDefinition" ref="com.aic.paas.provider.ps.db.impl.PcAppVersionDaoDefinition" />
+		</bean>
+		
+		
+		
+		
+		
+		
+</beans>

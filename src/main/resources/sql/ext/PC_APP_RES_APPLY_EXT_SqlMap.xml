@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap namespace="PC_APP_RES_APPLY">
+
+
+	<update id="checkResApply" parameterClass="java.util.Map">
+		update PC_APP_RES_APPLY set STATUS=#status:INTEGER#, CHECK_TIME=#checkTime:BIGINT#
+				<isNotNull prepend="," property="checkerName"> 
+					CHECKER_NAME=#checkerName:VARCHAR#
+				</isNotNull>
+				<isNotNull prepend="," property="checkerId"> 
+					CHECKER_ID=#checkerId:BIGINT#
+				</isNotNull>
+				<isNotNull prepend="," property="checkDesc"> 
+					CHECK_DESC=#checkDesc:VARCHAR#
+				</isNotNull>
+			where ID=#id:BIGINT# and STATUS=0 and DATA_STATUS=1
+	</update>
+
+
+</sqlMap>
