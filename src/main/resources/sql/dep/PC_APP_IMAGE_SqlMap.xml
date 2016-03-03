@@ -3,7 +3,7 @@
 <sqlMap namespace="PC_APP_IMAGE">
 
 
-	<resultMap class="com.aic.paas.comm.model.dep.PcAppImage" id="queryResult">
+	<resultMap class="com.aic.paas.provider.ps.bean.PcAppImage" id="queryResult">
 		<result column="ID" jdbcType="BIGINT" property="id"/>	<!-- ID -->
 		<result column="MNT_ID" jdbcType="BIGINT" property="mntId"/>	<!-- 租户ID -->
 		<result column="IMAGE_ID" jdbcType="BIGINT" property="imageId"/>	<!-- 镜像ID -->
