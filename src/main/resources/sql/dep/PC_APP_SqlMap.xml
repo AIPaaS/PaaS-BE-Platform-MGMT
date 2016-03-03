@@ -3,11 +3,12 @@
 <sqlMap namespace="PC_APP">
 
 
-	<resultMap class="com.aic.paas.provider.ps.bean.PcApp" id="queryResult">
+	<resultMap class="com.aic.paas.comm.model.dep.PcApp" id="queryResult">
 		<result column="ID" jdbcType="BIGINT" property="id"/>	<!-- ID -->
 		<result column="MNT_ID" jdbcType="BIGINT" property="mntId"/>	<!-- 所属租户 -->
 		<result column="APP_CODE" jdbcType="VARCHAR" property="appCode"/>	<!-- 应用代码 -->
 		<result column="APP_NAME" jdbcType="VARCHAR" property="appName"/>	<!-- 应用名称 -->
+		<result column="APP_TYPE" jdbcType="INTEGER" property="appType"/>	<!-- 应用类型 -->
 		<result column="DATA_CENTER_ID" jdbcType="BIGINT" property="dataCenterId"/>	<!-- 所属数据中心 -->
 		<result column="RES_CENTER_ID" jdbcType="BIGINT" property="resCenterId"/>	<!-- 所属资源中心 -->
 		<result column="VERSION_ID" jdbcType="BIGINT" property="versionId"/>	<!-- 最近版本ID -->
@@ -65,6 +66,18 @@
 		</isNotEmpty>
 		<isNotEmpty prepend="and" property="appNames" >
 			APP_NAME in ($appNames$)
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="cdt.appType" >
+			APP_TYPE = #cdt.appType:INTEGER#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="appTypes" >
+			APP_TYPE in ($appTypes$)
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="cdt.startAppType" >
+			<![CDATA[ APP_TYPE >= #cdt.startAppType:INTEGER# ]]>
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="cdt.endAppType" >
+			<![CDATA[ APP_TYPE <= #cdt.endAppType:INTEGER# ]]>
 		</isNotEmpty>
 		<isNotEmpty prepend="and" property="cdt.dataCenterId" >
 			DATA_CENTER_ID = #cdt.dataCenterId:BIGINT#
@@ -196,6 +209,9 @@
 		<isNotNull prepend="," property="record.appName"> 
 			APP_NAME = #record.appName:VARCHAR#
 		</isNotNull>
+		<isNotNull prepend="," property="record.appType"> 
+			APP_TYPE = #record.appType:INTEGER#
+		</isNotNull>
 		<isNotNull prepend="," property="record.dataCenterId"> 
 			DATA_CENTER_ID = #record.dataCenterId:BIGINT#
 		</isNotNull>
@@ -236,9 +252,9 @@
 	
 
 	<sql id="sql_query_columns">
-		ID, MNT_ID, APP_CODE, APP_NAME, DATA_CENTER_ID, RES_CENTER_ID, 
-		VERSION_ID, VERSION_NO, LAST_START_TIME, STATUS, REMARK, DATA_STATUS, 
-		CREATOR, CREATE_TIME, MODIFIER, MODIFY_TIME
+		ID, MNT_ID, APP_CODE, APP_NAME, APP_TYPE, DATA_CENTER_ID, 
+		RES_CENTER_ID, VERSION_ID, VERSION_NO, LAST_START_TIME, STATUS, REMARK, 
+		DATA_STATUS, CREATOR, CREATE_TIME, MODIFIER, MODIFY_TIME
 	</sql>
 	
 
@@ -276,15 +292,15 @@
 
 	<insert id="insert" parameterClass="java.util.Map">
 		insert into PC_APP(
-			ID, MNT_ID, APP_CODE, APP_NAME, DATA_CENTER_ID, 
-			RES_CENTER_ID, VERSION_ID, VERSION_NO, LAST_START_TIME, STATUS, 
-			REMARK, DATA_STATUS, CREATOR, CREATE_TIME, MODIFIER, 
-			MODIFY_TIME)
+			ID, MNT_ID, APP_CODE, APP_NAME, APP_TYPE, 
+			DATA_CENTER_ID, RES_CENTER_ID, VERSION_ID, VERSION_NO, LAST_START_TIME, 
+			STATUS, REMARK, DATA_STATUS, CREATOR, CREATE_TIME, 
+			MODIFIER, MODIFY_TIME)
 		values (
-			#record.id:BIGINT#, #record.mntId:BIGINT#, #record.appCode:VARCHAR#, #record.appName:VARCHAR#, #record.dataCenterId:BIGINT#, 
-			#record.resCenterId:BIGINT#, #record.versionId:BIGINT#, #record.versionNo:VARCHAR#, #record.lastStartTime:BIGINT#, #record.status:INTEGER#, 
-			#record.remark:VARCHAR#, #record.dataStatus:INTEGER#, #record.creator:VARCHAR#, #record.createTime:BIGINT#, #record.modifier:VARCHAR#, 
-			#record.modifyTime:BIGINT#)
+			#record.id:BIGINT#, #record.mntId:BIGINT#, #record.appCode:VARCHAR#, #record.appName:VARCHAR#, #record.appType:INTEGER#, 
+			#record.dataCenterId:BIGINT#, #record.resCenterId:BIGINT#, #record.versionId:BIGINT#, #record.versionNo:VARCHAR#, #record.lastStartTime:BIGINT#, 
+			#record.status:INTEGER#, #record.remark:VARCHAR#, #record.dataStatus:INTEGER#, #record.creator:VARCHAR#, #record.createTime:BIGINT#, 
+			#record.modifier:VARCHAR#, #record.modifyTime:BIGINT#)
 	</insert>
 	
 

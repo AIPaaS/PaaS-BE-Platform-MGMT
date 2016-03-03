@@ -3,12 +3,12 @@
 <sqlMap namespace="PC_APP_IMAGE">
 
 
-	<resultMap class="com.aic.paas.provider.ps.bean.PcAppImage" id="queryResult">
+	<resultMap class="com.aic.paas.comm.model.dep.PcAppImage" id="queryResult">
 		<result column="ID" jdbcType="BIGINT" property="id"/>	<!-- ID -->
 		<result column="MNT_ID" jdbcType="BIGINT" property="mntId"/>	<!-- 租户ID -->
+		<result column="IMAGE_ID" jdbcType="BIGINT" property="imageId"/>	<!-- 镜像ID -->
 		<result column="APP_ID" jdbcType="BIGINT" property="appId"/>	<!-- 应用ID -->
 		<result column="APP_VNO_ID" jdbcType="BIGINT" property="appVnoId"/>	<!-- 应用版本ID -->
-		<result column="IMAGE_ID" jdbcType="BIGINT" property="imageId"/>	<!-- 镜像ID -->
 		<result column="CONTAINER_NAME" jdbcType="VARCHAR" property="containerName"/>	<!-- 容器名 -->
 		<result column="CONTAINER_FULL_NAME" jdbcType="VARCHAR" property="containerFullName"/>	<!-- 容器全名 -->
 		<result column="DATA_CENTER_ID" jdbcType="BIGINT" property="dataCenterId"/>	<!-- 所属数据中心 -->
@@ -28,6 +28,10 @@
 		<result column="IS_UNIFORM" jdbcType="INTEGER" property="isUniform"/>	<!-- 是否均匀分布 -->
 		<result column="TARGS" jdbcType="VARCHAR" property="targs"/>	<!-- 容器标签 -->
 		<result column="SETUP_NUM" jdbcType="INTEGER" property="setupNum"/>	<!-- 操作步骤 -->
+		<result column="TIMER_START_TIME" jdbcType="BIGINT" property="timerStartTime"/>	<!-- 定时开始时间 -->
+		<result column="TIMER_END_TIME" jdbcType="BIGINT" property="timerEndTime"/>	<!-- 定时结束时间 -->
+		<result column="TIMER_TYPE" jdbcType="INTEGER" property="timerType"/>	<!-- 定时器类型 -->
+		<result column="TIMER_EXP" jdbcType="VARCHAR" property="timerExp"/>	<!-- 定时表达式 -->
 		<result column="CUSTOM_1" jdbcType="BIGINT" property="custom1"/>	<!-- 备用字段_1 -->
 		<result column="CUSTOM_2" jdbcType="BIGINT" property="custom2"/>	<!-- 备用字段_2 -->
 		<result column="CUSTOM_3" jdbcType="BIGINT" property="custom3"/>	<!-- 备用字段_3 -->
@@ -67,6 +71,18 @@
 		<isNotEmpty prepend="and" property="cdt.endMntId" >
 			<![CDATA[ MNT_ID <= #cdt.endMntId:BIGINT# ]]>
 		</isNotEmpty>
+		<isNotEmpty prepend="and" property="cdt.imageId" >
+			IMAGE_ID = #cdt.imageId:BIGINT#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="imageIds" >
+			IMAGE_ID in ($imageIds$)
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="cdt.startImageId" >
+			<![CDATA[ IMAGE_ID >= #cdt.startImageId:BIGINT# ]]>
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="cdt.endImageId" >
+			<![CDATA[ IMAGE_ID <= #cdt.endImageId:BIGINT# ]]>
+		</isNotEmpty>
 		<isNotEmpty prepend="and" property="cdt.appId" >
 			APP_ID = #cdt.appId:BIGINT#
 		</isNotEmpty>
@@ -90,18 +106,6 @@
 		</isNotEmpty>
 		<isNotEmpty prepend="and" property="cdt.endAppVnoId" >
 			<![CDATA[ APP_VNO_ID <= #cdt.endAppVnoId:BIGINT# ]]>
-		</isNotEmpty>
-		<isNotEmpty prepend="and" property="cdt.imageId" >
-			IMAGE_ID = #cdt.imageId:BIGINT#
-		</isNotEmpty>
-		<isNotEmpty prepend="and" property="imageIds" >
-			IMAGE_ID in ($imageIds$)
-		</isNotEmpty>
-		<isNotEmpty prepend="and" property="cdt.startImageId" >
-			<![CDATA[ IMAGE_ID >= #cdt.startImageId:BIGINT# ]]>
-		</isNotEmpty>
-		<isNotEmpty prepend="and" property="cdt.endImageId" >
-			<![CDATA[ IMAGE_ID <= #cdt.endImageId:BIGINT# ]]>
 		</isNotEmpty>
 		<isNotEmpty prepend="and" property="cdt.containerName" >
 			CONTAINER_NAME like #cdt.containerName:VARCHAR# 
@@ -286,6 +290,51 @@
 		<isNotEmpty prepend="and" property="cdt.endSetupNum" >
 			<![CDATA[ SETUP_NUM <= #cdt.endSetupNum:INTEGER# ]]>
 		</isNotEmpty>
+		<isNotEmpty prepend="and" property="cdt.timerStartTime" >
+			TIMER_START_TIME = #cdt.timerStartTime:BIGINT#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="timerStartTimes" >
+			TIMER_START_TIME in ($timerStartTimes$)
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="cdt.startTimerStartTime" >
+			<![CDATA[ TIMER_START_TIME >= #cdt.startTimerStartTime:BIGINT# ]]>
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="cdt.endTimerStartTime" >
+			<![CDATA[ TIMER_START_TIME <= #cdt.endTimerStartTime:BIGINT# ]]>
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="cdt.timerEndTime" >
+			TIMER_END_TIME = #cdt.timerEndTime:BIGINT#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="timerEndTimes" >
+			TIMER_END_TIME in ($timerEndTimes$)
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="cdt.startTimerEndTime" >
+			<![CDATA[ TIMER_END_TIME >= #cdt.startTimerEndTime:BIGINT# ]]>
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="cdt.endTimerEndTime" >
+			<![CDATA[ TIMER_END_TIME <= #cdt.endTimerEndTime:BIGINT# ]]>
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="cdt.timerType" >
+			TIMER_TYPE = #cdt.timerType:INTEGER#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="timerTypes" >
+			TIMER_TYPE in ($timerTypes$)
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="cdt.startTimerType" >
+			<![CDATA[ TIMER_TYPE >= #cdt.startTimerType:INTEGER# ]]>
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="cdt.endTimerType" >
+			<![CDATA[ TIMER_TYPE <= #cdt.endTimerType:INTEGER# ]]>
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="cdt.timerExp" >
+			TIMER_EXP like #cdt.timerExp:VARCHAR# 
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="cdt.timerExpEqual" >
+			TIMER_EXP = #cdt.timerExpEqual:VARCHAR#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="timerExps" >
+			TIMER_EXP in ($timerExps$)
+		</isNotEmpty>
 		<isNotEmpty prepend="and" property="cdt.custom1" >
 			CUSTOM_1 = #cdt.custom1:BIGINT#
 		</isNotEmpty>
@@ -383,14 +432,14 @@
 		<isNotNull prepend="," property="record.mntId"> 
 			MNT_ID = #record.mntId:BIGINT#
 		</isNotNull>
+		<isNotNull prepend="," property="record.imageId"> 
+			IMAGE_ID = #record.imageId:BIGINT#
+		</isNotNull>
 		<isNotNull prepend="," property="record.appId"> 
 			APP_ID = #record.appId:BIGINT#
 		</isNotNull>
 		<isNotNull prepend="," property="record.appVnoId"> 
 			APP_VNO_ID = #record.appVnoId:BIGINT#
-		</isNotNull>
-		<isNotNull prepend="," property="record.imageId"> 
-			IMAGE_ID = #record.imageId:BIGINT#
 		</isNotNull>
 		<isNotNull prepend="," property="record.containerName"> 
 			CONTAINER_NAME = #record.containerName:VARCHAR#
@@ -449,6 +498,18 @@
 		<isNotNull prepend="," property="record.setupNum"> 
 			SETUP_NUM = #record.setupNum:INTEGER#
 		</isNotNull>
+		<isNotNull prepend="," property="record.timerStartTime"> 
+			TIMER_START_TIME = #record.timerStartTime:BIGINT#
+		</isNotNull>
+		<isNotNull prepend="," property="record.timerEndTime"> 
+			TIMER_END_TIME = #record.timerEndTime:BIGINT#
+		</isNotNull>
+		<isNotNull prepend="," property="record.timerType"> 
+			TIMER_TYPE = #record.timerType:INTEGER#
+		</isNotNull>
+		<isNotNull prepend="," property="record.timerExp"> 
+			TIMER_EXP = #record.timerExp:VARCHAR#
+		</isNotNull>
 		<isNotNull prepend="," property="record.custom1"> 
 			CUSTOM_1 = #record.custom1:BIGINT#
 		</isNotNull>
@@ -486,12 +547,13 @@
 	
 
 	<sql id="sql_query_columns">
-		ID, MNT_ID, APP_ID, APP_VNO_ID, IMAGE_ID, CONTAINER_NAME, 
+		ID, MNT_ID, IMAGE_ID, APP_ID, APP_VNO_ID, CONTAINER_NAME, 
 		CONTAINER_FULL_NAME, DATA_CENTER_ID, RES_CENTER_ID, NET_ZONE_ID, CPU_COUNT, MEM_SIZE, 
 		DISK_SIZE, INSTANCE_COUNT, IS_SUPPORT_FLEX, CPU_FLEX_UPPER_LIMIT, CPU_FLEX_LOWER_LIMIT, MAX_INSTANCE_COUNT, 
 		MIN_INSTANCE_COUNT, LOG_MP_PATH, DATA_MP_PATH, IS_UNIFORM, TARGS, SETUP_NUM, 
-		CUSTOM_1, CUSTOM_2, CUSTOM_3, CUSTOM_4, CUSTOM_5, CUSTOM_6, 
-		DATA_STATUS, CREATOR, CREATE_TIME, MODIFIER, MODIFY_TIME
+		TIMER_START_TIME, TIMER_END_TIME, TIMER_TYPE, TIMER_EXP, CUSTOM_1, CUSTOM_2, 
+		CUSTOM_3, CUSTOM_4, CUSTOM_5, CUSTOM_6, DATA_STATUS, CREATOR, 
+		CREATE_TIME, MODIFIER, MODIFY_TIME
 	</sql>
 	
 
@@ -529,21 +591,23 @@
 
 	<insert id="insert" parameterClass="java.util.Map">
 		insert into PC_APP_IMAGE(
-			ID, MNT_ID, APP_ID, APP_VNO_ID, IMAGE_ID, 
+			ID, MNT_ID, IMAGE_ID, APP_ID, APP_VNO_ID, 
 			CONTAINER_NAME, CONTAINER_FULL_NAME, DATA_CENTER_ID, RES_CENTER_ID, NET_ZONE_ID, 
 			CPU_COUNT, MEM_SIZE, DISK_SIZE, INSTANCE_COUNT, IS_SUPPORT_FLEX, 
 			CPU_FLEX_UPPER_LIMIT, CPU_FLEX_LOWER_LIMIT, MAX_INSTANCE_COUNT, MIN_INSTANCE_COUNT, LOG_MP_PATH, 
-			DATA_MP_PATH, IS_UNIFORM, TARGS, SETUP_NUM, CUSTOM_1, 
-			CUSTOM_2, CUSTOM_3, CUSTOM_4, CUSTOM_5, CUSTOM_6, 
-			DATA_STATUS, CREATOR, CREATE_TIME, MODIFIER, MODIFY_TIME)
+			DATA_MP_PATH, IS_UNIFORM, TARGS, SETUP_NUM, TIMER_START_TIME, 
+			TIMER_END_TIME, TIMER_TYPE, TIMER_EXP, CUSTOM_1, CUSTOM_2, 
+			CUSTOM_3, CUSTOM_4, CUSTOM_5, CUSTOM_6, DATA_STATUS, 
+			CREATOR, CREATE_TIME, MODIFIER, MODIFY_TIME)
 		values (
-			#record.id:BIGINT#, #record.mntId:BIGINT#, #record.appId:BIGINT#, #record.appVnoId:BIGINT#, #record.imageId:BIGINT#, 
+			#record.id:BIGINT#, #record.mntId:BIGINT#, #record.imageId:BIGINT#, #record.appId:BIGINT#, #record.appVnoId:BIGINT#, 
 			#record.containerName:VARCHAR#, #record.containerFullName:VARCHAR#, #record.dataCenterId:BIGINT#, #record.resCenterId:BIGINT#, #record.netZoneId:BIGINT#, 
 			#record.cpuCount:INTEGER#, #record.memSize:BIGINT#, #record.diskSize:BIGINT#, #record.instanceCount:INTEGER#, #record.isSupportFlex:INTEGER#, 
 			#record.cpuFlexUpperLimit:INTEGER#, #record.cpuFlexLowerLimit:INTEGER#, #record.maxInstanceCount:INTEGER#, #record.minInstanceCount:INTEGER#, #record.logMpPath:VARCHAR#, 
-			#record.dataMpPath:VARCHAR#, #record.isUniform:INTEGER#, #record.targs:VARCHAR#, #record.setupNum:INTEGER#, #record.custom1:BIGINT#, 
-			#record.custom2:BIGINT#, #record.custom3:BIGINT#, #record.custom4:VARCHAR#, #record.custom5:VARCHAR#, #record.custom6:VARCHAR#, 
-			#record.dataStatus:INTEGER#, #record.creator:VARCHAR#, #record.createTime:BIGINT#, #record.modifier:VARCHAR#, #record.modifyTime:BIGINT#)
+			#record.dataMpPath:VARCHAR#, #record.isUniform:INTEGER#, #record.targs:VARCHAR#, #record.setupNum:INTEGER#, #record.timerStartTime:BIGINT#, 
+			#record.timerEndTime:BIGINT#, #record.timerType:INTEGER#, #record.timerExp:VARCHAR#, #record.custom1:BIGINT#, #record.custom2:BIGINT#, 
+			#record.custom3:BIGINT#, #record.custom4:VARCHAR#, #record.custom5:VARCHAR#, #record.custom6:VARCHAR#, #record.dataStatus:INTEGER#, 
+			#record.creator:VARCHAR#, #record.createTime:BIGINT#, #record.modifier:VARCHAR#, #record.modifyTime:BIGINT#)
 	</insert>
 	
 
