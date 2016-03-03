@@ -3,7 +3,7 @@
 <sqlMap namespace="PC_APP_DEP_HISTORY">
 
 
-	<resultMap class="com.aic.paas.comm.model.dep.PcAppDepHistory" id="queryResult">
+	<resultMap class="com.aic.paas.provider.ps.bean.PcAppDepHistory" id="queryResult">
 		<result column="ID" jdbcType="BIGINT" property="id"/>	<!-- ID -->
 		<result column="MNT_ID" jdbcType="BIGINT" property="mntId"/>	<!-- 租户ID -->
 		<result column="APP_ID" jdbcType="BIGINT" property="appId"/>	<!-- 应用ID -->
