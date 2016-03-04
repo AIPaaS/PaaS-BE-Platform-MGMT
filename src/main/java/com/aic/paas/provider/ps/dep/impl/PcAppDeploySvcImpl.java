@@ -67,7 +67,13 @@ public class PcAppDeploySvcImpl implements PcAppDeploySvc {
 	
 	
 	@Override
-	public List<PcAppDepInstance> queryDepInstancePage(Integer pageNum, Integer pageSize, CPcAppDepInstance cdt, String orders) {
+	public Page<PcAppDepInstance> queryDepInstancePage(Integer pageNum, Integer pageSize, CPcAppDepInstance cdt, String orders) {
+		return instanceDao.selectPage(pageNum, pageSize, cdt, orders);
+	}
+	
+	
+	@Override
+	public List<PcAppDepInstance> queryDepInstancePage2(Integer pageNum, Integer pageSize, CPcAppDepInstance cdt, String orders) {
 		return instanceDao.selectList(pageNum, pageSize, cdt, orders);
 	}
 
