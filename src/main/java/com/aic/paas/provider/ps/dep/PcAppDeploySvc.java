@@ -3,13 +3,9 @@ package com.aic.paas.provider.ps.dep;
 import java.util.List;
 
 import com.aic.paas.provider.ps.bean.CPcAppDepHistory;
-<<<<<<< HEAD
 import com.aic.paas.provider.ps.bean.CPcAppDepInstance;
 import com.aic.paas.provider.ps.bean.PcAppDepHistory;
 import com.aic.paas.provider.ps.bean.PcAppDepInstance;
-=======
-import com.aic.paas.provider.ps.bean.PcAppDepHistory;
->>>>>>> e09f33b0f4e74920e2ab53bdee892764c711c3e9
 import com.aic.paas.provider.ps.dep.bean.PcImage;
 import com.binary.jdbc.Page;
 
@@ -54,7 +50,6 @@ public interface PcAppDeploySvc {
 	
 	
 	
-<<<<<<< HEAD
 	/**
 	 * 跟据历史发布信息获取实例
 	 * @param depHistoryId
@@ -65,8 +60,6 @@ public interface PcAppDeploySvc {
 	
 	
 	
-=======
->>>>>>> e09f33b0f4e74920e2ab53bdee892764c711c3e9
 	
 	/**
 	 * 布署应用
