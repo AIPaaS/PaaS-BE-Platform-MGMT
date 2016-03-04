@@ -75,7 +75,15 @@ public interface PcAppDeploySvc {
 	 * @param depHistoryId
 	 * @return
 	 */
-	public List<PcAppDepInstance> queryDepInstancePage(Integer pageNum, Integer pageSize, CPcAppDepInstance cdt, String orders);
+	public Page<PcAppDepInstance> queryDepInstancePage(Integer pageNum, Integer pageSize, CPcAppDepInstance cdt, String orders);
+	
+	
+	/**
+	 * 跟据历史发布信息获取实例
+	 * @param depHistoryId
+	 * @return
+	 */
+	public List<PcAppDepInstance> queryDepInstancePage2(Integer pageNum, Integer pageSize, CPcAppDepInstance cdt, String orders);
 	
 	
 	
