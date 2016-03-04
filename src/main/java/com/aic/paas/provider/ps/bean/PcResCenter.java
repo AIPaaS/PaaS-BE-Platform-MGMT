@@ -51,6 +51,24 @@ public class PcResCenter implements EntityBean {
 
 
 	/**
+	 * mapping-field: 镜像地址[IMAGE_PATH]
+	 */
+	private String imagePath;
+
+
+	/**
+	 * mapping-field: agent代理id[AGENT_CLIENT_ID]
+	 */
+	private Long agentClientId;
+
+
+	/**
+	 * mapping-field: agent代理名[AGENT_CLIENT_NAME]
+	 */
+	private String agentClientName;
+
+
+	/**
 	 * mapping-field: 备注[REMARK]
 	 */
 	private String remark;
@@ -167,6 +185,30 @@ public class PcResCenter implements EntityBean {
 	}
 	public void setImgRespId(Long imgRespId) {
 		this.imgRespId = imgRespId;
+	}
+
+
+	public String getImagePath() {
+		return this.imagePath;
+	}
+	public void setImagePath(String imagePath) {
+		this.imagePath = imagePath;
+	}
+
+
+	public Long getAgentClientId() {
+		return this.agentClientId;
+	}
+	public void setAgentClientId(Long agentClientId) {
+		this.agentClientId = agentClientId;
+	}
+
+
+	public String getAgentClientName() {
+		return this.agentClientName;
+	}
+	public void setAgentClientName(String agentClientName) {
+		this.agentClientName = agentClientName;
 	}
 
 

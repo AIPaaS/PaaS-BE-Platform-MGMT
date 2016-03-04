@@ -5,6 +5,7 @@ import java.util.List;
 import com.aic.paas.provider.ps.bean.CPcComputer;
 import com.aic.paas.provider.ps.bean.PcComputer;
 import com.aic.paas.provider.ps.bean.PcComputerTag;
+import com.aic.paas.provider.ps.res.bean.ResDetailInfo;
 import com.binary.jdbc.Page;
 
 public interface PcComputerSvc {
@@ -109,7 +110,11 @@ public interface PcComputerSvc {
 	
 	
 	
-	
+	/**
+	 * 根据资源中心选择
+	 * @param computerId
+	 */
+	public ResDetailInfo queryByResCenter(Long resCenterId);
 	
 	
 	

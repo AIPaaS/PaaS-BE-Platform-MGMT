@@ -1,6 +1,7 @@
 package com.aic.paas.provider.ps.res.impl;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
@@ -9,13 +10,20 @@ import java.util.Set;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.aic.paas.provider.ps.bean.CPcImageRepository;
+import com.aic.paas.provider.ps.bean.CPcNetZone;
 import com.aic.paas.provider.ps.bean.CPcResCenter;
+import com.aic.paas.provider.ps.bean.PcComputer;
 import com.aic.paas.provider.ps.bean.PcImageRepository;
+import com.aic.paas.provider.ps.bean.PcNetZone;
 import com.aic.paas.provider.ps.bean.PcResCenter;
+import com.aic.paas.provider.ps.db.PcComputerDao;
 import com.aic.paas.provider.ps.db.PcImageRepositoryDao;
+import com.aic.paas.provider.ps.db.PcNetZoneDao;
 import com.aic.paas.provider.ps.db.PcResCenterDao;
+import com.aic.paas.provider.ps.res.PcComputerSvc;
 import com.aic.paas.provider.ps.res.PcResCenterSvc;
 import com.aic.paas.provider.ps.res.bean.PcResCenterInfo;
+import com.aic.paas.provider.ps.res.bean.ResDetailInfo;
 import com.binary.core.util.BinaryUtils;
 import com.binary.framework.exception.ServiceException;
 import com.binary.jdbc.Page;
@@ -29,6 +37,14 @@ public class PcResCenterSvcImpl implements PcResCenterSvc {
 	@Autowired
 	PcImageRepositoryDao imageRespDao;
 	
+	@Autowired
+	PcComputerDao pcComputerDao;
+	
+	@Autowired
+	PcComputerSvc pcComputerSvc;
+	
+	@Autowired
+	PcNetZoneDao pcNetZoneDao;
 	
 
 	@Override
@@ -174,7 +190,78 @@ public class PcResCenterSvcImpl implements PcResCenterSvc {
 
 
 
+
+	@Override
+	public Map<String, Object> getInitParam(Long resCenterId,Boolean useAgent) {
+		Map<String,Object> map =new HashMap<String, Object>();
+		
+		ResDetailInfo  resinfo = pcComputerSvc.queryByResCenter(resCenterId);
+
+		map.put("clusterId", resinfo.getResCenterId());
+		map.put("clusteName", resinfo.getResCenterName());
+		map.put("imagePath", resinfo.getImagePath());
+		map.put("useAgent",useAgent);
+		map.put("zones", getZoneParam(resCenterId));
+		
+		map.put("dataCenter", resinfo.getDataCenterName());
+		map.put("domain", "");
+		map.put("externalDomain", "");
+		map.put("loadVirtulIP", "");
+		
+		map.put("mesos-master", getMasterParam(resinfo));
+		return null;
+	}
+
+
+	private List<Map<String,String>> getZoneParam(Long resCenterId){
+		
+		CPcNetZone cpnz = new CPcNetZone();
+		cpnz.setResCenterId(resCenterId);
+		List<PcNetZone> zoneist = pcNetZoneDao.selectList(cpnz, "id");
+		
+		List<Map<String,String>> list =new ArrayList<Map<String,String>>();
+		
+		for(PcNetZone pcnz : zoneist){
+			Map<String,String> map = new HashMap<String, String>();
+			map.put("zone", pcnz.getZoneName());
+			map.put("network", pcnz.getNetSegExp());
+			list.add(map);
+		}
+		
+		return list;
+	}
+
+	private List<Map<String,String>> getMasterParam(ResDetailInfo resinfo){
+		List<Map<String,String>> list = new ArrayList<Map<String,String>>();
+		
+		for(int i=0;i<resinfo.getCorePartList().size();i++){
+			Map<String,String> map = new HashMap<String, String>();
+			PcComputer pc = resinfo.getCorePartList().get(i);
+			map.put("id", i+"");
+			map.put("ip", pc.getIp());
+			map.put("root", pc.getLoginName());
+			map.put("passwd", pc.getLoginPwd());
+			map.put("zone", "center");
+			list.add(map);
+		}
+		return list;
+	}
 	
+	private List<Map<String,String>> getSlaveParam(ResDetailInfo resinfo){
+		List<Map<String,String>> list = new ArrayList<Map<String,String>>();
+		
+		for(int i=0;i<resinfo.getVisitPartList().size();i++){
+			Map<String,String> map = new HashMap<String, String>();
+			PcComputer pc = resinfo.getCorePartList().get(i);
+			map.put("id", i+"");
+			map.put("ip", pc.getIp());
+			map.put("root", pc.getLoginName());
+			map.put("passwd", pc.getLoginPwd());
+			map.put("zone", "center");
+			list.add(map);
+		}
+		return list;
+	}
 	
 	
 	

@@ -1,0 +1,309 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap namespace="PC_DATA_CENTER">
+
+
+	<resultMap class="com.aic.paas.provider.ps.bean.PcDataCenter" id="queryResult">
+		<result column="ID" jdbcType="BIGINT" property="id"/>	<!-- ID -->
+		<result column="CODE" jdbcType="VARCHAR" property="code"/>	<!-- 数据中心代码 -->
+		<result column="NAME" jdbcType="VARCHAR" property="name"/>	<!-- 数据中心名称 -->
+		<result column="DOMAIN" jdbcType="VARCHAR" property="domain"/>	<!-- 集群内部服务域名后缀 -->
+		<result column="EXTERNAL_DOMAIN" jdbcType="VARCHAR" property="externalDomain"/>	<!-- 非mesos集群管理域名 -->
+		<result column="REMARK" jdbcType="VARCHAR" property="remark"/>	<!-- 备注 -->
+		<result column="CUSTOM_1" jdbcType="BIGINT" property="custom1"/>	<!-- 备用字段_1 -->
+		<result column="CUSTOM_2" jdbcType="BIGINT" property="custom2"/>	<!-- 备用字段_2 -->
+		<result column="CUSTOM_3" jdbcType="BIGINT" property="custom3"/>	<!-- 备用字段_3 -->
+		<result column="CUSTOM_4" jdbcType="VARCHAR" property="custom4"/>	<!-- 备用字段_4 -->
+		<result column="CUSTOM_5" jdbcType="VARCHAR" property="custom5"/>	<!-- 备用字段_5 -->
+		<result column="CUSTOM_6" jdbcType="VARCHAR" property="custom6"/>	<!-- 备用字段_6 -->
+		<result column="STATUS" jdbcType="INTEGER" property="status"/>	<!-- 状态 -->
+		<result column="DATA_STATUS" jdbcType="INTEGER" property="dataStatus"/>	<!-- 数据状态 -->
+		<result column="CREATE_TIME" jdbcType="BIGINT" property="createTime"/>	<!-- 创建时间 -->
+		<result column="MODIFY_TIME" jdbcType="BIGINT" property="modifyTime"/>	<!-- 修改时间 -->
+	</resultMap>
+	
+
+	<sql id="sql_query_where">
+		<isNotEmpty prepend="and" property="cdt.id" >
+			ID = #cdt.id:BIGINT#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="ids" >
+			ID in ($ids$)
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="cdt.startId" >
+			<![CDATA[ ID >= #cdt.startId:BIGINT# ]]>
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="cdt.endId" >
+			<![CDATA[ ID <= #cdt.endId:BIGINT# ]]>
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="cdt.code" >
+			CODE like #cdt.code:VARCHAR# 
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="cdt.codeEqual" >
+			CODE = #cdt.codeEqual:VARCHAR#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="codes" >
+			CODE in ($codes$)
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="cdt.name" >
+			NAME like #cdt.name:VARCHAR# 
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="cdt.domain" >
+			DOMAIN like #cdt.domain:VARCHAR# 
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="cdt.domainEqual" >
+			DOMAIN = #cdt.domainEqual:VARCHAR#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="domains" >
+			DOMAIN in ($domains$)
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="cdt.externalDomain" >
+			EXTERNAL_DOMAIN like #cdt.externalDomain:VARCHAR# 
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="cdt.externalDomainEqual" >
+			EXTERNAL_DOMAIN = #cdt.externalDomainEqual:VARCHAR#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="externalDomains" >
+			EXTERNAL_DOMAIN in ($externalDomains$)
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="cdt.remark" >
+			REMARK like #cdt.remark:VARCHAR# 
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="cdt.custom1" >
+			CUSTOM_1 = #cdt.custom1:BIGINT#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="custom1s" >
+			CUSTOM_1 in ($custom1s$)
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="cdt.startCustom1" >
+			<![CDATA[ CUSTOM_1 >= #cdt.startCustom1:BIGINT# ]]>
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="cdt.endCustom1" >
+			<![CDATA[ CUSTOM_1 <= #cdt.endCustom1:BIGINT# ]]>
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="cdt.custom2" >
+			CUSTOM_2 = #cdt.custom2:BIGINT#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="custom2s" >
+			CUSTOM_2 in ($custom2s$)
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="cdt.startCustom2" >
+			<![CDATA[ CUSTOM_2 >= #cdt.startCustom2:BIGINT# ]]>
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="cdt.endCustom2" >
+			<![CDATA[ CUSTOM_2 <= #cdt.endCustom2:BIGINT# ]]>
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="cdt.custom3" >
+			CUSTOM_3 = #cdt.custom3:BIGINT#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="custom3s" >
+			CUSTOM_3 in ($custom3s$)
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="cdt.startCustom3" >
+			<![CDATA[ CUSTOM_3 >= #cdt.startCustom3:BIGINT# ]]>
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="cdt.endCustom3" >
+			<![CDATA[ CUSTOM_3 <= #cdt.endCustom3:BIGINT# ]]>
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="cdt.custom4" >
+			CUSTOM_4 like #cdt.custom4:VARCHAR# 
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="cdt.custom5" >
+			CUSTOM_5 like #cdt.custom5:VARCHAR# 
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="cdt.custom6" >
+			CUSTOM_6 like #cdt.custom6:VARCHAR# 
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="cdt.status" >
+			STATUS = #cdt.status:INTEGER#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="statuss" >
+			STATUS in ($statuss$)
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="cdt.startStatus" >
+			<![CDATA[ STATUS >= #cdt.startStatus:INTEGER# ]]>
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="cdt.endStatus" >
+			<![CDATA[ STATUS <= #cdt.endStatus:INTEGER# ]]>
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="cdt.dataStatus" >
+			DATA_STATUS = #cdt.dataStatus:INTEGER#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="dataStatuss" >
+			DATA_STATUS in ($dataStatuss$)
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="cdt.startDataStatus" >
+			<![CDATA[ DATA_STATUS >= #cdt.startDataStatus:INTEGER# ]]>
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="cdt.endDataStatus" >
+			<![CDATA[ DATA_STATUS <= #cdt.endDataStatus:INTEGER# ]]>
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="cdt.createTime" >
+			CREATE_TIME = #cdt.createTime:BIGINT#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="createTimes" >
+			CREATE_TIME in ($createTimes$)
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="cdt.startCreateTime" >
+			<![CDATA[ CREATE_TIME >= #cdt.startCreateTime:BIGINT# ]]>
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="cdt.endCreateTime" >
+			<![CDATA[ CREATE_TIME <= #cdt.endCreateTime:BIGINT# ]]>
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="cdt.modifyTime" >
+			MODIFY_TIME = #cdt.modifyTime:BIGINT#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="modifyTimes" >
+			MODIFY_TIME in ($modifyTimes$)
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="cdt.startModifyTime" >
+			<![CDATA[ MODIFY_TIME >= #cdt.startModifyTime:BIGINT# ]]>
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="cdt.endModifyTime" >
+			<![CDATA[ MODIFY_TIME <= #cdt.endModifyTime:BIGINT# ]]>
+		</isNotEmpty>
+	</sql>
+	
+
+	<sql id="sql_update_columns">
+		<isNotNull prepend="," property="record.id"> 
+			ID = #record.id:BIGINT#
+		</isNotNull>
+		<isNotNull prepend="," property="record.code"> 
+			CODE = #record.code:VARCHAR#
+		</isNotNull>
+		<isNotNull prepend="," property="record.name"> 
+			NAME = #record.name:VARCHAR#
+		</isNotNull>
+		<isNotNull prepend="," property="record.domain"> 
+			DOMAIN = #record.domain:VARCHAR#
+		</isNotNull>
+		<isNotNull prepend="," property="record.externalDomain"> 
+			EXTERNAL_DOMAIN = #record.externalDomain:VARCHAR#
+		</isNotNull>
+		<isNotNull prepend="," property="record.remark"> 
+			REMARK = #record.remark:VARCHAR#
+		</isNotNull>
+		<isNotNull prepend="," property="record.custom1"> 
+			CUSTOM_1 = #record.custom1:BIGINT#
+		</isNotNull>
+		<isNotNull prepend="," property="record.custom2"> 
+			CUSTOM_2 = #record.custom2:BIGINT#
+		</isNotNull>
+		<isNotNull prepend="," property="record.custom3"> 
+			CUSTOM_3 = #record.custom3:BIGINT#
+		</isNotNull>
+		<isNotNull prepend="," property="record.custom4"> 
+			CUSTOM_4 = #record.custom4:VARCHAR#
+		</isNotNull>
+		<isNotNull prepend="," property="record.custom5"> 
+			CUSTOM_5 = #record.custom5:VARCHAR#
+		</isNotNull>
+		<isNotNull prepend="," property="record.custom6"> 
+			CUSTOM_6 = #record.custom6:VARCHAR#
+		</isNotNull>
+		<isNotNull prepend="," property="record.status"> 
+			STATUS = #record.status:INTEGER#
+		</isNotNull>
+		<isNotNull prepend="," property="record.dataStatus"> 
+			DATA_STATUS = #record.dataStatus:INTEGER#
+		</isNotNull>
+		<isNotNull prepend="," property="record.createTime"> 
+			CREATE_TIME = #record.createTime:BIGINT#
+		</isNotNull>
+		<isNotNull prepend="," property="record.modifyTime"> 
+			MODIFY_TIME = #record.modifyTime:BIGINT#
+		</isNotNull>
+	</sql>
+	
+
+	<sql id="sql_query_columns">
+		ID, CODE, NAME, DOMAIN, EXTERNAL_DOMAIN, REMARK, 
+		CUSTOM_1, CUSTOM_2, CUSTOM_3, CUSTOM_4, CUSTOM_5, CUSTOM_6, 
+		STATUS, DATA_STATUS, CREATE_TIME, MODIFY_TIME
+	</sql>
+	
+
+	
+
+	<select id="selectList" parameterClass="java.util.Map" resultMap="queryResult">
+		select 
+			<include refid="PC_DATA_CENTER.sql_query_columns" />
+		from PC_DATA_CENTER 
+			<dynamic prepend="where" >
+				<include refid="PC_DATA_CENTER.sql_query_where"/>
+			</dynamic>
+		order by 
+			<isNotEmpty property="orders" >
+				$orders$
+			</isNotEmpty>
+			<isEmpty property="orders" >
+				ID
+			</isEmpty>
+	</select>
+	<select id="selectCount" parameterClass="java.util.Map" resultClass="java.lang.Long">
+		select count(1) from PC_DATA_CENTER 
+			<dynamic prepend="where" >
+				<include refid="PC_DATA_CENTER.sql_query_where"/>
+			</dynamic>
+	</select>
+	<select id="selectById" parameterClass="java.util.Map" resultMap="queryResult">
+		select 
+			<include refid="PC_DATA_CENTER.sql_query_columns" />
+		from PC_DATA_CENTER where ID=#id:BIGINT# and DATA_STATUS=1  
+	</select>
+	
+
+	
+
+	<insert id="insert" parameterClass="java.util.Map">
+		insert into PC_DATA_CENTER(
+			ID, CODE, NAME, DOMAIN, EXTERNAL_DOMAIN, 
+			REMARK, CUSTOM_1, CUSTOM_2, CUSTOM_3, CUSTOM_4, 
+			CUSTOM_5, CUSTOM_6, STATUS, DATA_STATUS, CREATE_TIME, 
+			MODIFY_TIME)
+		values (
+			#record.id:BIGINT#, #record.code:VARCHAR#, #record.name:VARCHAR#, #record.domain:VARCHAR#, #record.externalDomain:VARCHAR#, 
+			#record.remark:VARCHAR#, #record.custom1:BIGINT#, #record.custom2:BIGINT#, #record.custom3:BIGINT#, #record.custom4:VARCHAR#, 
+			#record.custom5:VARCHAR#, #record.custom6:VARCHAR#, #record.status:INTEGER#, #record.dataStatus:INTEGER#, #record.createTime:BIGINT#, 
+			#record.modifyTime:BIGINT#)
+	</insert>
+	
+
+	
+
+	<update id="updateById" parameterClass="java.util.Map">
+		update PC_DATA_CENTER
+			<dynamic prepend="set" > 
+				<include refid="PC_DATA_CENTER.sql_update_columns"/> 
+			</dynamic>
+		where ID = #id:BIGINT#
+	</update>
+	<update id="updateByCdt" parameterClass="java.util.Map">
+		update PC_DATA_CENTER
+			<dynamic prepend="set" > 
+				<include refid="PC_DATA_CENTER.sql_update_columns"/> 
+			</dynamic>
+			<dynamic prepend="where" > 
+				<include refid="PC_DATA_CENTER.sql_query_where"/> 
+			</dynamic>
+	</update>
+	
+	
+
+	
+
+	<delete id="deleteById" parameterClass="java.util.Map">
+		delete from PC_DATA_CENTER where ID = #id:BIGINT#
+	</delete>
+	<delete id="deleteByCdt" parameterClass="java.util.Map">
+		delete from PC_DATA_CENTER
+			<dynamic prepend="where" > 
+				<include refid="PC_DATA_CENTER.sql_query_where"/> 
+			</dynamic>
+	</delete>
+	
+
+
+
+</sqlMap>
