@@ -37,6 +37,13 @@ public class PcResCenterSvcImpl implements PcResCenterSvc {
 	}
 	
 	
+	@Override
+	public List<PcResCenter> queryPage2(Integer pageNum, Integer pageSize, CPcResCenter cdt, String orders) {
+		return pcResCenterDao.selectList(pageNum, pageSize, cdt, orders);
+	}
+	
+	
+	
 
 	@Override
 	public List<PcResCenter> queryList(CPcResCenter cdt, String orders) {

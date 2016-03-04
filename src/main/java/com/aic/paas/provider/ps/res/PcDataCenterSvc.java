@@ -24,6 +24,16 @@ public interface PcDataCenterSvc {
 
 
 	
+	/**
+	 * 分页查询
+	 * @param pageNum : 指定页码
+	 * @param pageSize : 指定页行数
+	 * @param cdt : 条件对象
+	 * @param orders : 排序字段, 多字段以逗号分隔
+	 * @return 
+	 */
+	public List<PcDataCenter> queryPage2(Integer pageNum, Integer pageSize, CPcDataCenter cdt, String orders);
+	
 	
 	
 	/**

@@ -35,6 +35,12 @@ public class PcAppDeploySvcImpl implements PcAppDeploySvc {
 
 	
 	
+	@Override
+	public List<PcAppDepHistory> queryDepHistoryPage2(Integer pageNum, Integer pageSize, CPcAppDepHistory cdt, String orders) {
+		return depHistoryDao.selectList(pageNum, pageSize, cdt, orders);
+	}
+	
+	
 	
 	@Override
 	public List<PcAppDepHistory> queryDepHistoryList(CPcAppDepHistory cdt, String orders) {
@@ -59,6 +65,21 @@ public class PcAppDeploySvcImpl implements PcAppDeploySvc {
 	}
 	
 	
+	
+	@Override
+	public List<PcAppDepInstance> queryDepInstancePage(Integer pageNum, Integer pageSize, CPcAppDepInstance cdt, String orders) {
+		return instanceDao.selectList(pageNum, pageSize, cdt, orders);
+	}
+
+
+
+
+	@Override
+	public List<PcAppDepInstance> queryDepInstanceList(CPcAppDepInstance cdt, String orders) {
+		return instanceDao.selectList(cdt, orders);
+	}
+	
+	
 
 	@Override
 	public void deployApp(Long appId, Long appVnoId) {
@@ -75,6 +96,11 @@ public class PcAppDeploySvcImpl implements PcAppDeploySvc {
 		// TODO Auto-generated method stub
 		
 	}
+
+
+
+
+	
 
 
 

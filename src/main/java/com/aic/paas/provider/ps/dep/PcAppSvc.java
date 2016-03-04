@@ -3,10 +3,14 @@ package com.aic.paas.provider.ps.dep;
 import java.util.List;
 
 import com.aic.paas.provider.ps.bean.CPcApp;
+import com.aic.paas.provider.ps.bean.CPcAppMgr;
+import com.aic.paas.provider.ps.bean.CPcAppVersion;
 import com.aic.paas.provider.ps.bean.PcApp;
+import com.aic.paas.provider.ps.bean.PcAppMgr;
 import com.aic.paas.provider.ps.bean.PcAppRes;
-import com.aic.paas.provider.ps.dep.bean.AppResInfo;
+import com.aic.paas.provider.ps.bean.PcAppVersion;
 import com.aic.paas.provider.ps.dep.bean.AppInfo;
+import com.aic.paas.provider.ps.dep.bean.AppResInfo;
 import com.aic.paas.provider.ps.dep.bean.AppZoneResInfo;
 import com.binary.jdbc.Page;
 
@@ -108,7 +112,81 @@ public interface PcAppSvc {
 	 * @return 
 	 */
 	public List<PcApp> queryMgrList(Long mgrId, CPcApp cdt, String orders);
+	
+	
+	
+	
+	
+	
+	/**
+	 * 查询管理员所管理的应用
+	 * @param pageNum : 指定页码
+	 * @param pageSize : 指定页行数
+	 * @param cdt : 条件对象
+	 * @param orders : 排序字段, 多字段以逗号分隔
+	 * @return 
+	 */
+	public Page<PcAppMgr> queryAppMgrPage(Integer pageNum, Integer pageSize, CPcAppMgr cdt, String orders);
 
+
+	
+	/**
+	 * 查询管理员所管理的应用
+	 * @param pageNum : 指定页码
+	 * @param pageSize : 指定页行数
+	 * @param cdt : 条件对象
+	 * @param orders : 排序字段, 多字段以逗号分隔
+	 * @return 
+	 */
+	public List<PcAppMgr> queryAppMgrPage2(Integer pageNum, Integer pageSize, CPcAppMgr cdt, String orders);
+	
+	
+	
+	/**
+	 * 查询管理员所管理的应用
+	 * @param cdt : 条件对象
+	 * @param orders : 排序字段, 多字段以逗号分隔
+	 * @return 
+	 */
+	public List<PcAppMgr> queryAppMgrList(CPcAppMgr cdt, String orders);
+
+	
+	
+	
+	
+	
+	
+	/**
+	 * 查询应用版本
+	 * @param pageNum : 指定页码
+	 * @param pageSize : 指定页行数
+	 * @param cdt : 条件对象
+	 * @param orders : 排序字段, 多字段以逗号分隔
+	 * @return 
+	 */
+	public Page<PcAppVersion> queryAppVersionPage(Integer pageNum, Integer pageSize, CPcAppVersion cdt, String orders);
+
+
+	
+	/**
+	 * 查询应用版本
+	 * @param pageNum : 指定页码
+	 * @param pageSize : 指定页行数
+	 * @param cdt : 条件对象
+	 * @param orders : 排序字段, 多字段以逗号分隔
+	 * @return 
+	 */
+	public List<PcAppVersion> queryAppVersionPage2(Integer pageNum, Integer pageSize, CPcAppVersion cdt, String orders);
+	
+	
+	
+	/**
+	 * 查询应用版本
+	 * @param cdt : 条件对象
+	 * @param orders : 排序字段, 多字段以逗号分隔
+	 * @return 
+	 */
+	public List<PcAppVersion> queryAppVersionList(CPcAppVersion cdt, String orders);
 	
 	
 	

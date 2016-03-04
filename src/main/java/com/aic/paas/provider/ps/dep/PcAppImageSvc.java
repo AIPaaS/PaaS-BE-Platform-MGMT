@@ -170,6 +170,15 @@ public interface PcAppImageSvc {
 	
 	
 	
+	/**
+	 * 获取应用下所有容器配置
+	 * @param appId
+	 * @param appVnoId
+	 * @return
+	 */
+	public List<AppImageSettings> getAppImageSettingsList(Long appId, Long appVnoId);
+	
+	
 	
 	/**
 	 * 结束配置

@@ -31,6 +31,12 @@ public class PcNetZoneSvcImpl implements PcNetZoneSvc {
 	}
 	
 	
+	@Override
+	public List<PcNetZone> queryPage2(Integer pageNum, Integer pageSize, CPcNetZone cdt, String orders) {
+		return pcNetZoneDao.selectList(pageNum, pageSize, cdt, orders);
+	}
+	
+	
 	
 
 	@Override

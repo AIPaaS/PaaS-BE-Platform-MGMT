@@ -189,6 +189,42 @@ public class PcAppSvcImpl implements PcAppSvc {
 	}
 	
 	
+	@Override
+	public Page<PcAppMgr> queryAppMgrPage(Integer pageNum, Integer pageSize, CPcAppMgr cdt, String orders) {
+		return appMgrDao.selectPage(pageNum, pageSize, cdt, orders);
+	}
+	
+	
+	@Override
+	public List<PcAppMgr> queryAppMgrPage2(Integer pageNum, Integer pageSize, CPcAppMgr cdt, String orders) {
+		return appMgrDao.selectList(pageNum, pageSize, cdt, orders);
+	}
+
+
+	@Override
+	public List<PcAppMgr> queryAppMgrList(CPcAppMgr cdt, String orders) {
+		return appMgrDao.selectList(cdt, orders);
+	}
+	
+	
+	@Override
+	public Page<PcAppVersion> queryAppVersionPage(Integer pageNum, Integer pageSize, CPcAppVersion cdt, String orders) {
+		return appVnoDao.selectPage(pageNum, pageSize, cdt, orders);
+	}
+
+
+	@Override
+	public List<PcAppVersion> queryAppVersionPage2(Integer pageNum, Integer pageSize, CPcAppVersion cdt, String orders) {
+		return appVnoDao.selectList(pageNum, pageSize, cdt, orders);
+	}
+	
+	
+	@Override
+	public List<PcAppVersion> queryAppVersionList(CPcAppVersion cdt, String orders) {
+		return appVnoDao.selectList(cdt, orders);
+	}
+	
+	
 	
 	private List<AppResInfo> fillResInfo(List<PcApp> ls) {
 		List<AppResInfo> infos = new ArrayList<AppResInfo>();

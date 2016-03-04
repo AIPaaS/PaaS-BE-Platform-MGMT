@@ -523,6 +523,29 @@ public class PcAppImageSvcImpl implements PcAppImageSvc {
 		return settings;
 	}
 
+	
+	
+	@Override
+	public List<AppImageSettings> getAppImageSettingsList(Long appId, Long appVnoId) {
+		BinaryUtils.checkEmpty(appId, "appId");
+		BinaryUtils.checkEmpty(appVnoId, "appVnoId");
+		
+		CPcAppImage cdt = new CPcAppImage();
+		cdt.setAppId(appId);
+		cdt.setAppVnoId(appVnoId);
+		List<PcAppImage> images = queryList(cdt, null);
+		
+		List<AppImageSettings> settingsList = new ArrayList<AppImageSettings>();
+		for(int i=0; i<images.size(); i++) {
+			PcAppImage img = images.get(i);
+			AppImageSettings settings = getAppImageSettings(img.getId());
+			settingsList.add(settings);
+		}
+		
+		return settingsList;
+	}
+	
+	
 
 
 	@Override

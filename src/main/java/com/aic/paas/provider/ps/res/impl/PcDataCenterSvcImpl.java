@@ -26,6 +26,12 @@ public class PcDataCenterSvcImpl implements PcDataCenterSvc {
 	}
 	
 	
+	@Override
+	public List<PcDataCenter> queryPage2(Integer pageNum, Integer pageSize, CPcDataCenter cdt, String orders) {
+		return dataCenterDao.selectList(pageNum, pageSize, cdt, orders);
+	}
+	
+	
 
 	@Override
 	public List<PcDataCenter> queryList(CPcDataCenter cdt, String orders) {
