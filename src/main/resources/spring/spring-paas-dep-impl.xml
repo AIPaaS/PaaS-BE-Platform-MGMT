@@ -37,6 +37,7 @@
 	<bean id="PcAppSvc" class="com.aic.paas.provider.ps.dep.impl.PcAppSvcImpl" />
 	<bean id="PcAppImageSvc" class="com.aic.paas.provider.ps.dep.impl.PcAppImageSvcImpl" />
 	<bean id="PcAppDeploySvc" class="com.aic.paas.provider.ps.dep.impl.PcAppDeploySvcImpl" />
+	<bean id="PcAppTaskSvc" class="com.aic.paas.provider.ps.dep.impl.PcAppTaskSvcImpl"/>
 	
 	
 </beans>
