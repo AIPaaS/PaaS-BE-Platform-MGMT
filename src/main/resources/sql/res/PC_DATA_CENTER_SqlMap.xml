@@ -7,6 +7,8 @@
 		<result column="ID" jdbcType="BIGINT" property="id"/>	<!-- ID -->
 		<result column="CODE" jdbcType="VARCHAR" property="code"/>	<!-- 数据中心代码 -->
 		<result column="NAME" jdbcType="VARCHAR" property="name"/>	<!-- 数据中心名称 -->
+		<result column="DOMAIN" jdbcType="VARCHAR" property="domain"/>	<!-- 集群内部服务域名后缀 -->
+		<result column="EXTERNAL_DOMAIN" jdbcType="VARCHAR" property="externalDomain"/>	<!-- 非mesos集群管理域名 -->
 		<result column="REMARK" jdbcType="VARCHAR" property="remark"/>	<!-- 备注 -->
 		<result column="CUSTOM_1" jdbcType="BIGINT" property="custom1"/>	<!-- 备用字段_1 -->
 		<result column="CUSTOM_2" jdbcType="BIGINT" property="custom2"/>	<!-- 备用字段_2 -->
@@ -45,6 +47,24 @@
 		</isNotEmpty>
 		<isNotEmpty prepend="and" property="cdt.name" >
 			NAME like #cdt.name:VARCHAR# 
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="cdt.domain" >
+			DOMAIN like #cdt.domain:VARCHAR# 
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="cdt.domainEqual" >
+			DOMAIN = #cdt.domainEqual:VARCHAR#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="domains" >
+			DOMAIN in ($domains$)
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="cdt.externalDomain" >
+			EXTERNAL_DOMAIN like #cdt.externalDomain:VARCHAR# 
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="cdt.externalDomainEqual" >
+			EXTERNAL_DOMAIN = #cdt.externalDomainEqual:VARCHAR#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="externalDomains" >
+			EXTERNAL_DOMAIN in ($externalDomains$)
 		</isNotEmpty>
 		<isNotEmpty prepend="and" property="cdt.remark" >
 			REMARK like #cdt.remark:VARCHAR# 
@@ -155,6 +175,12 @@
 		<isNotNull prepend="," property="record.name"> 
 			NAME = #record.name:VARCHAR#
 		</isNotNull>
+		<isNotNull prepend="," property="record.domain"> 
+			DOMAIN = #record.domain:VARCHAR#
+		</isNotNull>
+		<isNotNull prepend="," property="record.externalDomain"> 
+			EXTERNAL_DOMAIN = #record.externalDomain:VARCHAR#
+		</isNotNull>
 		<isNotNull prepend="," property="record.remark"> 
 			REMARK = #record.remark:VARCHAR#
 		</isNotNull>
@@ -192,9 +218,9 @@
 	
 
 	<sql id="sql_query_columns">
-		ID, CODE, NAME, REMARK, CUSTOM_1, CUSTOM_2, 
-		CUSTOM_3, CUSTOM_4, CUSTOM_5, CUSTOM_6, STATUS, DATA_STATUS, 
-		CREATE_TIME, MODIFY_TIME
+		ID, CODE, NAME, DOMAIN, EXTERNAL_DOMAIN, REMARK, 
+		CUSTOM_1, CUSTOM_2, CUSTOM_3, CUSTOM_4, CUSTOM_5, CUSTOM_6, 
+		STATUS, DATA_STATUS, CREATE_TIME, MODIFY_TIME
 	</sql>
 	
 
@@ -232,13 +258,15 @@
 
 	<insert id="insert" parameterClass="java.util.Map">
 		insert into PC_DATA_CENTER(
-			ID, CODE, NAME, REMARK, CUSTOM_1, 
-			CUSTOM_2, CUSTOM_3, CUSTOM_4, CUSTOM_5, CUSTOM_6, 
-			STATUS, DATA_STATUS, CREATE_TIME, MODIFY_TIME)
+			ID, CODE, NAME, DOMAIN, EXTERNAL_DOMAIN, 
+			REMARK, CUSTOM_1, CUSTOM_2, CUSTOM_3, CUSTOM_4, 
+			CUSTOM_5, CUSTOM_6, STATUS, DATA_STATUS, CREATE_TIME, 
+			MODIFY_TIME)
 		values (
-			#record.id:BIGINT#, #record.code:VARCHAR#, #record.name:VARCHAR#, #record.remark:VARCHAR#, #record.custom1:BIGINT#, 
-			#record.custom2:BIGINT#, #record.custom3:BIGINT#, #record.custom4:VARCHAR#, #record.custom5:VARCHAR#, #record.custom6:VARCHAR#, 
-			#record.status:INTEGER#, #record.dataStatus:INTEGER#, #record.createTime:BIGINT#, #record.modifyTime:BIGINT#)
+			#record.id:BIGINT#, #record.code:VARCHAR#, #record.name:VARCHAR#, #record.domain:VARCHAR#, #record.externalDomain:VARCHAR#, 
+			#record.remark:VARCHAR#, #record.custom1:BIGINT#, #record.custom2:BIGINT#, #record.custom3:BIGINT#, #record.custom4:VARCHAR#, 
+			#record.custom5:VARCHAR#, #record.custom6:VARCHAR#, #record.status:INTEGER#, #record.dataStatus:INTEGER#, #record.createTime:BIGINT#, 
+			#record.modifyTime:BIGINT#)
 	</insert>
 	
 
