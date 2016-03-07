@@ -10,7 +10,8 @@ SERVER_PROTOCOL=`sed '/dubbo-rest.protocol/!d;s/.*=//' conf/project.properties |
 SERVER_HOST=`sed '/dubbo-rest.host/!d;s/.*=//' conf/project.properties | tr -d '\r'`
 SERVER_PORT=`sed '/dubbo-rest.port/!d;s/.*=//' conf/project.properties | tr -d '\r'`
 LOGS_FILE=`sed '/dubbo.log4j.file/!d;s/.*=//' conf/project.properties | tr -d '\r'`
-
+JAVA_HOME=/opt/freeware/jdk1.7.0_71
+export JAVA_HOME
 if [ -z "$SERVER_NAME" ]; then
     SERVER_NAME=`hostname`
 fi
