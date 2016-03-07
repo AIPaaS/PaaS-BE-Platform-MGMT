@@ -1,15 +1,23 @@
 package com.aic.paas.provider.ps.dep.impl;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.beanutils.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.aic.paas.provider.ps.bean.CPcAppImgSvc;
 import com.aic.paas.provider.ps.bean.CPcKvPair;
 import com.aic.paas.provider.ps.bean.CPcService;
+import com.aic.paas.provider.ps.bean.PcAppImage;
+import com.aic.paas.provider.ps.bean.PcAppImgSvc;
 import com.aic.paas.provider.ps.bean.PcKvPair;
 import com.aic.paas.provider.ps.bean.PcService;
+import com.aic.paas.provider.ps.db.PcAppDao;
+import com.aic.paas.provider.ps.db.PcAppImageDao;
+import com.aic.paas.provider.ps.db.PcAppImgSvcDao;
 import com.aic.paas.provider.ps.db.PcKvPairDao;
 import com.aic.paas.provider.ps.db.PcServiceDao;
 import com.aic.paas.provider.ps.dep.PcServiceSvc;
@@ -27,7 +35,15 @@ public class PcServiceSvcImpl implements PcServiceSvc {
 	
 	@Autowired
 	PcKvPairDao kvPairDao;
-
+	
+	@Autowired
+	PcAppDao appDao;
+	
+	@Autowired
+	PcAppImgSvcDao appImgSvcDao;
+	
+	@Autowired
+	PcAppImageDao appImageDao;
 	
 	@Override
 	public Page<PcService> queryPage(Integer pageNum, Integer pageSize, CPcService cdt, String orders) {
@@ -243,8 +259,50 @@ public class PcServiceSvcImpl implements PcServiceSvc {
 		cdt.setSourceId(svcId);
 		kvPairDao.deleteByCdt(cdt);
 	}
+
+
+	/**
+	 * 镜像服务
+	 * 提供者 应用名称
+	 * 引用者 容器名称  描述
+	 */
+	@Override
+	public Page<PcServiceInfo> queryPage4Info(Integer pageNum,
+			Integer pageSize, CPcService cdt, String orders) {
+		Page<PcService> pcServices = queryPage(pageNum, pageSize, cdt, orders);
+		List<PcService> datas = pcServices.getData();
+		List<PcServiceInfo> dataDes = new ArrayList<PcServiceInfo>();
+		Page<PcServiceInfo> res = new Page<PcServiceInfo>(pcServices.getPageNum(),
+				pcServices.getPageSize(),pcServices.getTotalRows(),pcServices.getTotalPages(),dataDes);
+		for(int i=0;i<datas.size();i++){
+			PcService service = datas.get(i);
+			PcServiceInfo des = new PcServiceInfo();
+			des.setProvider(appDao.selectById(service.getAppId()).getAppName());
+			setConsumerInfo(service,des);
+			des.setSvc(service);
+			dataDes.add(des);
+		}
+		res.setData(dataDes);
+		return res;
+	}
 	
-	
+	private void setConsumerInfo(PcService service, PcServiceInfo des) {
+		CPcAppImgSvc cdt = new CPcAppImgSvc();
+		cdt.setSvcId(service.getId());
+		List<PcAppImgSvc> imgSvcs = appImgSvcDao.selectList(cdt, "ID");
+		if(imgSvcs!=null && imgSvcs.size()>0){
+			List<Long> consumerIds = new ArrayList<Long>();
+			List<String> consumers = new ArrayList<String>();
+			for(PcAppImgSvc imgSvc:imgSvcs){
+				consumerIds.add(imgSvc.getAppImgId());
+				PcAppImage img = appImageDao.selectById(imgSvc.getAppImgId());
+				consumers.add(img.getContainerName());
+			}
+			des.setConsumerIds(consumerIds);
+			des.setConsumers(consumers);
+			des.setConsumerDes(consumers.toString());
+		}
+	}
 	
 	
 	

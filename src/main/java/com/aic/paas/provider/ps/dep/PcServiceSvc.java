@@ -133,8 +133,16 @@ public interface PcServiceSvc {
 	
 	
 	
-	
-	
+	/**
+	 * 分页查询  结果集有扩展字段 -- 镜像服务提供者、引用者信息
+	 * @param pageNum : 指定页码
+	 * @param pageSize : 指定页行数
+	 * @param cdt : 条件对象
+	 * @param orders : 排序字段, 多字段以逗号分隔
+	 * @return 
+	 */
+	public Page<PcServiceInfo> queryPage4Info(Integer pageNum, Integer pageSize, CPcService cdt, String orders);
+
 	
 
 }
