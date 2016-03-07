@@ -63,7 +63,7 @@ fi
 
 echo -e "Starting the $SERVER_NAME ...\c"
 #java $JAVA_OPTS $JAVA_MEM_OPTS $JAVA_DEBUG_OPTS $JAVA_JMX_OPTS -classpath $CONF_DIR:$LIB_JARS com.binary.framework.dubbo.DubboMain > $STDOUT_FILE & 2>1 &
-java $JAVA_OPTS $JAVA_MEM_OPTS $JAVA_DEBUG_OPTS $JAVA_JMX_OPTS -classpath $CONF_DIR:$LIB_JARS com.aic.paas.provider.ps.util.DubboService > $STDOUT_FILE & 2>1 &
+ ${JAVA_HOME}/bin/java $JAVA_OPTS $JAVA_MEM_OPTS $JAVA_DEBUG_OPTS $JAVA_JMX_OPTS -classpath $CONF_DIR:$LIB_JARS com.aic.paas.provider.ps.util.DubboService > $STDOUT_FILE & 2>1 &
 
 COUNT=0
 while [ $COUNT -lt 1 ]; do
