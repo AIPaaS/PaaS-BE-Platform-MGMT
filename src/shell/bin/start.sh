@@ -10,7 +10,7 @@ SERVER_PROTOCOL=`sed '/dubbo-rest.protocol/!d;s/.*=//' conf/project.properties |
 SERVER_HOST=`sed '/dubbo-rest.host/!d;s/.*=//' conf/project.properties | tr -d '\r'`
 SERVER_PORT=`sed '/dubbo-rest.port/!d;s/.*=//' conf/project.properties | tr -d '\r'`
 LOGS_FILE=`sed '/dubbo.log4j.file/!d;s/.*=//' conf/project.properties | tr -d '\r'`
-export JAVA_HOME=/opt/freeware/jdk1.7.0_71
+#export JAVA_HOME=/opt/freeware/jdk1.7.0_71
 
 if [ -z "$SERVER_NAME" ]; then
     SERVER_NAME=`hostname`
@@ -63,7 +63,7 @@ else
 fi
 
 echo -e "Starting the $SERVER_NAME ...\c"
-${JAVA_HOME}/bin/java $JAVA_OPTS $JAVA_MEM_OPTS $JAVA_DEBUG_OPTS $JAVA_JMX_OPTS -classpath $CONF_DIR:$LIB_JARS com.binary.framework.dubbo.DubboMain > $STDOUT_FILE & 2>1 &
+java $JAVA_OPTS $JAVA_MEM_OPTS $JAVA_DEBUG_OPTS $JAVA_JMX_OPTS -classpath $CONF_DIR:$LIB_JARS com.binary.framework.dubbo.DubboMain > $STDOUT_FILE & 2>1 &
 
 COUNT=0
 while [ $COUNT -lt 1 ]; do
