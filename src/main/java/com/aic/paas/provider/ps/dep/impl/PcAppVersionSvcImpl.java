@@ -22,24 +22,23 @@ public class PcAppVersionSvcImpl implements PcAppVersionSvc {
 		cPcAppVersion.setStatus(status);
 		return pcAppVersionDao.selectList(cPcAppVersion, null);
 	}
-	
 
 	@Override
-	public String getRunningAppVersion(Long appId) {
+	public Long getRunningAppVersionId(Long appId) {
 		List<PcAppVersion> list = getAppVersion(appId, VersionStatus.RUNNING.getValue());
 		if (CollectionUtils.isEmpty(list))
 			return null;
 		else
-			return list.get(0).getVersionNo();
+			return list.get(0).getId();
 	}
 
 	@Override
-	public String getStopedAppVersion(Long appId) {
+	public Long getStopedAppVersionId(Long appId) {
 		List<PcAppVersion> list = getAppVersion(appId, VersionStatus.STOP.getValue());
 		if (CollectionUtils.isEmpty(list))
 			return null;
 		else
-			return list.get(0).getVersionNo();
+			return list.get(0).getId();
 	}
 
 	@Override

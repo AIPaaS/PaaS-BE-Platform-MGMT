@@ -22,9 +22,9 @@ public interface PcAppVersionSvc {
 
 	public List<PcAppVersion> getAppVersion(Long appId, int status);
 
-	public String getRunningAppVersion(Long appId);
+	public Long getRunningAppVersionId(Long appId);
 
-	public String getStopedAppVersion(Long appId);
+	public Long getStopedAppVersionId(Long appId);
 
 	public void updateAppVersionStatus(Long appId, String version, int status);
 }
