@@ -22,6 +22,7 @@ public class PcAppVersionSvcImpl implements PcAppVersionSvc {
 		cPcAppVersion.setStatus(status);
 		return pcAppVersionDao.selectList(cPcAppVersion, null);
 	}
+	
 
 	@Override
 	public String getRunningAppVersion(Long appId) {
