@@ -268,8 +268,6 @@ public class PcServiceSvcImpl implements PcServiceSvc {
 	@Override
 	public Page<PcServiceInfo> queryPage4Info(Integer pageNum,
 			Integer pageSize, CPcService cdt, String orders) {
-		//有效
-		cdt.setStatus(1);
 		Page<PcService> pcServices = queryPage(pageNum, pageSize, cdt, orders);
 		List<PcService> datas = pcServices.getData();
 		List<PcServiceInfo> dataDes = new ArrayList<PcServiceInfo>();
