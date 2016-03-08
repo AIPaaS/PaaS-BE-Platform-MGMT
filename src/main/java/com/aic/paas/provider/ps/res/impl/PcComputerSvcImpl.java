@@ -1,6 +1,5 @@
 package com.aic.paas.provider.ps.res.impl;
 
-import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -9,18 +8,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.aic.paas.provider.ps.bean.CPcComputer;
 import com.aic.paas.provider.ps.bean.CPcComputerTag;
-import com.aic.paas.provider.ps.bean.CPcNetZone;
 import com.aic.paas.provider.ps.bean.PcComputer;
 import com.aic.paas.provider.ps.bean.PcComputerTag;
-import com.aic.paas.provider.ps.bean.PcResCenter;
 import com.aic.paas.provider.ps.db.PcComputerDao;
 import com.aic.paas.provider.ps.db.PcComputerTagDao;
-import com.aic.paas.provider.ps.db.PcDataCenterDao;
-import com.aic.paas.provider.ps.db.PcNetZoneDao;
-import com.aic.paas.provider.ps.db.PcResCenterDao;
 import com.aic.paas.provider.ps.res.PcComputerSvc;
 import com.aic.paas.provider.ps.res.PsResCenterResSvc;
-import com.aic.paas.provider.ps.res.bean.ResDetailInfo;
 import com.aic.paas.provider.ps.res.bean.ResItems;
 import com.binary.core.util.BinaryUtils;
 import com.binary.framework.Local;
@@ -38,15 +31,6 @@ public class PcComputerSvcImpl implements PcComputerSvc {
 	
 	@Autowired
 	PsResCenterResSvc resSvc;
-	
-	@Autowired
-	PcNetZoneDao pcNetZoneDao;
-	
-	@Autowired
-	PcResCenterDao pcResCenterDao;
-	
-	@Autowired
-	PcDataCenterDao dataCenterDao;
 	
 	
 	
@@ -276,56 +260,7 @@ public class PcComputerSvcImpl implements PcComputerSvc {
 	
 	
 	
-	@Override
-	public ResDetailInfo queryByResCenter(Long resCenterId) {
-		ResDetailInfo resInfo = new ResDetailInfo();
-		
-		PcResCenter prc = pcResCenterDao.selectById(resCenterId);
-		String dataCenterName = dataCenterDao.selectById(prc.getDataCenterId()).getName();
-		if(prc==null) {
-			throw new ServiceException(" there have no the resCenter  " +resCenterId);
-		}
-		resInfo.setResCenterId(resCenterId);
-		resInfo.setResCenterName(prc.getResName());
-		resInfo.setDataCenterId(prc.getDataCenterId());
-		resInfo.setDataCenterName(dataCenterName);
-		//备用字段custom4为镜像地址
-		resInfo.setImagePath(prc.getCustom4());
-		
-		CPcComputer cp = new CPcComputer();
-		cp.setResCenterId(resCenterId);
-		List<PcComputer> list = computerDao.selectList(cp, "id");
-		
-		if(list==null || list.size()==0) {
-			throw new ServiceException(" the resCenter  " +resCenterId+" have none computer!");
-		}
-		
-		CPcNetZone pcNetZone = new CPcNetZone();
-		pcNetZone.setZoneCode("center");
-		Long coreZoneId = pcNetZoneDao.selectList(pcNetZone, "id").get(0).getId();
-		pcNetZone.setZoneCode("visit");
-		Long visitZoneId = pcNetZoneDao.selectList(pcNetZone, "id").get(0).getId();
-		
-		//该资源中心中各域服务器信息
-		List<PcComputer> corePartList = new ArrayList<PcComputer>();
-		List<PcComputer> visitPartList = new ArrayList<PcComputer>();
-		List<PcComputer> slavePartList = new ArrayList<PcComputer>();
-		
-		for(PcComputer pc :list){
-//			if(cp.getNetZoneId().compareTo(coreZoneId)==0){
-//				corePartList.add(pc);
-//			}else if(cp.getNetZoneId().compareTo(visitZoneId)==0){
-//				visitPartList.add(pc);
-//			}else{
-				slavePartList.add(pc);
-//			}
-		}
-		
-		resInfo.setCorePartList(corePartList);
-		resInfo.setVisitPartList(visitPartList);
-		resInfo.setSlavePartList(slavePartList);
-		return resInfo;
-	}
+	
 	
 	
 	

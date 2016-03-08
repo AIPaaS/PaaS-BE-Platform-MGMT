@@ -134,53 +134,6 @@ public class CPcResCenter implements Condition {
 
 
 	/**
-	 * condition-field: 镜像地址[IMAGE_PATH] operate-Like[like]
-	 */
-	private String imagePath;
-
-
-	/**
-	 * condition-field: agent代理id[AGENT_CLIENT_ID] operate-Equal[=]
-	 */
-	private Long agentClientId;
-
-
-	/**
-	 * condition-field: agent代理id[AGENT_CLIENT_ID] operate-In[in]
-	 */
-	private Long[] agentClientIds;
-
-
-	/**
-	 * condition-field: agent代理id[AGENT_CLIENT_ID] operate-GTEqual[>=]
-	 */
-	private Long startAgentClientId;
-
-	/**
-	 * condition-field: agent代理id[AGENT_CLIENT_ID] operate-LTEqual[<=]
-	 */
-	private Long endAgentClientId;
-
-
-	/**
-	 * condition-field: agent代理名[AGENT_CLIENT_NAME] operate-Like[like]
-	 */
-	private String agentClientName;
-
-
-	/**
-	 * condition-field: agent代理名[AGENT_CLIENT_NAME] operate-Equal[=]
-	 */
-	private String agentClientNameEqual;
-
-
-	/**
-	 * condition-field: agent代理名[AGENT_CLIENT_NAME] operate-In[in]
-	 */
-	private String[] agentClientNames;
-
-
-	/**
 	 * condition-field: 备注[REMARK] operate-Like[like]
 	 */
 	private String remark;
@@ -540,70 +493,6 @@ public class CPcResCenter implements Condition {
 	}
 	public void setEndImgRespId(Long endImgRespId) {
 		this.endImgRespId = endImgRespId;
-	}
-
-
-	public String getImagePath() {
-		return this.imagePath;
-	}
-	public void setImagePath(String imagePath) {
-		this.imagePath = imagePath;
-	}
-
-
-	public Long getAgentClientId() {
-		return this.agentClientId;
-	}
-	public void setAgentClientId(Long agentClientId) {
-		this.agentClientId = agentClientId;
-	}
-
-
-	public Long[] getAgentClientIds() {
-		return this.agentClientIds;
-	}
-	public void setAgentClientIds(Long[] agentClientIds) {
-		this.agentClientIds = agentClientIds;
-	}
-
-
-	public Long getStartAgentClientId() {
-		return this.startAgentClientId;
-	}
-	public void setStartAgentClientId(Long startAgentClientId) {
-		this.startAgentClientId = startAgentClientId;
-	}
-
-
-	public Long getEndAgentClientId() {
-		return this.endAgentClientId;
-	}
-	public void setEndAgentClientId(Long endAgentClientId) {
-		this.endAgentClientId = endAgentClientId;
-	}
-
-
-	public String getAgentClientName() {
-		return this.agentClientName;
-	}
-	public void setAgentClientName(String agentClientName) {
-		this.agentClientName = agentClientName;
-	}
-
-
-	public String getAgentClientNameEqual() {
-		return this.agentClientNameEqual;
-	}
-	public void setAgentClientNameEqual(String agentClientNameEqual) {
-		this.agentClientNameEqual = agentClientNameEqual;
-	}
-
-
-	public String[] getAgentClientNames() {
-		return this.agentClientNames;
-	}
-	public void setAgentClientNames(String[] agentClientNames) {
-		this.agentClientNames = agentClientNames;
 	}
 
 

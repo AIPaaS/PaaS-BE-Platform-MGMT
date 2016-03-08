@@ -10,9 +10,6 @@
 		<result column="RES_NAME" jdbcType="VARCHAR" property="resName"/>	<!-- 资源中心名称 -->
 		<result column="ENV_TYPE" jdbcType="INTEGER" property="envType"/>	<!-- 环境类型 -->
 		<result column="IMG_RESP_ID" jdbcType="BIGINT" property="imgRespId"/>	<!-- 镜像库ID -->
-		<result column="IMAGE_PATH" jdbcType="VARCHAR" property="imagePath"/>	<!-- 镜像地址 -->
-		<result column="AGENT_CLIENT_ID" jdbcType="BIGINT" property="agentClientId"/>	<!-- agent代理id -->
-		<result column="AGENT_CLIENT_NAME" jdbcType="VARCHAR" property="agentClientName"/>	<!-- agent代理名 -->
 		<result column="REMARK" jdbcType="VARCHAR" property="remark"/>	<!-- 备注 -->
 		<result column="CUSTOM_1" jdbcType="BIGINT" property="custom1"/>	<!-- 备用字段_1 -->
 		<result column="CUSTOM_2" jdbcType="BIGINT" property="custom2"/>	<!-- 备用字段_2 -->
@@ -87,30 +84,6 @@
 		</isNotEmpty>
 		<isNotEmpty prepend="and" property="cdt.endImgRespId" >
 			<![CDATA[ IMG_RESP_ID <= #cdt.endImgRespId:BIGINT# ]]>
-		</isNotEmpty>
-		<isNotEmpty prepend="and" property="cdt.imagePath" >
-			IMAGE_PATH like #cdt.imagePath:VARCHAR# 
-		</isNotEmpty>
-		<isNotEmpty prepend="and" property="cdt.agentClientId" >
-			AGENT_CLIENT_ID = #cdt.agentClientId:BIGINT#
-		</isNotEmpty>
-		<isNotEmpty prepend="and" property="agentClientIds" >
-			AGENT_CLIENT_ID in ($agentClientIds$)
-		</isNotEmpty>
-		<isNotEmpty prepend="and" property="cdt.startAgentClientId" >
-			<![CDATA[ AGENT_CLIENT_ID >= #cdt.startAgentClientId:BIGINT# ]]>
-		</isNotEmpty>
-		<isNotEmpty prepend="and" property="cdt.endAgentClientId" >
-			<![CDATA[ AGENT_CLIENT_ID <= #cdt.endAgentClientId:BIGINT# ]]>
-		</isNotEmpty>
-		<isNotEmpty prepend="and" property="cdt.agentClientName" >
-			AGENT_CLIENT_NAME like #cdt.agentClientName:VARCHAR# 
-		</isNotEmpty>
-		<isNotEmpty prepend="and" property="cdt.agentClientNameEqual" >
-			AGENT_CLIENT_NAME = #cdt.agentClientNameEqual:VARCHAR#
-		</isNotEmpty>
-		<isNotEmpty prepend="and" property="agentClientNames" >
-			AGENT_CLIENT_NAME in ($agentClientNames$)
 		</isNotEmpty>
 		<isNotEmpty prepend="and" property="cdt.remark" >
 			REMARK like #cdt.remark:VARCHAR# 
@@ -230,15 +203,6 @@
 		<isNotNull prepend="," property="record.imgRespId"> 
 			IMG_RESP_ID = #record.imgRespId:BIGINT#
 		</isNotNull>
-		<isNotNull prepend="," property="record.imagePath"> 
-			IMAGE_PATH = #record.imagePath:VARCHAR#
-		</isNotNull>
-		<isNotNull prepend="," property="record.agentClientId"> 
-			AGENT_CLIENT_ID = #record.agentClientId:BIGINT#
-		</isNotNull>
-		<isNotNull prepend="," property="record.agentClientName"> 
-			AGENT_CLIENT_NAME = #record.agentClientName:VARCHAR#
-		</isNotNull>
 		<isNotNull prepend="," property="record.remark"> 
 			REMARK = #record.remark:VARCHAR#
 		</isNotNull>
@@ -277,9 +241,8 @@
 
 	<sql id="sql_query_columns">
 		ID, DATA_CENTER_ID, RES_CODE, RES_NAME, ENV_TYPE, IMG_RESP_ID, 
-		IMAGE_PATH, AGENT_CLIENT_ID, AGENT_CLIENT_NAME, REMARK, CUSTOM_1, CUSTOM_2, 
-		CUSTOM_3, CUSTOM_4, CUSTOM_5, CUSTOM_6, STATUS, DATA_STATUS, 
-		CREATE_TIME, MODIFY_TIME
+		REMARK, CUSTOM_1, CUSTOM_2, CUSTOM_3, CUSTOM_4, CUSTOM_5, 
+		CUSTOM_6, STATUS, DATA_STATUS, CREATE_TIME, MODIFY_TIME
 	</sql>
 	
 
@@ -318,14 +281,14 @@
 	<insert id="insert" parameterClass="java.util.Map">
 		insert into PC_RES_CENTER(
 			ID, DATA_CENTER_ID, RES_CODE, RES_NAME, ENV_TYPE, 
-			IMG_RESP_ID, IMAGE_PATH, AGENT_CLIENT_ID, AGENT_CLIENT_NAME, REMARK, 
-			CUSTOM_1, CUSTOM_2, CUSTOM_3, CUSTOM_4, CUSTOM_5, 
-			CUSTOM_6, STATUS, DATA_STATUS, CREATE_TIME, MODIFY_TIME)
+			IMG_RESP_ID, REMARK, CUSTOM_1, CUSTOM_2, CUSTOM_3, 
+			CUSTOM_4, CUSTOM_5, CUSTOM_6, STATUS, DATA_STATUS, 
+			CREATE_TIME, MODIFY_TIME)
 		values (
 			#record.id:BIGINT#, #record.dataCenterId:BIGINT#, #record.resCode:VARCHAR#, #record.resName:VARCHAR#, #record.envType:INTEGER#, 
-			#record.imgRespId:BIGINT#, #record.imagePath:VARCHAR#, #record.agentClientId:BIGINT#, #record.agentClientName:VARCHAR#, #record.remark:VARCHAR#, 
-			#record.custom1:BIGINT#, #record.custom2:BIGINT#, #record.custom3:BIGINT#, #record.custom4:VARCHAR#, #record.custom5:VARCHAR#, 
-			#record.custom6:VARCHAR#, #record.status:INTEGER#, #record.dataStatus:INTEGER#, #record.createTime:BIGINT#, #record.modifyTime:BIGINT#)
+			#record.imgRespId:BIGINT#, #record.remark:VARCHAR#, #record.custom1:BIGINT#, #record.custom2:BIGINT#, #record.custom3:BIGINT#, 
+			#record.custom4:VARCHAR#, #record.custom5:VARCHAR#, #record.custom6:VARCHAR#, #record.status:INTEGER#, #record.dataStatus:INTEGER#, 
+			#record.createTime:BIGINT#, #record.modifyTime:BIGINT#)
 	</insert>
 	
 
