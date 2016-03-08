@@ -1,16 +1,15 @@
 package com.aic.paas.provider.ps.dep.impl;
 
-import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.commons.beanutils.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.aic.paas.provider.ps.bean.CPcAppImgSvc;
 import com.aic.paas.provider.ps.bean.CPcKvPair;
 import com.aic.paas.provider.ps.bean.CPcService;
+import com.aic.paas.provider.ps.bean.PcApp;
 import com.aic.paas.provider.ps.bean.PcAppImage;
 import com.aic.paas.provider.ps.bean.PcAppImgSvc;
 import com.aic.paas.provider.ps.bean.PcKvPair;
@@ -277,7 +276,11 @@ public class PcServiceSvcImpl implements PcServiceSvc {
 		for(int i=0;i<datas.size();i++){
 			PcService service = datas.get(i);
 			PcServiceInfo des = new PcServiceInfo();
-			des.setProvider(appDao.selectById(service.getAppId()).getAppName());
+			if(service.getAppId()!=null){
+				PcApp app = appDao.selectById(service.getAppId());
+				if(app!=null)
+					des.setProvider(app.getAppName());
+			}
 			setConsumerInfo(service,des);
 			des.setSvc(service);
 			dataDes.add(des);
