@@ -299,7 +299,8 @@ public class PcServiceSvcImpl implements PcServiceSvc {
 			for(PcAppImgSvc imgSvc:imgSvcs){
 				consumerIds.add(imgSvc.getAppImgId());
 				PcAppImage img = appImageDao.selectById(imgSvc.getAppImgId());
-				consumers.add(img.getContainerName());
+				if(img!=null)
+					consumers.add(img.getContainerName());
 			}
 			des.setConsumerIds(consumerIds);
 			des.setConsumers(consumers);
