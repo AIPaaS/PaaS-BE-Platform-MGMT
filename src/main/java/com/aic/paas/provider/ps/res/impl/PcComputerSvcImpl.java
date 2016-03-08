@@ -301,24 +301,24 @@ public class PcComputerSvcImpl implements PcComputerSvc {
 		}
 		
 		CPcNetZone pcNetZone = new CPcNetZone();
-		pcNetZone.setZoneName("center");
+		pcNetZone.setZoneCode("center");
 		Long coreZoneId = pcNetZoneDao.selectList(pcNetZone, "id").get(0).getId();
-		pcNetZone.setZoneName("visit");
+		pcNetZone.setZoneCode("visit");
 		Long visitZoneId = pcNetZoneDao.selectList(pcNetZone, "id").get(0).getId();
 		
-		//分区域获取资源中主机信息
+		//该资源中心中各域服务器信息
 		List<PcComputer> corePartList = new ArrayList<PcComputer>();
 		List<PcComputer> visitPartList = new ArrayList<PcComputer>();
 		List<PcComputer> slavePartList = new ArrayList<PcComputer>();
 		
 		for(PcComputer pc :list){
-			if(cp.getNetZoneId().equals(coreZoneId)){
-				corePartList.add(pc);
-			}else if(cp.getNetZoneId().equals(visitZoneId)){
-				visitPartList.add(pc);
-			}else{
+//			if(cp.getNetZoneId().compareTo(coreZoneId)==0){
+//				corePartList.add(pc);
+//			}else if(cp.getNetZoneId().compareTo(visitZoneId)==0){
+//				visitPartList.add(pc);
+//			}else{
 				slavePartList.add(pc);
-			}
+//			}
 		}
 		
 		resInfo.setCorePartList(corePartList);
