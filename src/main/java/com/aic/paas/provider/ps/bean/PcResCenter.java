@@ -57,15 +57,15 @@ public class PcResCenter implements EntityBean {
 
 
 	/**
-	 * mapping-field: agent代理id[AGENT_CLIENT_ID]
+	 * mapping-field: 集群内部服务域名后缀[DOMAIN]
 	 */
-	private Long agentClientId;
+	private String domain;
 
 
 	/**
-	 * mapping-field: agent代理名[AGENT_CLIENT_NAME]
+	 * mapping-field: 非mesos集群管理域名[EXTERNAL_DOMAIN]
 	 */
-	private String agentClientName;
+	private String externalDomain;
 
 
 	/**
@@ -196,19 +196,19 @@ public class PcResCenter implements EntityBean {
 	}
 
 
-	public Long getAgentClientId() {
-		return this.agentClientId;
+	public String getDomain() {
+		return this.domain;
 	}
-	public void setAgentClientId(Long agentClientId) {
-		this.agentClientId = agentClientId;
+	public void setDomain(String domain) {
+		this.domain = domain;
 	}
 
 
-	public String getAgentClientName() {
-		return this.agentClientName;
+	public String getExternalDomain() {
+		return this.externalDomain;
 	}
-	public void setAgentClientName(String agentClientName) {
-		this.agentClientName = agentClientName;
+	public void setExternalDomain(String externalDomain) {
+		this.externalDomain = externalDomain;
 	}
 
 

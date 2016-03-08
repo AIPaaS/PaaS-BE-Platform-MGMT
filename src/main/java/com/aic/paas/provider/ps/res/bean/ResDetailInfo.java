@@ -10,10 +10,24 @@ public class ResDetailInfo {
 	Long dataCenterId;
 	String dataCenterName;
 	String imagePath;
+	String domain;
+	String externalDomain;
 	List<PcComputer> corePartList;
 	List<PcComputer> visitPartList;
 	List<PcComputer> slavePartList;
 	
+	public String getDomain() {
+		return domain;
+	}
+	public void setDomain(String domain) {
+		this.domain = domain;
+	}
+	public String getExternalDomain() {
+		return externalDomain;
+	}
+	public void setExternalDomain(String externalDomain) {
+		this.externalDomain = externalDomain;
+	}
 	public Long getResCenterId() {
 		return resCenterId;
 	}

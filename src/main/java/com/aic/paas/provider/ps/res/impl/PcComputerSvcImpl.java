@@ -278,6 +278,10 @@ public class PcComputerSvcImpl implements PcComputerSvc {
 	
 	@Override
 	public ResDetailInfo queryByResCenter(Long resCenterId) {
+		if(resCenterId==null){
+			System.out.println("queryByResCenter(Long resCenterId) param is null");
+			return null;
+		}
 		ResDetailInfo resInfo = new ResDetailInfo();
 		
 		PcResCenter prc = pcResCenterDao.selectById(resCenterId);
@@ -289,8 +293,9 @@ public class PcComputerSvcImpl implements PcComputerSvc {
 		resInfo.setResCenterName(prc.getResName());
 		resInfo.setDataCenterId(prc.getDataCenterId());
 		resInfo.setDataCenterName(dataCenterName);
-		//备用字段custom4为镜像地址
-		resInfo.setImagePath(prc.getCustom4());
+		resInfo.setImagePath(prc.getImagePath());
+		resInfo.setDomain(prc.getDomain());
+		resInfo.setExternalDomain(prc.getExternalDomain());
 		
 		CPcComputer cp = new CPcComputer();
 		cp.setResCenterId(resCenterId);
@@ -301,20 +306,21 @@ public class PcComputerSvcImpl implements PcComputerSvc {
 		}
 		
 		CPcNetZone pcNetZone = new CPcNetZone();
-		pcNetZone.setZoneName("center");
+		pcNetZone.setResCenterId(resCenterId);
+		pcNetZone.setZoneCode("center");
 		Long coreZoneId = pcNetZoneDao.selectList(pcNetZone, "id").get(0).getId();
-		pcNetZone.setZoneName("visit");
+		pcNetZone.setZoneCode("visit");
 		Long visitZoneId = pcNetZoneDao.selectList(pcNetZone, "id").get(0).getId();
 		
-		//分区域获取资源中主机信息
+		//该资源中心中各域服务器信息
 		List<PcComputer> corePartList = new ArrayList<PcComputer>();
 		List<PcComputer> visitPartList = new ArrayList<PcComputer>();
 		List<PcComputer> slavePartList = new ArrayList<PcComputer>();
 		
 		for(PcComputer pc :list){
-			if(cp.getNetZoneId().equals(coreZoneId)){
+			if(cp.getNetZoneId().compareTo(coreZoneId)==0){
 				corePartList.add(pc);
-			}else if(cp.getNetZoneId().equals(visitZoneId)){
+			}else if(cp.getNetZoneId().compareTo(visitZoneId)==0){
 				visitPartList.add(pc);
 			}else{
 				slavePartList.add(pc);

@@ -140,44 +140,39 @@ public class CPcResCenter implements Condition {
 
 
 	/**
-	 * condition-field: agent代理id[AGENT_CLIENT_ID] operate-Equal[=]
+	 * condition-field: 集群内部服务域名后缀[DOMAIN] operate-Like[like]
 	 */
-	private Long agentClientId;
+	private String domain;
 
 
 	/**
-	 * condition-field: agent代理id[AGENT_CLIENT_ID] operate-In[in]
+	 * condition-field: 集群内部服务域名后缀[DOMAIN] operate-Equal[=]
 	 */
-	private Long[] agentClientIds;
+	private String domainEqual;
 
 
 	/**
-	 * condition-field: agent代理id[AGENT_CLIENT_ID] operate-GTEqual[>=]
+	 * condition-field: 集群内部服务域名后缀[DOMAIN] operate-In[in]
 	 */
-	private Long startAgentClientId;
-
-	/**
-	 * condition-field: agent代理id[AGENT_CLIENT_ID] operate-LTEqual[<=]
-	 */
-	private Long endAgentClientId;
+	private String[] domains;
 
 
 	/**
-	 * condition-field: agent代理名[AGENT_CLIENT_NAME] operate-Like[like]
+	 * condition-field: 非mesos集群管理域名[EXTERNAL_DOMAIN] operate-Like[like]
 	 */
-	private String agentClientName;
+	private String externalDomain;
 
 
 	/**
-	 * condition-field: agent代理名[AGENT_CLIENT_NAME] operate-Equal[=]
+	 * condition-field: 非mesos集群管理域名[EXTERNAL_DOMAIN] operate-Equal[=]
 	 */
-	private String agentClientNameEqual;
+	private String externalDomainEqual;
 
 
 	/**
-	 * condition-field: agent代理名[AGENT_CLIENT_NAME] operate-In[in]
+	 * condition-field: 非mesos集群管理域名[EXTERNAL_DOMAIN] operate-In[in]
 	 */
-	private String[] agentClientNames;
+	private String[] externalDomains;
 
 
 	/**
@@ -551,59 +546,51 @@ public class CPcResCenter implements Condition {
 	}
 
 
-	public Long getAgentClientId() {
-		return this.agentClientId;
+	public String getDomain() {
+		return this.domain;
 	}
-	public void setAgentClientId(Long agentClientId) {
-		this.agentClientId = agentClientId;
-	}
-
-
-	public Long[] getAgentClientIds() {
-		return this.agentClientIds;
-	}
-	public void setAgentClientIds(Long[] agentClientIds) {
-		this.agentClientIds = agentClientIds;
+	public void setDomain(String domain) {
+		this.domain = domain;
 	}
 
 
-	public Long getStartAgentClientId() {
-		return this.startAgentClientId;
+	public String getDomainEqual() {
+		return this.domainEqual;
 	}
-	public void setStartAgentClientId(Long startAgentClientId) {
-		this.startAgentClientId = startAgentClientId;
-	}
-
-
-	public Long getEndAgentClientId() {
-		return this.endAgentClientId;
-	}
-	public void setEndAgentClientId(Long endAgentClientId) {
-		this.endAgentClientId = endAgentClientId;
+	public void setDomainEqual(String domainEqual) {
+		this.domainEqual = domainEqual;
 	}
 
 
-	public String getAgentClientName() {
-		return this.agentClientName;
+	public String[] getDomains() {
+		return this.domains;
 	}
-	public void setAgentClientName(String agentClientName) {
-		this.agentClientName = agentClientName;
-	}
-
-
-	public String getAgentClientNameEqual() {
-		return this.agentClientNameEqual;
-	}
-	public void setAgentClientNameEqual(String agentClientNameEqual) {
-		this.agentClientNameEqual = agentClientNameEqual;
+	public void setDomains(String[] domains) {
+		this.domains = domains;
 	}
 
 
-	public String[] getAgentClientNames() {
-		return this.agentClientNames;
+	public String getExternalDomain() {
+		return this.externalDomain;
 	}
-	public void setAgentClientNames(String[] agentClientNames) {
-		this.agentClientNames = agentClientNames;
+	public void setExternalDomain(String externalDomain) {
+		this.externalDomain = externalDomain;
+	}
+
+
+	public String getExternalDomainEqual() {
+		return this.externalDomainEqual;
+	}
+	public void setExternalDomainEqual(String externalDomainEqual) {
+		this.externalDomainEqual = externalDomainEqual;
+	}
+
+
+	public String[] getExternalDomains() {
+		return this.externalDomains;
+	}
+	public void setExternalDomains(String[] externalDomains) {
+		this.externalDomains = externalDomains;
 	}
 
 

@@ -171,26 +171,53 @@ public class CPcComputer implements Condition {
 
 
 	/**
-	 * condition-field: CPU个数[CPU_COUNT] operate-Equal[=]
+	 * condition-field: CPU核数[CPU_COUNT] operate-Equal[=]
+	 * 单位：0.00个
 	 */
 	private Integer cpuCount;
 
 
 	/**
-	 * condition-field: CPU个数[CPU_COUNT] operate-In[in]
+	 * condition-field: CPU核数[CPU_COUNT] operate-In[in]
+	 * 单位：0.00个
 	 */
 	private Integer[] cpuCounts;
 
 
 	/**
-	 * condition-field: CPU个数[CPU_COUNT] operate-GTEqual[>=]
+	 * condition-field: CPU核数[CPU_COUNT] operate-GTEqual[>=]
+	 * 单位：0.00个
 	 */
 	private Integer startCpuCount;
 
 	/**
-	 * condition-field: CPU个数[CPU_COUNT] operate-LTEqual[<=]
+	 * condition-field: CPU核数[CPU_COUNT] operate-LTEqual[<=]
+	 * 单位：0.00个
 	 */
 	private Integer endCpuCount;
+
+
+	/**
+	 * condition-field: CPU可用于集群的核数[CPU_OFFER] operate-Equal[=]
+	 */
+	private Integer cpuOffer;
+
+
+	/**
+	 * condition-field: CPU可用于集群的核数[CPU_OFFER] operate-In[in]
+	 */
+	private Integer[] cpuOffers;
+
+
+	/**
+	 * condition-field: CPU可用于集群的核数[CPU_OFFER] operate-GTEqual[>=]
+	 */
+	private Integer startCpuOffer;
+
+	/**
+	 * condition-field: CPU可用于集群的核数[CPU_OFFER] operate-LTEqual[<=]
+	 */
+	private Integer endCpuOffer;
 
 
 	/**
@@ -254,6 +281,35 @@ public class CPcComputer implements Condition {
 
 
 	/**
+	 * condition-field: 可用于集群的内存[MEM_OFFER] operate-Equal[=]
+	 */
+	private Long memOffer;
+
+
+	/**
+	 * condition-field: 可用于集群的内存[MEM_OFFER] operate-In[in]
+	 */
+	private Long[] memOffers;
+
+
+	/**
+	 * condition-field: 可用于集群的内存[MEM_OFFER] operate-GTEqual[>=]
+	 */
+	private Long startMemOffer;
+
+	/**
+	 * condition-field: 可用于集群的内存[MEM_OFFER] operate-LTEqual[<=]
+	 */
+	private Long endMemOffer;
+
+
+	/**
+	 * condition-field: 内存类型[MEM_TYPE] operate-Like[like]
+	 */
+	private String memType;
+
+
+	/**
 	 * condition-field: 硬盘大小[DISK_SIZE] operate-Equal[=]
 	 * 单位：M
 	 */
@@ -278,6 +334,12 @@ public class CPcComputer implements Condition {
 	 * 单位：M
 	 */
 	private Long endDiskSize;
+
+
+	/**
+	 * condition-field: 存储类型[DISK_TYPE] operate-Like[like]
+	 */
+	private String diskType;
 
 
 	/**
@@ -824,6 +886,38 @@ public class CPcComputer implements Condition {
 	}
 
 
+	public Integer getCpuOffer() {
+		return this.cpuOffer;
+	}
+	public void setCpuOffer(Integer cpuOffer) {
+		this.cpuOffer = cpuOffer;
+	}
+
+
+	public Integer[] getCpuOffers() {
+		return this.cpuOffers;
+	}
+	public void setCpuOffers(Integer[] cpuOffers) {
+		this.cpuOffers = cpuOffers;
+	}
+
+
+	public Integer getStartCpuOffer() {
+		return this.startCpuOffer;
+	}
+	public void setStartCpuOffer(Integer startCpuOffer) {
+		this.startCpuOffer = startCpuOffer;
+	}
+
+
+	public Integer getEndCpuOffer() {
+		return this.endCpuOffer;
+	}
+	public void setEndCpuOffer(Integer endCpuOffer) {
+		this.endCpuOffer = endCpuOffer;
+	}
+
+
 	public Long getCpuFrequency() {
 		return this.cpuFrequency;
 	}
@@ -896,6 +990,46 @@ public class CPcComputer implements Condition {
 	}
 
 
+	public Long getMemOffer() {
+		return this.memOffer;
+	}
+	public void setMemOffer(Long memOffer) {
+		this.memOffer = memOffer;
+	}
+
+
+	public Long[] getMemOffers() {
+		return this.memOffers;
+	}
+	public void setMemOffers(Long[] memOffers) {
+		this.memOffers = memOffers;
+	}
+
+
+	public Long getStartMemOffer() {
+		return this.startMemOffer;
+	}
+	public void setStartMemOffer(Long startMemOffer) {
+		this.startMemOffer = startMemOffer;
+	}
+
+
+	public Long getEndMemOffer() {
+		return this.endMemOffer;
+	}
+	public void setEndMemOffer(Long endMemOffer) {
+		this.endMemOffer = endMemOffer;
+	}
+
+
+	public String getMemType() {
+		return this.memType;
+	}
+	public void setMemType(String memType) {
+		this.memType = memType;
+	}
+
+
 	public Long getDiskSize() {
 		return this.diskSize;
 	}
@@ -925,6 +1059,14 @@ public class CPcComputer implements Condition {
 	}
 	public void setEndDiskSize(Long endDiskSize) {
 		this.endDiskSize = endDiskSize;
+	}
+
+
+	public String getDiskType() {
+		return this.diskType;
+	}
+	public void setDiskType(String diskType) {
+		this.diskType = diskType;
 	}
 
 

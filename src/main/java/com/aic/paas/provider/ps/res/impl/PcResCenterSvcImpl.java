@@ -9,6 +9,7 @@ import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.aic.paas.comm.util.PropertiesPool;
 import com.aic.paas.provider.ps.bean.CPcImageRepository;
 import com.aic.paas.provider.ps.bean.CPcNetZone;
 import com.aic.paas.provider.ps.bean.CPcResCenter;
@@ -46,7 +47,9 @@ public class PcResCenterSvcImpl implements PcResCenterSvc {
 	@Autowired
 	PcNetZoneDao pcNetZoneDao;
 	
-
+	@Autowired
+	PropertiesPool propertiesPool;
+	
 	@Override
 	public Page<PcResCenter> queryPage(Integer pageNum, Integer pageSize, CPcResCenter cdt, String orders) {
 		return pcResCenterDao.selectPage(pageNum, pageSize, cdt, orders);
@@ -180,9 +183,6 @@ public class PcResCenterSvcImpl implements PcResCenterSvc {
 	}
 	
 	
-
-	
-	
 	@Override
 	public int removeById(Long id) {
 		return pcResCenterDao.deleteById(id);
@@ -192,37 +192,43 @@ public class PcResCenterSvcImpl implements PcResCenterSvc {
 
 
 	@Override
-	public Map<String, Object> getInitParam(Long resCenterId,Boolean useAgent) {
-		Map<String,Object> map =new HashMap<String, Object>();
+	public Map<String, Object> getInitParam(Long resCenterId,Boolean useAgent,Boolean loadOnly) {
+		Map<String,Object> map = new HashMap<String, Object>();
 		
 		ResDetailInfo  resinfo = pcComputerSvc.queryByResCenter(resCenterId);
 
 		map.put("clusterId", resinfo.getResCenterId());
 		map.put("clusteName", resinfo.getResCenterName());
+		//镜像地址
 		map.put("imagePath", resinfo.getImagePath());
 		map.put("useAgent",useAgent);
+		//agentid为资源中心id
+		map.put("aid", resinfo.getResCenterId());
+		
 		map.put("zones", getZoneParam(resCenterId));
 		
 		map.put("dataCenter", resinfo.getDataCenterName());
-		map.put("domain", "");
-		map.put("externalDomain", "");
-		map.put("loadVirtulIP", "");
-		
+		map.put("domain", resinfo.getDomain());
+		map.put("externalDomain", resinfo.getExternalDomain());
+		map.put("loadVirtulIP", propertiesPool.get("loadVirtulIP"));
+				
 		map.put("mesos-master", getMasterParam(resinfo));
+		
+		map.put("webHaproxy", getWebHaproxyParam(resinfo,loadOnly));
 		return null;
 	}
 
 
-	private List<Map<String,String>> getZoneParam(Long resCenterId){
+	private List<Map<String,Object>> getZoneParam(Long resCenterId){
 		
 		CPcNetZone cpnz = new CPcNetZone();
 		cpnz.setResCenterId(resCenterId);
 		List<PcNetZone> zoneist = pcNetZoneDao.selectList(cpnz, "id");
 		
-		List<Map<String,String>> list =new ArrayList<Map<String,String>>();
+		List<Map<String,Object>> list =new ArrayList<Map<String,Object>>();
 		
 		for(PcNetZone pcnz : zoneist){
-			Map<String,String> map = new HashMap<String, String>();
+			Map<String,Object> map = new HashMap<String, Object>();
 			map.put("zone", pcnz.getZoneName());
 			map.put("network", pcnz.getNetSegExp());
 			list.add(map);
@@ -231,39 +237,85 @@ public class PcResCenterSvcImpl implements PcResCenterSvc {
 		return list;
 	}
 
-	private List<Map<String,String>> getMasterParam(ResDetailInfo resinfo){
-		List<Map<String,String>> list = new ArrayList<Map<String,String>>();
+	private List<Map<String,Object>> getMasterParam(ResDetailInfo resinfo){
+		List<Map<String,Object>> list = new ArrayList<Map<String,Object>>();
 		
+		//所有id对应的区域名
+		CPcNetZone cpnz = new CPcNetZone();
+		cpnz.setResCenterId(resinfo.getResCenterId());
+		List<PcNetZone> zoneist = pcNetZoneDao.selectList(cpnz, "id");
+		Map<Long,String> idName = new HashMap<Long, String>();
+		for(PcNetZone pnz : zoneist) {
+			idName.put(pnz.getId(), pnz.getZoneCode());
+		}
+		
+		//配master参数
 		for(int i=0;i<resinfo.getCorePartList().size();i++){
-			Map<String,String> map = new HashMap<String, String>();
+			Map<String,Object> map = new HashMap<String, Object>();
 			PcComputer pc = resinfo.getCorePartList().get(i);
-			map.put("id", i+"");
+			map.put("id", i);
 			map.put("ip", pc.getIp());
 			map.put("root", pc.getLoginName());
 			map.put("passwd", pc.getLoginPwd());
-			map.put("zone", "center");
+			map.put("zone", idName.get(pc.getNetZoneId()));
 			list.add(map);
 		}
 		return list;
 	}
 	
-	private List<Map<String,String>> getSlaveParam(ResDetailInfo resinfo){
-		List<Map<String,String>> list = new ArrayList<Map<String,String>>();
+	//
+	private List<Map<String,Object>> getSlaveParam(ResDetailInfo resinfo){
+		List<Map<String,Object>> list = new ArrayList<Map<String,Object>>();
+		
+		//所有id对应的区域名
+		CPcNetZone cpnz = new CPcNetZone();
+		cpnz.setResCenterId(resinfo.getResCenterId());
+		List<PcNetZone> zoneist = pcNetZoneDao.selectList(cpnz, "id");
+		Map<Long,String> idName = new HashMap<Long, String>();
+		for(PcNetZone pnz : zoneist) {
+			idName.put(pnz.getId(), pnz.getZoneCode());
+		}
 		
 		for(int i=0;i<resinfo.getVisitPartList().size();i++){
-			Map<String,String> map = new HashMap<String, String>();
+			Map<String,Object> map = new HashMap<String, Object>();
 			PcComputer pc = resinfo.getCorePartList().get(i);
-			map.put("id", i+"");
+			map.put("id", i);
 			map.put("ip", pc.getIp());
 			map.put("root", pc.getLoginName());
 			map.put("passwd", pc.getLoginPwd());
-			map.put("zone", "center");
+			map.put("zone", idName.get(pc.getNetZoneId()));
+			
+			String attributes = "ds:" + pc.getDataCenterId() + ";jf:"
+					+ pc.getRoomId() + ";rack:" + pc.getLocation() + ";ex:"
+					+ pc.getExSwitch() + ";cpu:" + pc.getCpuModel() + ";mem:"
+					+ pc.getMemSize() + ";disk:" + pc.getDiskSize()
+					+ ";netband:" + pc.getBandWidth();
+			map.put("attributes", attributes);
+			map.put("cpuTotal", pc.getCpuCount());
+			map.put("cpuOffer", pc.getCpuOffer());
+			map.put("memTotal", pc.getMemSize());
+			map.put("memOffer", pc.getMemOffer());
 			list.add(map);
 		}
 		return list;
 	}
 	
-	
-	
-
+	private Map<String,Object> getWebHaproxyParam(ResDetailInfo resinfo,Boolean loadOnly){
+		Map<String,Object> map = new HashMap<String, Object>();
+		
+		Map<String,Object> hostsMap = new HashMap<String, Object>();
+		List<PcComputer> pcList = resinfo.getVisitPartList();
+		for(int i=0;i<pcList.size();i++){
+			PcComputer pc = pcList.get(i);
+			hostsMap.put("id", i);
+			hostsMap.put("ip", pc.getIp());
+			hostsMap.put("root", pc.getLoginName());
+			hostsMap.put("passwd", pc.getLoginPwd());
+		}
+		
+		map.put("loadOnly", loadOnly);
+		map.put("virtulIP", propertiesPool.get("virtulIP"));
+		map.put("hosts", hostsMap);
+		return map;
+	}
 }

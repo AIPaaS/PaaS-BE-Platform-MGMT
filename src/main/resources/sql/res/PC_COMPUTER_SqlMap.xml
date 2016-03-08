@@ -12,11 +12,15 @@
 		<result column="RES_CENTER_ID" jdbcType="BIGINT" property="resCenterId"/>	<!-- 所属资源中心ID -->
 		<result column="NET_ZONE_ID" jdbcType="BIGINT" property="netZoneId"/>	<!-- 所属网络区域ID -->
 		<result column="IP" jdbcType="VARCHAR" property="ip"/>	<!-- 服务器IP -->
-		<result column="CPU_COUNT" jdbcType="INTEGER" property="cpuCount"/>	<!-- CPU个数 -->
+		<result column="CPU_COUNT" jdbcType="INTEGER" property="cpuCount"/>	<!-- CPU核数 -->
+		<result column="CPU_OFFER" jdbcType="INTEGER" property="cpuOffer"/>	<!-- CPU可用于集群的核数 -->
 		<result column="CPU_FREQUENCY" jdbcType="BIGINT" property="cpuFrequency"/>	<!-- CPU主频 -->
 		<result column="CPU_MODEL" jdbcType="VARCHAR" property="cpuModel"/>	<!-- CPU型号 -->
 		<result column="MEM_SIZE" jdbcType="BIGINT" property="memSize"/>	<!-- 内存大小 -->
+		<result column="MEM_OFFER" jdbcType="BIGINT" property="memOffer"/>	<!-- 可用于集群的内存 -->
+		<result column="MEM_TYPE" jdbcType="VARCHAR" property="memType"/>	<!-- 内存类型 -->
 		<result column="DISK_SIZE" jdbcType="BIGINT" property="diskSize"/>	<!-- 硬盘大小 -->
+		<result column="DISK_TYPE" jdbcType="VARCHAR" property="diskType"/>	<!-- 存储类型 -->
 		<result column="BAND_WIDTH" jdbcType="BIGINT" property="bandWidth"/>	<!-- 带宽 -->
 		<result column="OS_NAME" jdbcType="VARCHAR" property="osName"/>	<!-- 操作系统 -->
 		<result column="LOGIN_NAME" jdbcType="VARCHAR" property="loginName"/>	<!-- 登录账号 -->
@@ -133,6 +137,18 @@
 		<isNotEmpty prepend="and" property="cdt.endCpuCount" >
 			<![CDATA[ CPU_COUNT <= #cdt.endCpuCount:INTEGER# ]]>
 		</isNotEmpty>
+		<isNotEmpty prepend="and" property="cdt.cpuOffer" >
+			CPU_OFFER = #cdt.cpuOffer:INTEGER#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="cpuOffers" >
+			CPU_OFFER in ($cpuOffers$)
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="cdt.startCpuOffer" >
+			<![CDATA[ CPU_OFFER >= #cdt.startCpuOffer:INTEGER# ]]>
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="cdt.endCpuOffer" >
+			<![CDATA[ CPU_OFFER <= #cdt.endCpuOffer:INTEGER# ]]>
+		</isNotEmpty>
 		<isNotEmpty prepend="and" property="cdt.cpuFrequency" >
 			CPU_FREQUENCY = #cdt.cpuFrequency:BIGINT#
 		</isNotEmpty>
@@ -160,6 +176,21 @@
 		<isNotEmpty prepend="and" property="cdt.endMemSize" >
 			<![CDATA[ MEM_SIZE <= #cdt.endMemSize:BIGINT# ]]>
 		</isNotEmpty>
+		<isNotEmpty prepend="and" property="cdt.memOffer" >
+			MEM_OFFER = #cdt.memOffer:BIGINT#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="memOffers" >
+			MEM_OFFER in ($memOffers$)
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="cdt.startMemOffer" >
+			<![CDATA[ MEM_OFFER >= #cdt.startMemOffer:BIGINT# ]]>
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="cdt.endMemOffer" >
+			<![CDATA[ MEM_OFFER <= #cdt.endMemOffer:BIGINT# ]]>
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="cdt.memType" >
+			MEM_TYPE like #cdt.memType:VARCHAR# 
+		</isNotEmpty>
 		<isNotEmpty prepend="and" property="cdt.diskSize" >
 			DISK_SIZE = #cdt.diskSize:BIGINT#
 		</isNotEmpty>
@@ -171,6 +202,9 @@
 		</isNotEmpty>
 		<isNotEmpty prepend="and" property="cdt.endDiskSize" >
 			<![CDATA[ DISK_SIZE <= #cdt.endDiskSize:BIGINT# ]]>
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="cdt.diskType" >
+			DISK_TYPE like #cdt.diskType:VARCHAR# 
 		</isNotEmpty>
 		<isNotEmpty prepend="and" property="cdt.bandWidth" >
 			BAND_WIDTH = #cdt.bandWidth:BIGINT#
@@ -344,6 +378,9 @@
 		<isNotNull prepend="," property="record.cpuCount"> 
 			CPU_COUNT = #record.cpuCount:INTEGER#
 		</isNotNull>
+		<isNotNull prepend="," property="record.cpuOffer"> 
+			CPU_OFFER = #record.cpuOffer:INTEGER#
+		</isNotNull>
 		<isNotNull prepend="," property="record.cpuFrequency"> 
 			CPU_FREQUENCY = #record.cpuFrequency:BIGINT#
 		</isNotNull>
@@ -353,8 +390,17 @@
 		<isNotNull prepend="," property="record.memSize"> 
 			MEM_SIZE = #record.memSize:BIGINT#
 		</isNotNull>
+		<isNotNull prepend="," property="record.memOffer"> 
+			MEM_OFFER = #record.memOffer:BIGINT#
+		</isNotNull>
+		<isNotNull prepend="," property="record.memType"> 
+			MEM_TYPE = #record.memType:VARCHAR#
+		</isNotNull>
 		<isNotNull prepend="," property="record.diskSize"> 
 			DISK_SIZE = #record.diskSize:BIGINT#
+		</isNotNull>
+		<isNotNull prepend="," property="record.diskType"> 
+			DISK_TYPE = #record.diskType:VARCHAR#
 		</isNotNull>
 		<isNotNull prepend="," property="record.bandWidth"> 
 			BAND_WIDTH = #record.bandWidth:BIGINT#
@@ -418,11 +464,11 @@
 
 	<sql id="sql_query_columns">
 		ID, CODE, ROOM_ID, LOCATION, DATA_CENTER_ID, RES_CENTER_ID, 
-		NET_ZONE_ID, IP, CPU_COUNT, CPU_FREQUENCY, CPU_MODEL, MEM_SIZE, 
-		DISK_SIZE, BAND_WIDTH, OS_NAME, LOGIN_NAME, LOGIN_PWD, EX_SWITCH, 
-		SUB_NET, MODEM, PHYSICAL_COMPUTER, REMARK, STATUS, CUSTOM_1, 
-		CUSTOM_2, CUSTOM_3, CUSTOM_4, CUSTOM_5, CUSTOM_6, DATA_STATUS, 
-		CREATE_TIME, MODIFY_TIME
+		NET_ZONE_ID, IP, CPU_COUNT, CPU_OFFER, CPU_FREQUENCY, CPU_MODEL, 
+		MEM_SIZE, MEM_OFFER, MEM_TYPE, DISK_SIZE, DISK_TYPE, BAND_WIDTH, 
+		OS_NAME, LOGIN_NAME, LOGIN_PWD, EX_SWITCH, SUB_NET, MODEM, 
+		PHYSICAL_COMPUTER, REMARK, STATUS, CUSTOM_1, CUSTOM_2, CUSTOM_3, 
+		CUSTOM_4, CUSTOM_5, CUSTOM_6, DATA_STATUS, CREATE_TIME, MODIFY_TIME
 	</sql>
 	
 
@@ -461,20 +507,22 @@
 	<insert id="insert" parameterClass="java.util.Map">
 		insert into PC_COMPUTER(
 			ID, CODE, ROOM_ID, LOCATION, DATA_CENTER_ID, 
-			RES_CENTER_ID, NET_ZONE_ID, IP, CPU_COUNT, CPU_FREQUENCY, 
-			CPU_MODEL, MEM_SIZE, DISK_SIZE, BAND_WIDTH, OS_NAME, 
-			LOGIN_NAME, LOGIN_PWD, EX_SWITCH, SUB_NET, MODEM, 
-			PHYSICAL_COMPUTER, REMARK, STATUS, CUSTOM_1, CUSTOM_2, 
-			CUSTOM_3, CUSTOM_4, CUSTOM_5, CUSTOM_6, DATA_STATUS, 
-			CREATE_TIME, MODIFY_TIME)
+			RES_CENTER_ID, NET_ZONE_ID, IP, CPU_COUNT, CPU_OFFER, 
+			CPU_FREQUENCY, CPU_MODEL, MEM_SIZE, MEM_OFFER, MEM_TYPE, 
+			DISK_SIZE, DISK_TYPE, BAND_WIDTH, OS_NAME, LOGIN_NAME, 
+			LOGIN_PWD, EX_SWITCH, SUB_NET, MODEM, PHYSICAL_COMPUTER, 
+			REMARK, STATUS, CUSTOM_1, CUSTOM_2, CUSTOM_3, 
+			CUSTOM_4, CUSTOM_5, CUSTOM_6, DATA_STATUS, CREATE_TIME, 
+			MODIFY_TIME)
 		values (
 			#record.id:BIGINT#, #record.code:VARCHAR#, #record.roomId:BIGINT#, #record.location:VARCHAR#, #record.dataCenterId:BIGINT#, 
-			#record.resCenterId:BIGINT#, #record.netZoneId:BIGINT#, #record.ip:VARCHAR#, #record.cpuCount:INTEGER#, #record.cpuFrequency:BIGINT#, 
-			#record.cpuModel:VARCHAR#, #record.memSize:BIGINT#, #record.diskSize:BIGINT#, #record.bandWidth:BIGINT#, #record.osName:VARCHAR#, 
-			#record.loginName:VARCHAR#, #record.loginPwd:VARCHAR#, #record.exSwitch:VARCHAR#, #record.subNet:VARCHAR#, #record.modem:VARCHAR#, 
-			#record.physicalComputer:VARCHAR#, #record.remark:VARCHAR#, #record.status:INTEGER#, #record.custom1:BIGINT#, #record.custom2:BIGINT#, 
-			#record.custom3:BIGINT#, #record.custom4:VARCHAR#, #record.custom5:VARCHAR#, #record.custom6:VARCHAR#, #record.dataStatus:INTEGER#, 
-			#record.createTime:BIGINT#, #record.modifyTime:BIGINT#)
+			#record.resCenterId:BIGINT#, #record.netZoneId:BIGINT#, #record.ip:VARCHAR#, #record.cpuCount:INTEGER#, #record.cpuOffer:INTEGER#, 
+			#record.cpuFrequency:BIGINT#, #record.cpuModel:VARCHAR#, #record.memSize:BIGINT#, #record.memOffer:BIGINT#, #record.memType:VARCHAR#, 
+			#record.diskSize:BIGINT#, #record.diskType:VARCHAR#, #record.bandWidth:BIGINT#, #record.osName:VARCHAR#, #record.loginName:VARCHAR#, 
+			#record.loginPwd:VARCHAR#, #record.exSwitch:VARCHAR#, #record.subNet:VARCHAR#, #record.modem:VARCHAR#, #record.physicalComputer:VARCHAR#, 
+			#record.remark:VARCHAR#, #record.status:INTEGER#, #record.custom1:BIGINT#, #record.custom2:BIGINT#, #record.custom3:BIGINT#, 
+			#record.custom4:VARCHAR#, #record.custom5:VARCHAR#, #record.custom6:VARCHAR#, #record.dataStatus:INTEGER#, #record.createTime:BIGINT#, 
+			#record.modifyTime:BIGINT#)
 	</insert>
 	
 
