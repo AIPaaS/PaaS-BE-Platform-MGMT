@@ -80,8 +80,10 @@ public class PcNetZoneSvcImpl implements PcNetZoneSvc {
 			String code = record.getZoneCode().trim();
 			record.setZoneCode(code);
 			
+			Long resCenterId = record.getResCenterId();
 			CPcNetZone cdt = new CPcNetZone();
 			cdt.setZoneCodeEqual(code);
+			cdt.setResCenterId(resCenterId);
 			List<PcNetZone> ls = pcNetZoneDao.selectList(cdt, null);
 			if(ls.size()>0 && (id==null || ls.size()>1 || ls.get(0).getId().longValue()!=id.longValue())) {
 				throw new ServiceException(" is exists code '"+code+"'! ");

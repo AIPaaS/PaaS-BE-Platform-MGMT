@@ -215,7 +215,7 @@ public class PcResCenterSvcImpl implements PcResCenterSvc {
 		map.put("mesos-master", getMasterParam(resinfo));
 		
 		map.put("webHaproxy", getWebHaproxyParam(resinfo,loadOnly));
-		return null;
+		return map;
 	}
 
 

@@ -26,6 +26,8 @@ import com.binary.core.util.BinaryUtils;
 import com.binary.framework.Local;
 import com.binary.framework.exception.ServiceException;
 import com.binary.jdbc.Page;
+import com.google.gson.Gson;
+import com.sun.xml.internal.ws.api.streaming.XMLStreamReaderFactory.Default;
 
 public class PcComputerSvcImpl implements PcComputerSvc {
 	
@@ -317,14 +319,17 @@ public class PcComputerSvcImpl implements PcComputerSvc {
 		List<PcComputer> visitPartList = new ArrayList<PcComputer>();
 		List<PcComputer> slavePartList = new ArrayList<PcComputer>();
 		
+		
+		Gson gson = new Gson();
 		for(PcComputer pc :list){
-			if(cp.getNetZoneId().compareTo(coreZoneId)==0){
+			if(pc.getNetZoneId().compareTo(coreZoneId)==0){
 				corePartList.add(pc);
-			}else if(cp.getNetZoneId().compareTo(visitZoneId)==0){
+			}else if(pc.getNetZoneId().compareTo(visitZoneId)==0){
 				visitPartList.add(pc);
 			}else{
 				slavePartList.add(pc);
 			}
+			
 		}
 		
 		resInfo.setCorePartList(corePartList);
