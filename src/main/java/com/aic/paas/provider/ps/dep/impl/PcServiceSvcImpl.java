@@ -18,6 +18,7 @@ import com.aic.paas.provider.ps.db.PcAppDao;
 import com.aic.paas.provider.ps.db.PcAppImageDao;
 import com.aic.paas.provider.ps.db.PcAppImgSvcDao;
 import com.aic.paas.provider.ps.db.PcKvPairDao;
+import com.aic.paas.provider.ps.db.PcResCenterDao;
 import com.aic.paas.provider.ps.db.PcServiceDao;
 import com.aic.paas.provider.ps.dep.PcServiceSvc;
 import com.aic.paas.provider.ps.dep.bean.PcServiceInfo;
@@ -43,6 +44,9 @@ public class PcServiceSvcImpl implements PcServiceSvc {
 	
 	@Autowired
 	PcAppImageDao appImageDao;
+	
+	@Autowired
+	PcResCenterDao resCenterDao;
 	
 	@Override
 	public Page<PcService> queryPage(Integer pageNum, Integer pageSize, CPcService cdt, String orders) {
@@ -273,8 +277,14 @@ public class PcServiceSvcImpl implements PcServiceSvc {
 		List<PcServiceInfo> dataDes = new ArrayList<PcServiceInfo>();
 		Page<PcServiceInfo> res = new Page<PcServiceInfo>(pcServices.getPageNum(),
 				pcServices.getPageSize(),pcServices.getTotalRows(),pcServices.getTotalPages(),dataDes);
+//		String domain="";
+//		if(!BinaryUtils.isEmpty(datas))
+//			domain = resCenterDao.selectById(datas.get(0).getResCenterId()).getDomain();
+		
 		for(int i=0;i<datas.size();i++){
 			PcService service = datas.get(i);
+//			if(!BinaryUtils.isEmpty(domain))
+			service.setDomainName(service.getSvcCode()+".marathon."+ resCenterDao.selectById(service.getResCenterId()).getDomain());
 			PcServiceInfo des = new PcServiceInfo();
 			if(service.getAppId()!=null){
 				PcApp app = appDao.selectById(service.getAppId());
