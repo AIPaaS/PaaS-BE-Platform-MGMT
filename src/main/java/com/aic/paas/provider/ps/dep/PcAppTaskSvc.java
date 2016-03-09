@@ -1,6 +1,8 @@
 package com.aic.paas.provider.ps.dep;
 
+import com.aic.paas.provider.ps.bean.CPcAppTask;
 import com.aic.paas.provider.ps.bean.PcAppTask;
+import com.binary.jdbc.Page;
 
 public interface PcAppTaskSvc {
 	
@@ -10,4 +12,8 @@ public interface PcAppTaskSvc {
 	 * @return 当前记录主键[id]值
 	 */
 	public Long saveOrUpdate(PcAppTask record);
+	
+	public PcAppTask queryById(Long id);
+	
+	public Page<PcAppTask> queryPage(Integer pageNum, Integer pageSize, CPcAppTask cdt, String orders);
 }
