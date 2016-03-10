@@ -40,4 +40,5 @@
 	<bean id="PcAppTaskSvc" class="com.aic.paas.provider.ps.dep.impl.PcAppTaskSvcImpl"/>
 	<bean id="PcAppDepHistorySvc" class="com.aic.paas.provider.ps.dep.impl.PcAppDepHistorySvcImpl"/>
 	<bean id="PcAppVersionSvc" class="com.aic.paas.provider.ps.dep.impl.PcAppVersionSvcImpl"/>
+	<bean id="PcAppDepInstanceSvc" class="com.aic.paas.provider.ps.dep.impl.PcAppDepInstanceSvcImpl"/>
 </beans>
