@@ -39,4 +39,9 @@ public class PcAppTaskSvcImpl implements PcAppTaskSvc {
 		return pcAppTaskDao.selectPage(pageNum, pageSize, cdt, orders);
 	}
 
+	@Override
+	public void update(PcAppTask record) {
+		pcAppTaskDao.updateById(record, record.getId());
+	}
+
 }

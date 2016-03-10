@@ -12,6 +12,8 @@ public interface PcAppTaskSvc {
 	 */
 	public void save(PcAppTask record);
 	
+	public void update(PcAppTask record);
+	
 	public PcAppTask queryById(Long id);
 	
 	public Page<PcAppTask> queryPage(Integer pageNum, Integer pageSize, CPcAppTask cdt, String orders);

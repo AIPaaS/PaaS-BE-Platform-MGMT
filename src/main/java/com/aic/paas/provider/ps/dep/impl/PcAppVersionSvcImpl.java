@@ -53,7 +53,7 @@ public class PcAppVersionSvcImpl implements PcAppVersionSvc {
 	}
 
 	@Override
-	public void updateAppVersionStatus(Long appVersionId, int status) {
+	public void updateAppVersionStatusById(Long appVersionId, int status) {
 		PcAppVersion pcAppVersion = new PcAppVersion();
 		pcAppVersion.setStatus(status);
 		pcAppVersionDao.updateById(pcAppVersion, appVersionId);
