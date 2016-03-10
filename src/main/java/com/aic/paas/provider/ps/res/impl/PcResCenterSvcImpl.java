@@ -213,12 +213,13 @@ public class PcResCenterSvcImpl implements PcResCenterSvc {
 		map.put("loadVirtulIP", propertiesPool.get("loadVirtulIP"));
 				
 		map.put("mesos-master", getMasterParam(resinfo));
+		map.put("mesos-slave", getSlaveParam(resinfo));
 		
 		map.put("webHaproxy", getWebHaproxyParam(resinfo,loadOnly));
 		return map;
 	}
 
-
+	
 	private List<Map<String,Object>> getZoneParam(Long resCenterId){
 		
 		CPcNetZone cpnz = new CPcNetZone();
@@ -226,7 +227,7 @@ public class PcResCenterSvcImpl implements PcResCenterSvc {
 		List<PcNetZone> zoneist = pcNetZoneDao.selectList(cpnz, "id");
 		
 		List<Map<String,Object>> list =new ArrayList<Map<String,Object>>();
-		
+
 		for(PcNetZone pcnz : zoneist){
 			Map<String,Object> map = new HashMap<String, Object>();
 			map.put("zone", pcnz.getZoneName());
@@ -238,6 +239,9 @@ public class PcResCenterSvcImpl implements PcResCenterSvc {
 	}
 
 	private List<Map<String,Object>> getMasterParam(ResDetailInfo resinfo){
+		if(resinfo.getCorePartList()==null||resinfo.getCorePartList().size()<3)
+			throw new ServiceException(" the center-netZone of resCenter haven't enough computer! ");
+		
 		List<Map<String,Object>> list = new ArrayList<Map<String,Object>>();
 		
 		//所有id对应的区域名
@@ -263,8 +267,11 @@ public class PcResCenterSvcImpl implements PcResCenterSvc {
 		return list;
 	}
 	
-	//
+
 	private List<Map<String,Object>> getSlaveParam(ResDetailInfo resinfo){
+		if(resinfo.getSlavePartList()==null)
+			throw new ServiceException("there aran't enough slave computer");
+		
 		List<Map<String,Object>> list = new ArrayList<Map<String,Object>>();
 		
 		//所有id对应的区域名
@@ -301,6 +308,9 @@ public class PcResCenterSvcImpl implements PcResCenterSvc {
 	}
 	
 	private Map<String,Object> getWebHaproxyParam(ResDetailInfo resinfo,Boolean loadOnly){
+		if(resinfo.getVisitPartList()==null||resinfo.getVisitPartList().size()<2)
+			throw new ServiceException("the computer of Haproxy haven't enough!");
+		
 		Map<String,Object> map = new HashMap<String, Object>();
 		
 		Map<String,Object> hostsMap = new HashMap<String, Object>();

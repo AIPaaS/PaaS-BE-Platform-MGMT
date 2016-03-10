@@ -1,17 +1,19 @@
 package com.aic.paas.provider.ps.res.impl;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
-
 import com.aic.paas.provider.ps.bean.CPcComputer;
 import com.aic.paas.provider.ps.bean.CPcComputerTag;
 import com.aic.paas.provider.ps.bean.CPcNetZone;
 import com.aic.paas.provider.ps.bean.PcComputer;
 import com.aic.paas.provider.ps.bean.PcComputerTag;
+import com.aic.paas.provider.ps.bean.PcNetZone;
 import com.aic.paas.provider.ps.bean.PcResCenter;
 import com.aic.paas.provider.ps.db.PcComputerDao;
 import com.aic.paas.provider.ps.db.PcComputerTagDao;
@@ -26,11 +28,14 @@ import com.binary.core.util.BinaryUtils;
 import com.binary.framework.Local;
 import com.binary.framework.exception.ServiceException;
 import com.binary.jdbc.Page;
-import com.google.gson.Gson;
-import com.sun.xml.internal.ws.api.streaming.XMLStreamReaderFactory.Default;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class PcComputerSvcImpl implements PcComputerSvc {
 	
+	private static transient final Logger LOGGER = LoggerFactory
+			.getLogger(PcComputerSvcImpl.class);
 	
 	@Autowired
 	PcComputerDao computerDao;
@@ -281,16 +286,20 @@ public class PcComputerSvcImpl implements PcComputerSvc {
 	@Override
 	public ResDetailInfo queryByResCenter(Long resCenterId) {
 		if(resCenterId==null){
-			System.out.println("queryByResCenter(Long resCenterId) param is null");
-			return null;
+			LOGGER.info("the param of queryByResCenter is null");
+			throw new ServiceException("the param of queryByResCenter is null");
 		}
 		ResDetailInfo resInfo = new ResDetailInfo();
 		
+		//该资源信息
 		PcResCenter prc = pcResCenterDao.selectById(resCenterId);
-		String dataCenterName = dataCenterDao.selectById(prc.getDataCenterId()).getName();
 		if(prc==null) {
-			throw new ServiceException(" there have no the resCenter  " +resCenterId);
+			LOGGER.info(" there are not the resCenter  " +resCenterId);
+			throw new ServiceException(" there are not the resCenter  " +resCenterId);
 		}
+		//该资源中心所属数据中心名称
+		String dataCenterName = dataCenterDao.selectById(prc.getDataCenterId()).getName();
+		
 		resInfo.setResCenterId(resCenterId);
 		resInfo.setResCenterName(prc.getResName());
 		resInfo.setDataCenterId(prc.getDataCenterId());
@@ -299,37 +308,39 @@ public class PcComputerSvcImpl implements PcComputerSvc {
 		resInfo.setDomain(prc.getDomain());
 		resInfo.setExternalDomain(prc.getExternalDomain());
 		
+		//该数据中心的服务器
 		CPcComputer cp = new CPcComputer();
 		cp.setResCenterId(resCenterId);
 		List<PcComputer> list = computerDao.selectList(cp, "id");
-		
 		if(list==null || list.size()==0) {
-			throw new ServiceException(" the resCenter  " +resCenterId+" have none computer!");
+			LOGGER.info(" the resCenter  " +resCenterId+" have none computer!");
+			return resInfo;
+//			throw new ServiceException(" the resCenter  " +resCenterId+" have none computer!");
 		}
 		
 		CPcNetZone pcNetZone = new CPcNetZone();
 		pcNetZone.setResCenterId(resCenterId);
-		pcNetZone.setZoneCode("center");
-		Long coreZoneId = pcNetZoneDao.selectList(pcNetZone, "id").get(0).getId();
-		pcNetZone.setZoneCode("visit");
-		Long visitZoneId = pcNetZoneDao.selectList(pcNetZone, "id").get(0).getId();
+		List<PcNetZone> zoneList =  pcNetZoneDao.selectList(pcNetZone, "id");
+		if(zoneList.size()==0||zoneList==null){
+			LOGGER.info(" the resCenter  " +resCenterId+" have none netZone!");
+			return resInfo;
+//			throw new ServiceException(" the resCenter  " +resCenterId+" have none netZone!");
+		}
 		
-		//该资源中心中各域服务器信息
+		//分区域展示服务器信息
 		List<PcComputer> corePartList = new ArrayList<PcComputer>();
 		List<PcComputer> visitPartList = new ArrayList<PcComputer>();
 		List<PcComputer> slavePartList = new ArrayList<PcComputer>();
 		
-		
-		Gson gson = new Gson();
+		Map<Long,String> map = getNetZoneCodeMap(resCenterId);
 		for(PcComputer pc :list){
-			if(pc.getNetZoneId().compareTo(coreZoneId)==0){
+			if("center".equals(map.get(pc.getNetZoneId()))){
 				corePartList.add(pc);
-			}else if(pc.getNetZoneId().compareTo(visitZoneId)==0){
+			}else if("visit".equals(map.get(pc.getNetZoneId()))){
 				visitPartList.add(pc);
 			}else{
 				slavePartList.add(pc);
 			}
-			
 		}
 		
 		resInfo.setCorePartList(corePartList);
@@ -338,8 +349,21 @@ public class PcComputerSvcImpl implements PcComputerSvc {
 		return resInfo;
 	}
 	
-	
-	
+	/**
+	 * 获取网络区域id与区域名对应关系
+	 * @param resCenterId
+	 * @return
+	 */
+	private Map<Long,String> getNetZoneCodeMap(Long resCenterId){
+		Map<Long,String> map = new HashMap<Long, String>();
+		CPcNetZone pcNetZone = new CPcNetZone();
+		pcNetZone.setResCenterId(resCenterId);
+		List<PcNetZone> zoneList =  pcNetZoneDao.selectList(pcNetZone, "id");
+		for(PcNetZone pnz : zoneList){
+			map.put(pnz.getId(), pnz.getZoneCode());
+		}
+		return map;
+	}
 	
 	
 
