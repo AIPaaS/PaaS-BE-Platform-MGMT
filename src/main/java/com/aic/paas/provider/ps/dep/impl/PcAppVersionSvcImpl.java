@@ -51,4 +51,11 @@ public class PcAppVersionSvcImpl implements PcAppVersionSvc {
 			pcAppVersion.setStatus(status);
 		pcAppVersionDao.updateBatch(appVersions);
 	}
+
+	@Override
+	public void updateAppVersionStatusById(Long appVersionId, int status) {
+		PcAppVersion pcAppVersion = new PcAppVersion();
+		pcAppVersion.setStatus(status);
+		pcAppVersionDao.updateById(pcAppVersion, appVersionId);
+	}
 }

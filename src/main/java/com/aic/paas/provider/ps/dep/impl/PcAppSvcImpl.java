@@ -448,7 +448,6 @@ public class PcAppSvcImpl implements PcAppSvc {
 			if(record.getDataCenterId() != null) BinaryUtils.checkEmpty(record.getDataCenterId(), "record.dataCenterId");
 			if(record.getResCenterId() != null) BinaryUtils.checkEmpty(record.getResCenterId(), "record.resCenterId");
 			if(record.getVersionNo() != null) BinaryUtils.checkEmpty(record.getVersionNo(), "record.versionNo");
-			record.setStatus(null);
 		}
 		
 		Long id = record.getId();
@@ -512,7 +511,6 @@ public class PcAppSvcImpl implements PcAppSvc {
 					newVersion = true;
 				}
 			}
-			
 			appDao.updateById(record, id);
 		}
 		
