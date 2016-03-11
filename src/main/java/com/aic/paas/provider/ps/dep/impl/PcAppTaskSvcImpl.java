@@ -69,7 +69,7 @@ public class PcAppTaskSvcImpl implements PcAppTaskSvc {
 		result.setPageSize(pageTask.getPageSize());
 		result.setTotalPages(pageTask.getTotalPages());
 		result.setTotalRows(pageTask.getTotalRows());
-		return null;
+		return result;
 	}
 
 }
