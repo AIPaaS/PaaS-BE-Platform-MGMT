@@ -311,7 +311,7 @@ public class PcComputerSvcImpl implements PcComputerSvc {
 		//该数据中心的服务器
 		CPcComputer cp = new CPcComputer();
 		cp.setResCenterId(resCenterId);
-		List<PcComputer> list = computerDao.selectList(cp, "id");
+		List<PcComputer> list = computerDao.selectList(cp, "NET_ZONE_ID");
 		if(list==null || list.size()==0) {
 			LOGGER.info(" the resCenter  " +resCenterId+" have none computer!");
 			return resInfo;
@@ -343,6 +343,7 @@ public class PcComputerSvcImpl implements PcComputerSvc {
 			}
 		}
 		
+		resInfo.setComputerList(list);
 		resInfo.setCorePartList(corePartList);
 		resInfo.setVisitPartList(visitPartList);
 		resInfo.setSlavePartList(slavePartList);
