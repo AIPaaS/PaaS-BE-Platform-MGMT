@@ -153,14 +153,16 @@ public class PcAppImageSvcImpl implements PcAppImageSvc {
 				throw new ServiceException(" is exists containerName '"+code+"'! ");
 			}
 			
-			//将镜像提供的服务名与容器名一至
-			CPcService svccdt = new CPcService();
-			svccdt.setSvcType(3); 		//1=平台服务    2=外部服务    3=镜像服务
-			svccdt.setAppImageId(id);
-			
-			PcService svcup = new PcService();
-			svcup.setSvcCode(code);
-			svcDao.updateByCdt(svcup, svccdt);
+			if(!isadd){
+				//将镜像提供的服务名与容器名一至
+				CPcService svccdt = new CPcService();
+				svccdt.setSvcType(3); 		//1=平台服务    2=外部服务    3=镜像服务
+				svccdt.setAppImageId(id);
+				
+				PcService svcup = new PcService();
+				svcup.setSvcCode(code);
+				svcDao.updateByCdt(svcup, svccdt);
+			}
 		}
 		
 		id = appImageDao.save(record);

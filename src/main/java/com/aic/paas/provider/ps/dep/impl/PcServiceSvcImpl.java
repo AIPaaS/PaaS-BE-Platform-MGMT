@@ -194,7 +194,8 @@ public class PcServiceSvcImpl implements PcServiceSvc {
 			
 			List<PcService> ls = serviceDao.selectListByCode(code, cdt, null);
 			if(ls.size()>0 && (id==null || ls.size()>1 || ls.get(0).getId().longValue()!=id.longValue())) {
-				throw new ServiceException(" is exists code '"+code+"'! ");
+//				throw new ServiceException(" is exists code '"+code+"'! ");
+				throw new ServiceException(" 代码为"+code+"的服务已存在，请修改 ! ");
 			}
 		}
 		
