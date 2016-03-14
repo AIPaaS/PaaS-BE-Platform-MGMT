@@ -197,7 +197,7 @@ public class PcResCenterSvcImpl implements PcResCenterSvc {
 		
 		ResDetailInfo  resinfo = pcComputerSvc.queryByResCenter(resCenterId);
 
-		map.put("clusterId", resinfo.getResCenterId());
+		map.put("clusterId", resinfo.getResCenterId()+"");
 		map.put("clusteName", resinfo.getResCenterName());
 		//镜像地址
 		map.put("imagePath", resinfo.getImagePath());
