@@ -430,7 +430,7 @@ public class PcAppSvcImpl implements PcAppSvc {
 	
 	
 	@Override
-	public Long saveOrUpdate(PcApp record) {
+	public Long saveOrUpdate(PcApp record) throws ServiceException{
 		BinaryUtils.checkEmpty(record, "record");
 		BinaryUtils.checkEmpty(record.getMntId(), "record.mntId");
 		
