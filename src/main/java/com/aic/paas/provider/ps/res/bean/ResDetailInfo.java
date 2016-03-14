@@ -16,6 +16,14 @@ public class ResDetailInfo {
 	List<PcComputer> visitPartList;
 	List<PcComputer> slavePartList;
 	
+	List<PcComputer> computerList;
+	
+	public List<PcComputer> getComputerList() {
+		return computerList;
+	}
+	public void setComputerList(List<PcComputer> computerList) {
+		this.computerList = computerList;
+	}
 	public String getDomain() {
 		return domain;
 	}

@@ -27,4 +27,7 @@ public interface PcAppVersionSvc {
 	public Long getStopedAppVersionId(Long appId);
 
 	public void updateAppVersionStatus(Long appId, String version, int status);
+	
+	public void updateAppVersionStatusById(Long appVersionId, int status);
+	
 }
