@@ -203,17 +203,18 @@ public class PcResCenterSvcImpl implements PcResCenterSvc {
 		map.put("imagePath", resinfo.getImagePath());
 		map.put("useAgent",useAgent);
 		//agentid为资源中心id
-		map.put("aid", resinfo.getResCenterId());
+//		map.put("aid", resinfo.getResCenterId());
+		map.put("aid", "dev");
 		
-		map.put("zones", getZoneParam(resCenterId));
+		map.put("attributesList", getZoneParam(resCenterId));
 		
 		map.put("dataCenter", resinfo.getDataCenterName());
 		map.put("domain", resinfo.getDomain());
 		map.put("externalDomain", resinfo.getExternalDomain());
 		map.put("loadVirtulIP", propertiesPool.get("loadVirtulIP"));
 				
-		map.put("mesos-master", getMasterParam(resinfo));
-		map.put("mesos-slave", getSlaveParam(resinfo));
+		map.put("mesosMaster", getMasterParam(resinfo));
+		map.put("mesosSlave", getSlaveParam(resinfo));
 		
 		map.put("webHaproxy", getWebHaproxyParam(resinfo,loadOnly));
 		return map;
@@ -304,6 +305,8 @@ public class PcResCenterSvcImpl implements PcResCenterSvc {
 			map.put("memOffer", pc.getMemOffer());
 			list.add(map);
 		}
+		
+		
 		return list;
 	}
 	
@@ -312,7 +315,7 @@ public class PcResCenterSvcImpl implements PcResCenterSvc {
 			throw new ServiceException("the computer of Haproxy haven't enough!");
 		
 		Map<String,Object> map = new HashMap<String, Object>();
-		
+		List<Map<String,Object>> list = new ArrayList<Map<String,Object>>();
 		Map<String,Object> hostsMap = new HashMap<String, Object>();
 		List<PcComputer> pcList = resinfo.getVisitPartList();
 		for(int i=0;i<pcList.size();i++){
@@ -321,11 +324,12 @@ public class PcResCenterSvcImpl implements PcResCenterSvc {
 			hostsMap.put("ip", pc.getIp());
 			hostsMap.put("root", pc.getLoginName());
 			hostsMap.put("passwd", pc.getLoginPwd());
+			list.add(hostsMap);
 		}
 		
 		map.put("loadOnly", loadOnly);
 		map.put("virtulIP", propertiesPool.get("virtulIP"));
-		map.put("hosts", hostsMap);
+		map.put("hosts", list);
 		return map;
 	}
 }
