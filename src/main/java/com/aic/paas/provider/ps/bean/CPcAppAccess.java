@@ -118,26 +118,88 @@ public class CPcAppAccess implements Condition {
 
 
 	/**
-	 * condition-field: 状态[DATA_STATUS] operate-Equal[=]
+	 * condition-field: 所属租户[MNT_ID] operate-Equal[=]
+	 */
+	private Long mntId;
+
+
+	/**
+	 * condition-field: 所属租户[MNT_ID] operate-In[in]
+	 */
+	private Long[] mntIds;
+
+
+	/**
+	 * condition-field: 所属租户[MNT_ID] operate-GTEqual[>=]
+	 */
+	private Long startMntId;
+
+	/**
+	 * condition-field: 所属租户[MNT_ID] operate-LTEqual[<=]
+	 */
+	private Long endMntId;
+
+
+	/**
+	 * condition-field: 状态[STATUS] operate-Equal[=]
+	 * 1=未部署 2=运行中 3=停止
+	 */
+	private Integer status;
+
+
+	/**
+	 * condition-field: 状态[STATUS] operate-In[in]
+	 * 1=未部署 2=运行中 3=停止
+	 */
+	private Integer[] statuss;
+
+
+	/**
+	 * condition-field: 状态[STATUS] operate-GTEqual[>=]
+	 * 1=未部署 2=运行中 3=停止
+	 */
+	private Integer startStatus;
+
+	/**
+	 * condition-field: 状态[STATUS] operate-LTEqual[<=]
+	 * 1=未部署 2=运行中 3=停止
+	 */
+	private Integer endStatus;
+
+
+	/**
+	 * condition-field: 描述[REMARK] operate-Like[like]
+	 */
+	private String remark;
+
+
+	/**
+	 * condition-field: 数据状态[DATA_STATUS] operate-Equal[=]
 	 */
 	private Integer dataStatus;
 
 
 	/**
-	 * condition-field: 状态[DATA_STATUS] operate-In[in]
+	 * condition-field: 数据状态[DATA_STATUS] operate-In[in]
 	 */
 	private Integer[] dataStatuss;
 
 
 	/**
-	 * condition-field: 状态[DATA_STATUS] operate-GTEqual[>=]
+	 * condition-field: 数据状态[DATA_STATUS] operate-GTEqual[>=]
 	 */
 	private Integer startDataStatus;
 
 	/**
-	 * condition-field: 状态[DATA_STATUS] operate-LTEqual[<=]
+	 * condition-field: 数据状态[DATA_STATUS] operate-LTEqual[<=]
 	 */
 	private Integer endDataStatus;
+
+
+	/**
+	 * condition-field: 创建人[CREATOR] operate-Like[like]
+	 */
+	private String creator;
 
 
 	/**
@@ -161,6 +223,12 @@ public class CPcAppAccess implements Condition {
 	 * condition-field: 创建时间[CREATE_TIME] operate-LTEqual[<=]
 	 */
 	private Long endCreateTime;
+
+
+	/**
+	 * condition-field: 修改人[MODIFIER] operate-Like[like]
+	 */
+	private String modifier;
 
 
 	/**
@@ -390,6 +458,78 @@ public class CPcAppAccess implements Condition {
 	}
 
 
+	public Long getMntId() {
+		return this.mntId;
+	}
+	public void setMntId(Long mntId) {
+		this.mntId = mntId;
+	}
+
+
+	public Long[] getMntIds() {
+		return this.mntIds;
+	}
+	public void setMntIds(Long[] mntIds) {
+		this.mntIds = mntIds;
+	}
+
+
+	public Long getStartMntId() {
+		return this.startMntId;
+	}
+	public void setStartMntId(Long startMntId) {
+		this.startMntId = startMntId;
+	}
+
+
+	public Long getEndMntId() {
+		return this.endMntId;
+	}
+	public void setEndMntId(Long endMntId) {
+		this.endMntId = endMntId;
+	}
+
+
+	public Integer getStatus() {
+		return this.status;
+	}
+	public void setStatus(Integer status) {
+		this.status = status;
+	}
+
+
+	public Integer[] getStatuss() {
+		return this.statuss;
+	}
+	public void setStatuss(Integer[] statuss) {
+		this.statuss = statuss;
+	}
+
+
+	public Integer getStartStatus() {
+		return this.startStatus;
+	}
+	public void setStartStatus(Integer startStatus) {
+		this.startStatus = startStatus;
+	}
+
+
+	public Integer getEndStatus() {
+		return this.endStatus;
+	}
+	public void setEndStatus(Integer endStatus) {
+		this.endStatus = endStatus;
+	}
+
+
+	public String getRemark() {
+		return this.remark;
+	}
+	public void setRemark(String remark) {
+		this.remark = remark;
+	}
+
+
 	public Integer getDataStatus() {
 		return this.dataStatus;
 	}
@@ -422,6 +562,14 @@ public class CPcAppAccess implements Condition {
 	}
 
 
+	public String getCreator() {
+		return this.creator;
+	}
+	public void setCreator(String creator) {
+		this.creator = creator;
+	}
+
+
 	public Long getCreateTime() {
 		return this.createTime;
 	}
@@ -451,6 +599,14 @@ public class CPcAppAccess implements Condition {
 	}
 	public void setEndCreateTime(Long endCreateTime) {
 		this.endCreateTime = endCreateTime;
+	}
+
+
+	public String getModifier() {
+		return this.modifier;
+	}
+	public void setModifier(String modifier) {
+		this.modifier = modifier;
 	}
 
 

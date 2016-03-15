@@ -149,6 +149,9 @@
 		<bean class="com.aic.paas.provider.ps.db.impl.PcAppVersionDaoImpl" parent="dao.paas.dep.parent" >
 			<property name="daoDefinition" ref="com.aic.paas.provider.ps.db.impl.PcAppVersionDaoDefinition" />
 		</bean>
+		<bean class="com.aic.paas.provider.ps.db.impl.PcAppAccessDaoImpl" parent="dao.paas.dep.parent" >
+			<property name="daoDefinition" ref="com.aic.paas.provider.ps.db.impl.PcAppAccessDaoDefinition" />
+		</bean>
 		
 		
 		

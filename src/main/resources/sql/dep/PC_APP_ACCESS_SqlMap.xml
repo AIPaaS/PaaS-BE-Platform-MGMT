@@ -10,8 +10,13 @@
 		<result column="APP_IMAGE_ID" jdbcType="BIGINT" property="appImageId"/>	<!-- 所属应用镜像 -->
 		<result column="PROTOCOL" jdbcType="INTEGER" property="protocol"/>	<!-- 协议 -->
 		<result column="ACCESS_URL" jdbcType="VARCHAR" property="accessUrl"/>	<!-- 访问地址 -->
-		<result column="DATA_STATUS" jdbcType="INTEGER" property="dataStatus"/>	<!-- 状态 -->
+		<result column="MNT_ID" jdbcType="BIGINT" property="mntId"/>	<!-- 所属租户 -->
+		<result column="STATUS" jdbcType="INTEGER" property="status"/>	<!-- 状态 -->
+		<result column="REMARK" jdbcType="VARCHAR" property="remark"/>	<!-- 描述 -->
+		<result column="DATA_STATUS" jdbcType="INTEGER" property="dataStatus"/>	<!-- 数据状态 -->
+		<result column="CREATOR" jdbcType="VARCHAR" property="creator"/>	<!-- 创建人 -->
 		<result column="CREATE_TIME" jdbcType="BIGINT" property="createTime"/>	<!-- 创建时间 -->
+		<result column="MODIFIER" jdbcType="VARCHAR" property="modifier"/>	<!-- 修改人 -->
 		<result column="MODIFY_TIME" jdbcType="BIGINT" property="modifyTime"/>	<!-- 修改时间 -->
 		<result column="BAK_1" jdbcType="BIGINT" property="bak1"/>	<!-- 备用字段1 -->
 		<result column="BAK_2" jdbcType="BIGINT" property="bak2"/>	<!-- 备用字段2 -->
@@ -75,6 +80,33 @@
 		<isNotEmpty prepend="and" property="cdt.accessUrl" >
 			ACCESS_URL like #cdt.accessUrl:VARCHAR# 
 		</isNotEmpty>
+		<isNotEmpty prepend="and" property="cdt.mntId" >
+			MNT_ID = #cdt.mntId:BIGINT#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="mntIds" >
+			MNT_ID in ($mntIds$)
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="cdt.startMntId" >
+			<![CDATA[ MNT_ID >= #cdt.startMntId:BIGINT# ]]>
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="cdt.endMntId" >
+			<![CDATA[ MNT_ID <= #cdt.endMntId:BIGINT# ]]>
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="cdt.status" >
+			STATUS = #cdt.status:INTEGER#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="statuss" >
+			STATUS in ($statuss$)
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="cdt.startStatus" >
+			<![CDATA[ STATUS >= #cdt.startStatus:INTEGER# ]]>
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="cdt.endStatus" >
+			<![CDATA[ STATUS <= #cdt.endStatus:INTEGER# ]]>
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="cdt.remark" >
+			REMARK like #cdt.remark:VARCHAR# 
+		</isNotEmpty>
 		<isNotEmpty prepend="and" property="cdt.dataStatus" >
 			DATA_STATUS = #cdt.dataStatus:INTEGER#
 		</isNotEmpty>
@@ -87,6 +119,9 @@
 		<isNotEmpty prepend="and" property="cdt.endDataStatus" >
 			<![CDATA[ DATA_STATUS <= #cdt.endDataStatus:INTEGER# ]]>
 		</isNotEmpty>
+		<isNotEmpty prepend="and" property="cdt.creator" >
+			CREATOR like #cdt.creator:VARCHAR# 
+		</isNotEmpty>
 		<isNotEmpty prepend="and" property="cdt.createTime" >
 			CREATE_TIME = #cdt.createTime:BIGINT#
 		</isNotEmpty>
@@ -98,6 +133,9 @@
 		</isNotEmpty>
 		<isNotEmpty prepend="and" property="cdt.endCreateTime" >
 			<![CDATA[ CREATE_TIME <= #cdt.endCreateTime:BIGINT# ]]>
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="cdt.modifier" >
+			MODIFIER like #cdt.modifier:VARCHAR# 
 		</isNotEmpty>
 		<isNotEmpty prepend="and" property="cdt.modifyTime" >
 			MODIFY_TIME = #cdt.modifyTime:BIGINT#
@@ -163,11 +201,26 @@
 		<isNotNull prepend="," property="record.accessUrl"> 
 			ACCESS_URL = #record.accessUrl:VARCHAR#
 		</isNotNull>
+		<isNotNull prepend="," property="record.mntId"> 
+			MNT_ID = #record.mntId:BIGINT#
+		</isNotNull>
+		<isNotNull prepend="," property="record.status"> 
+			STATUS = #record.status:INTEGER#
+		</isNotNull>
+		<isNotNull prepend="," property="record.remark"> 
+			REMARK = #record.remark:VARCHAR#
+		</isNotNull>
 		<isNotNull prepend="," property="record.dataStatus"> 
 			DATA_STATUS = #record.dataStatus:INTEGER#
 		</isNotNull>
+		<isNotNull prepend="," property="record.creator"> 
+			CREATOR = #record.creator:VARCHAR#
+		</isNotNull>
 		<isNotNull prepend="," property="record.createTime"> 
 			CREATE_TIME = #record.createTime:BIGINT#
+		</isNotNull>
+		<isNotNull prepend="," property="record.modifier"> 
+			MODIFIER = #record.modifier:VARCHAR#
 		</isNotNull>
 		<isNotNull prepend="," property="record.modifyTime"> 
 			MODIFY_TIME = #record.modifyTime:BIGINT#
@@ -189,8 +242,8 @@
 
 	<sql id="sql_query_columns">
 		ID, APP_ID, ACCESS_CODE, APP_IMAGE_ID, PROTOCOL, ACCESS_URL, 
-		DATA_STATUS, CREATE_TIME, MODIFY_TIME, BAK_1, BAK_2, BAK_3, 
-		BAK_4
+		MNT_ID, STATUS, REMARK, DATA_STATUS, CREATOR, CREATE_TIME, 
+		MODIFIER, MODIFY_TIME, BAK_1, BAK_2, BAK_3, BAK_4
 	</sql>
 	
 
@@ -229,11 +282,13 @@
 	<insert id="insert" parameterClass="java.util.Map">
 		insert into PC_APP_ACCESS(
 			ID, APP_ID, ACCESS_CODE, APP_IMAGE_ID, PROTOCOL, 
-			ACCESS_URL, DATA_STATUS, CREATE_TIME, MODIFY_TIME, BAK_1, 
+			ACCESS_URL, MNT_ID, STATUS, REMARK, DATA_STATUS, 
+			CREATOR, CREATE_TIME, MODIFIER, MODIFY_TIME, BAK_1, 
 			BAK_2, BAK_3, BAK_4)
 		values (
 			#record.id:BIGINT#, #record.appId:BIGINT#, #record.accessCode:VARCHAR#, #record.appImageId:BIGINT#, #record.protocol:INTEGER#, 
-			#record.accessUrl:VARCHAR#, #record.dataStatus:INTEGER#, #record.createTime:BIGINT#, #record.modifyTime:BIGINT#, #record.bak1:BIGINT#, 
+			#record.accessUrl:VARCHAR#, #record.mntId:BIGINT#, #record.status:INTEGER#, #record.remark:VARCHAR#, #record.dataStatus:INTEGER#, 
+			#record.creator:VARCHAR#, #record.createTime:BIGINT#, #record.modifier:VARCHAR#, #record.modifyTime:BIGINT#, #record.bak1:BIGINT#, 
 			#record.bak2:BIGINT#, #record.bak3:VARCHAR#, #record.bak4:VARCHAR#)
 	</insert>
 	

@@ -50,7 +50,7 @@
     <bean class="com.aic.paas.provider.ps.db.impl.PcAppDepSvcHistoryDaoDefinition" />
     <bean class="com.aic.paas.provider.ps.db.impl.PcAppDepInstanceDaoDefinition" />
     <bean class="com.aic.paas.provider.ps.db.impl.PcAppVersionDaoDefinition" />
-    
+    <bean class="com.aic.paas.provider.ps.db.impl.PcAppAccessDaoDefinition" />
 	
 	
 	

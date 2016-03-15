@@ -50,15 +50,46 @@ public class PcAppAccess implements EntityBean {
 
 
 	/**
-	 * mapping-field: 状态[DATA_STATUS]
+	 * mapping-field: 所属租户[MNT_ID]
+	 */
+	private Long mntId;
+
+
+	/**
+	 * mapping-field: 状态[STATUS]
+	 * 1=未部署 2=运行中 3=停止
+	 */
+	private Integer status;
+
+
+	/**
+	 * mapping-field: 描述[REMARK]
+	 */
+	private String remark;
+
+
+	/**
+	 * mapping-field: 数据状态[DATA_STATUS]
 	 */
 	private Integer dataStatus;
+
+
+	/**
+	 * mapping-field: 创建人[CREATOR]
+	 */
+	private String creator;
 
 
 	/**
 	 * mapping-field: 创建时间[CREATE_TIME]
 	 */
 	private Long createTime;
+
+
+	/**
+	 * mapping-field: 修改人[MODIFIER]
+	 */
+	private String modifier;
 
 
 	/**
@@ -141,6 +172,30 @@ public class PcAppAccess implements EntityBean {
 	}
 
 
+	public Long getMntId() {
+		return this.mntId;
+	}
+	public void setMntId(Long mntId) {
+		this.mntId = mntId;
+	}
+
+
+	public Integer getStatus() {
+		return this.status;
+	}
+	public void setStatus(Integer status) {
+		this.status = status;
+	}
+
+
+	public String getRemark() {
+		return this.remark;
+	}
+	public void setRemark(String remark) {
+		this.remark = remark;
+	}
+
+
 	public Integer getDataStatus() {
 		return this.dataStatus;
 	}
@@ -149,11 +204,27 @@ public class PcAppAccess implements EntityBean {
 	}
 
 
+	public String getCreator() {
+		return this.creator;
+	}
+	public void setCreator(String creator) {
+		this.creator = creator;
+	}
+
+
 	public Long getCreateTime() {
 		return this.createTime;
 	}
 	public void setCreateTime(Long createTime) {
 		this.createTime = createTime;
+	}
+
+
+	public String getModifier() {
+		return this.modifier;
+	}
+	public void setModifier(String modifier) {
+		this.modifier = modifier;
 	}
 
 

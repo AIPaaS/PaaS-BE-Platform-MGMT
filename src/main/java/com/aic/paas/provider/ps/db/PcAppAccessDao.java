@@ -1,9 +1,11 @@
 package com.aic.paas.provider.ps.db;
 
 
-import com.binary.framework.dao.Dao;
+import java.util.List;
+
 import com.aic.paas.provider.ps.bean.CPcAppAccess;
 import com.aic.paas.provider.ps.bean.PcAppAccess;
+import com.binary.framework.dao.Dao;
 
 
 /**
@@ -11,7 +13,14 @@ import com.aic.paas.provider.ps.bean.PcAppAccess;
  */
 public interface PcAppAccessDao extends Dao<PcAppAccess, CPcAppAccess> {
 
-
+	/**
+	 * 跟据名称查询
+	 * @param code
+	 * @param cdt
+	 * @param orders
+	 * @return
+	 */
+	public List<PcAppAccess> selectListByCode(String code, CPcAppAccess cdt, String orders);
 }
 
 

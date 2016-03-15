@@ -51,11 +51,13 @@ public class PcAppAccessDaoDefinition implements DaoDefinition<PcAppAccess, CPcA
 
 	@Override
 	public void setCreatorValue(PcAppAccess record, String creator) {
+		record.setCreator(creator);
 	}
 
 
 	@Override
 	public void setModifierValue(PcAppAccess record, String modifier) {
+		record.setModifier(modifier);
 	}
 
 
