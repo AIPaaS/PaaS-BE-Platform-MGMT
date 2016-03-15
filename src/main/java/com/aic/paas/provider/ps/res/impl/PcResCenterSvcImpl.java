@@ -198,7 +198,7 @@ public class PcResCenterSvcImpl implements PcResCenterSvc {
 		ResDetailInfo  resinfo = pcComputerSvc.queryByResCenter(resCenterId);
 
 		map.put("clusterId", resinfo.getResCenterId()+"");
-		map.put("clusteName", resinfo.getResCenterName());
+		map.put("clusterName", resinfo.getResCenterName());
 		//镜像地址
 		map.put("imagePath", resinfo.getImagePath());
 		map.put("useAgent",useAgent);
@@ -328,7 +328,7 @@ public class PcResCenterSvcImpl implements PcResCenterSvc {
 		}
 		
 		map.put("loadOnly", loadOnly);
-		map.put("virtulIP", propertiesPool.get("virtulIP"));
+		map.put("virtualIp", propertiesPool.get("virtualIp"));
 		map.put("hosts", list);
 		return map;
 	}
