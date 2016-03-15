@@ -9,6 +9,7 @@ import com.aic.paas.provider.ps.bean.PcService;
 import com.aic.paas.provider.ps.dep.bean.AppImageCallServiceRlt;
 import com.aic.paas.provider.ps.dep.bean.AppImageSettings;
 import com.aic.paas.provider.ps.dep.bean.AppImageSvcInfo;
+import com.binary.framework.exception.ServiceException;
 import com.binary.jdbc.Page;
 
 public interface PcAppImageSvc {
@@ -155,7 +156,7 @@ public interface PcAppImageSvc {
 	 * @param appImageId
 	 * @param params
 	 */
-	public void saveAppImageParams(Long appImageId, List<PcKvPair> params);
+	public void saveAppImageParams(Long appImageId, List<PcKvPair> params)throws ServiceException;
 	
 	
 	
