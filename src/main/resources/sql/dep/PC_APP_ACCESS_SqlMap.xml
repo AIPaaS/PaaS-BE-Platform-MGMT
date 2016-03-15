@@ -8,6 +8,8 @@
 		<result column="APP_ID" jdbcType="BIGINT" property="appId"/>	<!-- APP_ID -->
 		<result column="ACCESS_CODE" jdbcType="VARCHAR" property="accessCode"/>	<!-- 访问名称 -->
 		<result column="APP_IMAGE_ID" jdbcType="BIGINT" property="appImageId"/>	<!-- 所属应用镜像 -->
+		<result column="DATA_CENTER_ID" jdbcType="BIGINT" property="dataCenterId"/>	<!-- 所属数据中心 -->
+		<result column="RES_CENTER_ID" jdbcType="BIGINT" property="resCenterId"/>	<!-- 所属资源中心 -->
 		<result column="PROTOCOL" jdbcType="INTEGER" property="protocol"/>	<!-- 协议 -->
 		<result column="ACCESS_URL" jdbcType="VARCHAR" property="accessUrl"/>	<!-- 访问地址 -->
 		<result column="MNT_ID" jdbcType="BIGINT" property="mntId"/>	<!-- 所属租户 -->
@@ -18,10 +20,12 @@
 		<result column="CREATE_TIME" jdbcType="BIGINT" property="createTime"/>	<!-- 创建时间 -->
 		<result column="MODIFIER" jdbcType="VARCHAR" property="modifier"/>	<!-- 修改人 -->
 		<result column="MODIFY_TIME" jdbcType="BIGINT" property="modifyTime"/>	<!-- 修改时间 -->
-		<result column="BAK_1" jdbcType="BIGINT" property="bak1"/>	<!-- 备用字段1 -->
-		<result column="BAK_2" jdbcType="BIGINT" property="bak2"/>	<!-- 备用字段2 -->
-		<result column="BAK_3" jdbcType="VARCHAR" property="bak3"/>	<!-- 备用字段3 -->
-		<result column="BAK_4" jdbcType="VARCHAR" property="bak4"/>	<!-- 备用字段4 -->
+		<result column="CUSTOM_1" jdbcType="BIGINT" property="custom1"/>	<!-- 备用字段_1 -->
+		<result column="CUSTOM_2" jdbcType="BIGINT" property="custom2"/>	<!-- 备用字段_2 -->
+		<result column="CUSTOM_3" jdbcType="BIGINT" property="custom3"/>	<!-- 备用字段_3 -->
+		<result column="CUSTOM_4" jdbcType="VARCHAR" property="custom4"/>	<!-- 备用字段_4 -->
+		<result column="CUSTOM_5" jdbcType="VARCHAR" property="custom5"/>	<!-- 备用字段_5 -->
+		<result column="CUSTOM_6" jdbcType="VARCHAR" property="custom6"/>	<!-- 备用字段_6 -->
 	</resultMap>
 	
 
@@ -64,6 +68,30 @@
 		</isNotEmpty>
 		<isNotEmpty prepend="and" property="cdt.endAppImageId" >
 			<![CDATA[ APP_IMAGE_ID <= #cdt.endAppImageId:BIGINT# ]]>
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="cdt.dataCenterId" >
+			DATA_CENTER_ID = #cdt.dataCenterId:BIGINT#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="dataCenterIds" >
+			DATA_CENTER_ID in ($dataCenterIds$)
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="cdt.startDataCenterId" >
+			<![CDATA[ DATA_CENTER_ID >= #cdt.startDataCenterId:BIGINT# ]]>
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="cdt.endDataCenterId" >
+			<![CDATA[ DATA_CENTER_ID <= #cdt.endDataCenterId:BIGINT# ]]>
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="cdt.resCenterId" >
+			RES_CENTER_ID = #cdt.resCenterId:BIGINT#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="resCenterIds" >
+			RES_CENTER_ID in ($resCenterIds$)
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="cdt.startResCenterId" >
+			<![CDATA[ RES_CENTER_ID >= #cdt.startResCenterId:BIGINT# ]]>
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="cdt.endResCenterId" >
+			<![CDATA[ RES_CENTER_ID <= #cdt.endResCenterId:BIGINT# ]]>
 		</isNotEmpty>
 		<isNotEmpty prepend="and" property="cdt.protocol" >
 			PROTOCOL = #cdt.protocol:INTEGER#
@@ -149,35 +177,50 @@
 		<isNotEmpty prepend="and" property="cdt.endModifyTime" >
 			<![CDATA[ MODIFY_TIME <= #cdt.endModifyTime:BIGINT# ]]>
 		</isNotEmpty>
-		<isNotEmpty prepend="and" property="cdt.bak1" >
-			BAK_1 = #cdt.bak1:BIGINT#
+		<isNotEmpty prepend="and" property="cdt.custom1" >
+			CUSTOM_1 = #cdt.custom1:BIGINT#
 		</isNotEmpty>
-		<isNotEmpty prepend="and" property="bak1s" >
-			BAK_1 in ($bak1s$)
+		<isNotEmpty prepend="and" property="custom1s" >
+			CUSTOM_1 in ($custom1s$)
 		</isNotEmpty>
-		<isNotEmpty prepend="and" property="cdt.startBak1" >
-			<![CDATA[ BAK_1 >= #cdt.startBak1:BIGINT# ]]>
+		<isNotEmpty prepend="and" property="cdt.startCustom1" >
+			<![CDATA[ CUSTOM_1 >= #cdt.startCustom1:BIGINT# ]]>
 		</isNotEmpty>
-		<isNotEmpty prepend="and" property="cdt.endBak1" >
-			<![CDATA[ BAK_1 <= #cdt.endBak1:BIGINT# ]]>
+		<isNotEmpty prepend="and" property="cdt.endCustom1" >
+			<![CDATA[ CUSTOM_1 <= #cdt.endCustom1:BIGINT# ]]>
 		</isNotEmpty>
-		<isNotEmpty prepend="and" property="cdt.bak2" >
-			BAK_2 = #cdt.bak2:BIGINT#
+		<isNotEmpty prepend="and" property="cdt.custom2" >
+			CUSTOM_2 = #cdt.custom2:BIGINT#
 		</isNotEmpty>
-		<isNotEmpty prepend="and" property="bak2s" >
-			BAK_2 in ($bak2s$)
+		<isNotEmpty prepend="and" property="custom2s" >
+			CUSTOM_2 in ($custom2s$)
 		</isNotEmpty>
-		<isNotEmpty prepend="and" property="cdt.startBak2" >
-			<![CDATA[ BAK_2 >= #cdt.startBak2:BIGINT# ]]>
+		<isNotEmpty prepend="and" property="cdt.startCustom2" >
+			<![CDATA[ CUSTOM_2 >= #cdt.startCustom2:BIGINT# ]]>
 		</isNotEmpty>
-		<isNotEmpty prepend="and" property="cdt.endBak2" >
-			<![CDATA[ BAK_2 <= #cdt.endBak2:BIGINT# ]]>
+		<isNotEmpty prepend="and" property="cdt.endCustom2" >
+			<![CDATA[ CUSTOM_2 <= #cdt.endCustom2:BIGINT# ]]>
 		</isNotEmpty>
-		<isNotEmpty prepend="and" property="cdt.bak3" >
-			BAK_3 like #cdt.bak3:VARCHAR# 
+		<isNotEmpty prepend="and" property="cdt.custom3" >
+			CUSTOM_3 = #cdt.custom3:BIGINT#
 		</isNotEmpty>
-		<isNotEmpty prepend="and" property="cdt.bak4" >
-			BAK_4 like #cdt.bak4:VARCHAR# 
+		<isNotEmpty prepend="and" property="custom3s" >
+			CUSTOM_3 in ($custom3s$)
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="cdt.startCustom3" >
+			<![CDATA[ CUSTOM_3 >= #cdt.startCustom3:BIGINT# ]]>
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="cdt.endCustom3" >
+			<![CDATA[ CUSTOM_3 <= #cdt.endCustom3:BIGINT# ]]>
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="cdt.custom4" >
+			CUSTOM_4 like #cdt.custom4:VARCHAR# 
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="cdt.custom5" >
+			CUSTOM_5 like #cdt.custom5:VARCHAR# 
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="cdt.custom6" >
+			CUSTOM_6 like #cdt.custom6:VARCHAR# 
 		</isNotEmpty>
 	</sql>
 	
@@ -194,6 +237,12 @@
 		</isNotNull>
 		<isNotNull prepend="," property="record.appImageId"> 
 			APP_IMAGE_ID = #record.appImageId:BIGINT#
+		</isNotNull>
+		<isNotNull prepend="," property="record.dataCenterId"> 
+			DATA_CENTER_ID = #record.dataCenterId:BIGINT#
+		</isNotNull>
+		<isNotNull prepend="," property="record.resCenterId"> 
+			RES_CENTER_ID = #record.resCenterId:BIGINT#
 		</isNotNull>
 		<isNotNull prepend="," property="record.protocol"> 
 			PROTOCOL = #record.protocol:INTEGER#
@@ -225,25 +274,32 @@
 		<isNotNull prepend="," property="record.modifyTime"> 
 			MODIFY_TIME = #record.modifyTime:BIGINT#
 		</isNotNull>
-		<isNotNull prepend="," property="record.bak1"> 
-			BAK_1 = #record.bak1:BIGINT#
+		<isNotNull prepend="," property="record.custom1"> 
+			CUSTOM_1 = #record.custom1:BIGINT#
 		</isNotNull>
-		<isNotNull prepend="," property="record.bak2"> 
-			BAK_2 = #record.bak2:BIGINT#
+		<isNotNull prepend="," property="record.custom2"> 
+			CUSTOM_2 = #record.custom2:BIGINT#
 		</isNotNull>
-		<isNotNull prepend="," property="record.bak3"> 
-			BAK_3 = #record.bak3:VARCHAR#
+		<isNotNull prepend="," property="record.custom3"> 
+			CUSTOM_3 = #record.custom3:BIGINT#
 		</isNotNull>
-		<isNotNull prepend="," property="record.bak4"> 
-			BAK_4 = #record.bak4:VARCHAR#
+		<isNotNull prepend="," property="record.custom4"> 
+			CUSTOM_4 = #record.custom4:VARCHAR#
+		</isNotNull>
+		<isNotNull prepend="," property="record.custom5"> 
+			CUSTOM_5 = #record.custom5:VARCHAR#
+		</isNotNull>
+		<isNotNull prepend="," property="record.custom6"> 
+			CUSTOM_6 = #record.custom6:VARCHAR#
 		</isNotNull>
 	</sql>
 	
 
 	<sql id="sql_query_columns">
-		ID, APP_ID, ACCESS_CODE, APP_IMAGE_ID, PROTOCOL, ACCESS_URL, 
-		MNT_ID, STATUS, REMARK, DATA_STATUS, CREATOR, CREATE_TIME, 
-		MODIFIER, MODIFY_TIME, BAK_1, BAK_2, BAK_3, BAK_4
+		ID, APP_ID, ACCESS_CODE, APP_IMAGE_ID, DATA_CENTER_ID, RES_CENTER_ID, 
+		PROTOCOL, ACCESS_URL, MNT_ID, STATUS, REMARK, DATA_STATUS, 
+		CREATOR, CREATE_TIME, MODIFIER, MODIFY_TIME, CUSTOM_1, CUSTOM_2, 
+		CUSTOM_3, CUSTOM_4, CUSTOM_5, CUSTOM_6
 	</sql>
 	
 
@@ -281,15 +337,17 @@
 
 	<insert id="insert" parameterClass="java.util.Map">
 		insert into PC_APP_ACCESS(
-			ID, APP_ID, ACCESS_CODE, APP_IMAGE_ID, PROTOCOL, 
-			ACCESS_URL, MNT_ID, STATUS, REMARK, DATA_STATUS, 
-			CREATOR, CREATE_TIME, MODIFIER, MODIFY_TIME, BAK_1, 
-			BAK_2, BAK_3, BAK_4)
+			ID, APP_ID, ACCESS_CODE, APP_IMAGE_ID, DATA_CENTER_ID, 
+			RES_CENTER_ID, PROTOCOL, ACCESS_URL, MNT_ID, STATUS, 
+			REMARK, DATA_STATUS, CREATOR, CREATE_TIME, MODIFIER, 
+			MODIFY_TIME, CUSTOM_1, CUSTOM_2, CUSTOM_3, CUSTOM_4, 
+			CUSTOM_5, CUSTOM_6)
 		values (
-			#record.id:BIGINT#, #record.appId:BIGINT#, #record.accessCode:VARCHAR#, #record.appImageId:BIGINT#, #record.protocol:INTEGER#, 
-			#record.accessUrl:VARCHAR#, #record.mntId:BIGINT#, #record.status:INTEGER#, #record.remark:VARCHAR#, #record.dataStatus:INTEGER#, 
-			#record.creator:VARCHAR#, #record.createTime:BIGINT#, #record.modifier:VARCHAR#, #record.modifyTime:BIGINT#, #record.bak1:BIGINT#, 
-			#record.bak2:BIGINT#, #record.bak3:VARCHAR#, #record.bak4:VARCHAR#)
+			#record.id:BIGINT#, #record.appId:BIGINT#, #record.accessCode:VARCHAR#, #record.appImageId:BIGINT#, #record.dataCenterId:BIGINT#, 
+			#record.resCenterId:BIGINT#, #record.protocol:INTEGER#, #record.accessUrl:VARCHAR#, #record.mntId:BIGINT#, #record.status:INTEGER#, 
+			#record.remark:VARCHAR#, #record.dataStatus:INTEGER#, #record.creator:VARCHAR#, #record.createTime:BIGINT#, #record.modifier:VARCHAR#, 
+			#record.modifyTime:BIGINT#, #record.custom1:BIGINT#, #record.custom2:BIGINT#, #record.custom3:BIGINT#, #record.custom4:VARCHAR#, 
+			#record.custom5:VARCHAR#, #record.custom6:VARCHAR#)
 	</insert>
 	
 

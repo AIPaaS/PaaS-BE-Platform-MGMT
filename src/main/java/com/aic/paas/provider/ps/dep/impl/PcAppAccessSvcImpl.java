@@ -6,15 +6,13 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.aic.paas.provider.ps.bean.CPcAppAccess;
-import com.aic.paas.provider.ps.bean.CPcService;
-import com.aic.paas.provider.ps.bean.CPcAppAccess;
+import com.aic.paas.provider.ps.bean.PcApp;
 import com.aic.paas.provider.ps.bean.PcAppAccess;
-import com.aic.paas.provider.ps.bean.PcService;
+import com.aic.paas.provider.ps.bean.PcAppImage;
 import com.aic.paas.provider.ps.db.PcAppAccessDao;
 import com.aic.paas.provider.ps.db.PcAppDao;
 import com.aic.paas.provider.ps.db.PcAppImageDao;
 import com.aic.paas.provider.ps.dep.PcAppAccessSvc;
-import com.aic.paas.provider.ps.dep.bean.PcAppAccessInfo;
 import com.aic.paas.provider.ps.dep.bean.PcAppAccessInfo;
 import com.binary.core.util.BinaryUtils;
 import com.binary.framework.exception.ServiceException;
@@ -56,16 +54,17 @@ public class PcAppAccessSvcImpl implements PcAppAccessSvc{
 			BinaryUtils.checkEmpty(record.getAccessCode(), "record.accessCode");
 			BinaryUtils.checkEmpty(record.getAppImageId(), "record.appImageId");
 			BinaryUtils.checkEmpty(record.getProtocol(), "record.protocol");
-			BinaryUtils.checkEmpty(record.getAccessUrl(), "record.accessUrl");
+//			BinaryUtils.checkEmpty(record.getAccessUrl(), "record.accessUrl");
 			BinaryUtils.checkEmpty(record.getMntId(), "record.mntId");
+			BinaryUtils.checkEmpty(record.getDataCenterId(), "record.dataCenterId");
+			BinaryUtils.checkEmpty(record.getResCenterId(), "record.resCenterId");
 			if(record.getStatus() == null) record.setStatus(1); 
-			BinaryUtils.checkEmpty(record.getRemark(), "record.remark");
-			BinaryUtils.checkEmpty(record.getDataStatus(), "record.dataStatus");
-			BinaryUtils.checkEmpty(record.getCreator(), "record.creator");
-			BinaryUtils.checkEmpty(record.getCreateTime(), "record.createTime");
-			BinaryUtils.checkEmpty(record.getModifier(), "record.modifier");
-			BinaryUtils.checkEmpty(record.getModifyTime(), "record.modifyTime");
-			BinaryUtils.checkEmpty(record.getProtocol(), "record.Protocol");
+			if(record.getDataStatus() == null) record.setDataStatus(1); 
+//			BinaryUtils.checkEmpty(record.getCreator(), "record.creator");
+//			BinaryUtils.checkEmpty(record.getCreateTime(), "record.createTime");
+//			BinaryUtils.checkEmpty(record.getModifier(), "record.modifier");
+//			BinaryUtils.checkEmpty(record.getModifyTime(), "record.modifyTime");
+//			BinaryUtils.checkEmpty(record.getRemark(), "record.remark");
 		}else {
 			if(record.getAppId() != null) BinaryUtils.checkEmpty(record.getAppId(), "record.appId");
 			if(record.getAccessCode() != null) BinaryUtils.checkEmpty(record.getAccessCode(), "record.accessCode");
@@ -108,12 +107,14 @@ public class PcAppAccessSvcImpl implements PcAppAccessSvc{
 		if(ls!=null && ls.size()>0) {
 			for(int i=0; i<ls.size(); i++) {
 				PcAppAccess svc = ls.get(i);
-				String imgName = appImageDao.selectById(svc.getAppImageId()).getContainerName();
-				String appName = appDao.selectById(svc.getAppId()).getAppName();
+				PcAppImage pai = appImageDao.selectById(svc.getAppImageId());
+				PcApp app  = appDao.selectById(svc.getAppId());
 				PcAppAccessInfo info = new PcAppAccessInfo();
 				info.setAccess(svc);
-				info.setImgName(imgName);
-				info.setAppName(appName);
+				if(pai!=null)
+					info.setImgName(pai.getContainerFullName());
+				if(app!=null)
+					info.setAppName(app.getAppName());
 				infos.add(info);
 			}
 		}
