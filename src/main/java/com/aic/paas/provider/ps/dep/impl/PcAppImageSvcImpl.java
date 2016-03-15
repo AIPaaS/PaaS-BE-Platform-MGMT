@@ -474,7 +474,7 @@ public class PcAppImageSvcImpl implements PcAppImageSvc {
 
 
 	@Override
-	public void saveAppImageParams(Long appImageId, List<PcKvPair> params) {
+	public void saveAppImageParams(Long appImageId, List<PcKvPair> params) throws ServiceException{
 		BinaryUtils.checkEmpty(appImageId, "appImageId");
 		DepUtil.verifyParamsRepeated(params, false);
 		
