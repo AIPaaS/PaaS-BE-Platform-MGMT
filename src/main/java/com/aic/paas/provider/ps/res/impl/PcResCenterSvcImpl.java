@@ -231,7 +231,7 @@ public class PcResCenterSvcImpl implements PcResCenterSvc {
 
 		for(PcNetZone pcnz : zoneist){
 			Map<String,Object> map = new HashMap<String, Object>();
-			map.put("zone", pcnz.getZoneName());
+			map.put("zone", pcnz.getZoneCode());
 			map.put("network", pcnz.getNetSegExp());
 			list.add(map);
 		}

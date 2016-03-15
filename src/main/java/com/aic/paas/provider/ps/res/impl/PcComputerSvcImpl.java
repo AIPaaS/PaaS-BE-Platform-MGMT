@@ -298,10 +298,10 @@ public class PcComputerSvcImpl implements PcComputerSvc {
 			throw new ServiceException(" there are not the resCenter  " +resCenterId);
 		}
 		//该资源中心所属数据中心名称
-		String dataCenterName = dataCenterDao.selectById(prc.getDataCenterId()).getName();
+		String dataCenterName = dataCenterDao.selectById(prc.getDataCenterId()).getCode();
 		
 		resInfo.setResCenterId(resCenterId);
-		resInfo.setResCenterName(prc.getResName());
+		resInfo.setResCenterName(prc.getResCode());
 		resInfo.setDataCenterId(prc.getDataCenterId());
 		resInfo.setDataCenterName(dataCenterName);
 		resInfo.setImagePath(prc.getImagePath());
