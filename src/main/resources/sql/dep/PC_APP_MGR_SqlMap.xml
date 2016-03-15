@@ -9,6 +9,7 @@
 		<result column="USER_ID" jdbcType="BIGINT" property="userId"/>	<!-- 用户ID -->
 		<result column="CREATE_TIME" jdbcType="BIGINT" property="createTime"/>	<!-- 创建时间 -->
 		<result column="MODIFY_TIME" jdbcType="BIGINT" property="modifyTime"/>	<!-- 修改时间 -->
+		<result column="DATA_STATUS" jdbcType="INTEGER" property="dataStatus"/>	<!-- 数据状态 -->
 	</resultMap>
 	
 
@@ -73,6 +74,18 @@
 		<isNotEmpty prepend="and" property="cdt.endModifyTime" >
 			<![CDATA[ MODIFY_TIME <= #cdt.endModifyTime:BIGINT# ]]>
 		</isNotEmpty>
+		<isNotEmpty prepend="and" property="cdt.dataStatus" >
+			DATA_STATUS = #cdt.dataStatus:INTEGER#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="dataStatuss" >
+			DATA_STATUS in ($dataStatuss$)
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="cdt.startDataStatus" >
+			<![CDATA[ DATA_STATUS >= #cdt.startDataStatus:INTEGER# ]]>
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="cdt.endDataStatus" >
+			<![CDATA[ DATA_STATUS <= #cdt.endDataStatus:INTEGER# ]]>
+		</isNotEmpty>
 	</sql>
 	
 
@@ -92,11 +105,14 @@
 		<isNotNull prepend="," property="record.modifyTime"> 
 			MODIFY_TIME = #record.modifyTime:BIGINT#
 		</isNotNull>
+		<isNotNull prepend="," property="record.dataStatus"> 
+			DATA_STATUS = #record.dataStatus:INTEGER#
+		</isNotNull>
 	</sql>
 	
 
 	<sql id="sql_query_columns">
-		ID, APP_ID, USER_ID, CREATE_TIME, MODIFY_TIME
+		ID, APP_ID, USER_ID, CREATE_TIME, MODIFY_TIME, DATA_STATUS
 	</sql>
 	
 
@@ -126,7 +142,7 @@
 	<select id="selectById" parameterClass="java.util.Map" resultMap="queryResult">
 		select 
 			<include refid="PC_APP_MGR.sql_query_columns" />
-		from PC_APP_MGR where ID=#id:BIGINT# 
+		from PC_APP_MGR where ID=#id:BIGINT# and DATA_STATUS=1  
 	</select>
 	
 
@@ -134,9 +150,11 @@
 
 	<insert id="insert" parameterClass="java.util.Map">
 		insert into PC_APP_MGR(
-			ID, APP_ID, USER_ID, CREATE_TIME, MODIFY_TIME)
+			ID, APP_ID, USER_ID, CREATE_TIME, MODIFY_TIME, 
+			DATA_STATUS)
 		values (
-			#record.id:BIGINT#, #record.appId:BIGINT#, #record.userId:BIGINT#, #record.createTime:BIGINT#, #record.modifyTime:BIGINT#)
+			#record.id:BIGINT#, #record.appId:BIGINT#, #record.userId:BIGINT#, #record.createTime:BIGINT#, #record.modifyTime:BIGINT#, 
+			#record.dataStatus:INTEGER#)
 	</insert>
 	
 
