@@ -99,6 +99,12 @@ public class PcAppAccessSvcImpl implements PcAppAccessSvc{
 
 	@Override
 	public int removeById(Long id) {
+		PcAppAccess access = appAccessDao.selectById(id);
+		PcAppImage record = new PcAppImage();
+		record.setId(access.getAppImageId());
+		record.setCustom1(0l);
+		record.setCustom2(0l);
+		appImageDao.save(record);
 		return appAccessDao.deleteById(id);
 	}
 
