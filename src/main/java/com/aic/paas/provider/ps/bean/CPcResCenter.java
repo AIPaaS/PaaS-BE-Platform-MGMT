@@ -176,6 +176,33 @@ public class CPcResCenter implements Condition {
 
 
 	/**
+	 * condition-field: 初始化状态[INIT_STATUS] operate-Equal[=]
+	 * 0-未初始化，1-正在初始化，2-初始化完成，3-初始化失败
+	 */
+	private Integer initStatus;
+
+
+	/**
+	 * condition-field: 初始化状态[INIT_STATUS] operate-In[in]
+	 * 0-未初始化，1-正在初始化，2-初始化完成，3-初始化失败
+	 */
+	private Integer[] initStatuss;
+
+
+	/**
+	 * condition-field: 初始化状态[INIT_STATUS] operate-GTEqual[>=]
+	 * 0-未初始化，1-正在初始化，2-初始化完成，3-初始化失败
+	 */
+	private Integer startInitStatus;
+
+	/**
+	 * condition-field: 初始化状态[INIT_STATUS] operate-LTEqual[<=]
+	 * 0-未初始化，1-正在初始化，2-初始化完成，3-初始化失败
+	 */
+	private Integer endInitStatus;
+
+
+	/**
 	 * condition-field: 备注[REMARK] operate-Like[like]
 	 */
 	private String remark;
@@ -591,6 +618,38 @@ public class CPcResCenter implements Condition {
 	}
 	public void setExternalDomains(String[] externalDomains) {
 		this.externalDomains = externalDomains;
+	}
+
+
+	public Integer getInitStatus() {
+		return this.initStatus;
+	}
+	public void setInitStatus(Integer initStatus) {
+		this.initStatus = initStatus;
+	}
+
+
+	public Integer[] getInitStatuss() {
+		return this.initStatuss;
+	}
+	public void setInitStatuss(Integer[] initStatuss) {
+		this.initStatuss = initStatuss;
+	}
+
+
+	public Integer getStartInitStatus() {
+		return this.startInitStatus;
+	}
+	public void setStartInitStatus(Integer startInitStatus) {
+		this.startInitStatus = startInitStatus;
+	}
+
+
+	public Integer getEndInitStatus() {
+		return this.endInitStatus;
+	}
+	public void setEndInitStatus(Integer endInitStatus) {
+		this.endInitStatus = endInitStatus;
 	}
 
 
