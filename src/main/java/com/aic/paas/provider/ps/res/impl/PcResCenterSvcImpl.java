@@ -203,8 +203,8 @@ public class PcResCenterSvcImpl implements PcResCenterSvc {
 		map.put("imagePath", resinfo.getImagePath());
 		map.put("useAgent",useAgent);
 		//agentid为资源中心id
-//		map.put("aid", resinfo.getResCenterId());
-		map.put("aid", "dev");
+		map.put("aid", resinfo.getResCenterId());
+//		map.put("aid", "dev");
 		
 		map.put("attributesList", getZoneParam(resCenterId));
 		
