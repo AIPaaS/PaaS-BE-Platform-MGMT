@@ -211,7 +211,7 @@ public class PcResCenterSvcImpl implements PcResCenterSvc {
 		map.put("dataCenter", resinfo.getDataCenterName());
 		map.put("domain", resinfo.getDomain());
 		map.put("externalDomain", resinfo.getExternalDomain());
-		map.put("loadVirtulIP", propertiesPool.get("loadVirtulIP"));
+		map.put("loadVirtualIP", propertiesPool.get("loadVirtulIP"));
 				
 		map.put("mesosMaster", getMasterParam(resinfo));
 		map.put("mesosSlave", getSlaveParam(resinfo));
@@ -225,6 +225,7 @@ public class PcResCenterSvcImpl implements PcResCenterSvc {
 		
 		CPcNetZone cpnz = new CPcNetZone();
 		cpnz.setResCenterId(resCenterId);
+		cpnz.setStatus(1);
 		List<PcNetZone> zoneist = pcNetZoneDao.selectList(cpnz, "id");
 		
 		List<Map<String,Object>> list =new ArrayList<Map<String,Object>>();
@@ -258,7 +259,7 @@ public class PcResCenterSvcImpl implements PcResCenterSvc {
 		for(int i=0;i<resinfo.getCorePartList().size();i++){
 			Map<String,Object> map = new HashMap<String, Object>();
 			PcComputer pc = resinfo.getCorePartList().get(i);
-			map.put("id", i);
+			map.put("id", i+1);
 			map.put("ip", pc.getIp());
 			map.put("root", pc.getLoginName());
 			map.put("passwd", pc.getLoginPwd());
@@ -287,7 +288,7 @@ public class PcResCenterSvcImpl implements PcResCenterSvc {
 		for(int i=0;i<resinfo.getVisitPartList().size();i++){
 			Map<String,Object> map = new HashMap<String, Object>();
 			PcComputer pc = resinfo.getCorePartList().get(i);
-			map.put("id", i);
+			map.put("id", i+1);
 			map.put("ip", pc.getIp());
 			map.put("root", pc.getLoginName());
 			map.put("passwd", pc.getLoginPwd());
@@ -316,11 +317,11 @@ public class PcResCenterSvcImpl implements PcResCenterSvc {
 		
 		Map<String,Object> map = new HashMap<String, Object>();
 		List<Map<String,Object>> list = new ArrayList<Map<String,Object>>();
-		Map<String,Object> hostsMap = new HashMap<String, Object>();
 		List<PcComputer> pcList = resinfo.getVisitPartList();
 		for(int i=0;i<pcList.size();i++){
+			Map<String,Object> hostsMap = new HashMap<String, Object>();
 			PcComputer pc = pcList.get(i);
-			hostsMap.put("id", i);
+			hostsMap.put("id", i+1);
 			hostsMap.put("ip", pc.getIp());
 			hostsMap.put("root", pc.getLoginName());
 			hostsMap.put("passwd", pc.getLoginPwd());
