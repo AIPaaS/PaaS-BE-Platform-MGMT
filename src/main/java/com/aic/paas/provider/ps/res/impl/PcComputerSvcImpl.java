@@ -334,12 +334,14 @@ public class PcComputerSvcImpl implements PcComputerSvc {
 		
 		Map<Long,String> map = getNetZoneCodeMap(resCenterId);
 		for(PcComputer pc :list){
-			if("center".equals(map.get(pc.getNetZoneId()))){
-				corePartList.add(pc);
-			}else if("visit".equals(map.get(pc.getNetZoneId()))){
-				visitPartList.add(pc);
-			}else{
-				slavePartList.add(pc);
+			if(pc.getStatus() == 1 ){
+				if("center".equals(map.get(pc.getNetZoneId()))){
+					corePartList.add(pc);
+				}else if("visit".equals(map.get(pc.getNetZoneId()))){
+					visitPartList.add(pc);
+				}else{
+					slavePartList.add(pc);
+				}
 			}
 		}
 		
