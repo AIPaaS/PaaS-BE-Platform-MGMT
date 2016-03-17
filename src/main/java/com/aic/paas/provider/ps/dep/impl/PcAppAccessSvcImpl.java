@@ -9,11 +9,15 @@ import com.aic.paas.provider.ps.bean.CPcAppAccess;
 import com.aic.paas.provider.ps.bean.PcApp;
 import com.aic.paas.provider.ps.bean.PcAppAccess;
 import com.aic.paas.provider.ps.bean.PcAppImage;
+import com.aic.paas.provider.ps.bean.PcResCenter;
 import com.aic.paas.provider.ps.db.PcAppAccessDao;
 import com.aic.paas.provider.ps.db.PcAppDao;
 import com.aic.paas.provider.ps.db.PcAppImageDao;
+import com.aic.paas.provider.ps.db.PcResCenterDao;
 import com.aic.paas.provider.ps.dep.PcAppAccessSvc;
 import com.aic.paas.provider.ps.dep.bean.PcAppAccessInfo;
+import com.aic.paas.provider.ps.remote.IAppAccess;
+import com.aic.paas.provider.ps.remote.model.AppAccessModel;
 import com.binary.core.util.BinaryUtils;
 import com.binary.framework.exception.ServiceException;
 import com.binary.jdbc.Page;
@@ -29,6 +33,12 @@ public class PcAppAccessSvcImpl implements PcAppAccessSvc{
 	@Autowired
 	PcAppDao appDao;
 
+	@Autowired
+	IAppAccess iAppAccess;
+	
+	@Autowired
+	PcResCenterDao resCenterDao;
+	
 	@Override
 	public Page<PcAppAccess> queryPage(Integer pageNum, Integer pageSize, CPcAppAccess cdt, String orders) {
 		return appAccessDao.selectPage(pageNum, pageSize, cdt, orders);
@@ -94,7 +104,51 @@ public class PcAppAccessSvcImpl implements PcAppAccessSvc{
 				throw new ServiceException(" is exists code '"+code+"'! ");
 			}
 		}
+		PcAppAccess old = null;
+		if(!isadd){
+			//更新时，如果重新选择了入口的容器，需要更新PcAppImage
+			old = appAccessDao.selectById(id);
+			if(old.getAppImageId()!=record.getAppImageId()){
+				PcAppImage apprecord = new PcAppImage();
+				//取消旧的入口
+				apprecord.setId(old.getAppImageId());
+				apprecord.setCustom1(0l);
+				apprecord.setCustom2(0l);
+				appImageDao.save(apprecord);
+				//增加新的入口
+				apprecord.setId(record.getAppImageId());
+				apprecord.setCustom1(1l);
+				apprecord.setCustom2(record.getProtocol().longValue());
+				appImageDao.save(apprecord);
+			}
+		}
+		//调用能力后场接口
+//		remoteService(record,isadd,old);
+		
 		return appAccessDao.save(record);
+	}
+
+	private void remoteService(PcAppAccess record, boolean isadd,PcAppAccess old) {
+		AppAccessModel param = new AppAccessModel();
+		PcAppImage pai = appImageDao.selectById(record.getAppImageId());
+		if(pai!=null)
+			param.setContainer(pai.getContainerFullName());
+		param.setAccessCode(record.getAccessCode());
+		param.setAccessCodeOld(record.getAccessCode());
+		PcResCenter resCenter = resCenterDao.selectById(record.getResCenterId());
+		if(pai!=null&&resCenter!=null)
+			param.setDns(param.getContainer()+".marathon."+resCenter.getDomain());
+		param.setProtocol(record.getProtocol());
+		param.setResCenterId(record.getResCenterId().intValue());
+		if(isadd){
+			iAppAccess.addAccess(param);
+		}else{
+			if(old==null)
+				old = appAccessDao.selectById(record.getId());
+			param.setAccessCodeOld(old.getAccessCode());
+			iAppAccess.updateAccess(param);
+		}
+		
 	}
 
 	@Override
