@@ -17,7 +17,10 @@ import com.aic.paas.provider.ps.db.PcResCenterDao;
 import com.aic.paas.provider.ps.dep.PcAppAccessSvc;
 import com.aic.paas.provider.ps.dep.bean.PcAppAccessInfo;
 import com.aic.paas.provider.ps.remote.IAppAccess;
+import com.aic.paas.provider.ps.remote.bean.AppAccessCodeUrl;
 import com.aic.paas.provider.ps.remote.model.AppAccessModel;
+import com.alibaba.dubbo.common.json.JSON;
+import com.alibaba.dubbo.common.json.ParseException;
 import com.binary.core.util.BinaryUtils;
 import com.binary.framework.exception.ServiceException;
 import com.binary.jdbc.Page;
@@ -123,7 +126,7 @@ public class PcAppAccessSvcImpl implements PcAppAccessSvc{
 			}
 		}
 		//调用能力后场接口
-//		remoteService(record,isadd,old);
+		remoteService(record,isadd,old);
 		
 		return appAccessDao.save(record);
 	}
@@ -140,13 +143,28 @@ public class PcAppAccessSvcImpl implements PcAppAccessSvc{
 			param.setDns(param.getContainer()+".marathon."+resCenter.getDomain());
 		param.setProtocol(record.getProtocol());
 		param.setResCenterId(record.getResCenterId().intValue());
+		//获取后场返回值 
+		String result = null;
 		if(isadd){
-			iAppAccess.addAccess(param);
+			result = iAppAccess.addAccess(param);
 		}else{
 			if(old==null)
 				old = appAccessDao.selectById(record.getId());
 			param.setAccessCodeOld(old.getAccessCode());
-			iAppAccess.updateAccess(param);
+			result = iAppAccess.updateAccess(param);
+		}
+		try {
+			AppAccessCodeUrl aacu = JSON.parse(result, AppAccessCodeUrl.class);
+			if("000000".equals(aacu.getCode())){
+				PcAppAccess paa = new PcAppAccess();
+				paa.setId(record.getId());
+				paa.setAccessUrl(aacu.getAccessUrl());
+				appAccessDao.save(paa);
+			}else{
+				throw new ServiceException(" modify remote cfg error ! "); 
+			}
+		} catch (ParseException e) {
+			throw new ServiceException(" modify remote cfg error ! "); 
 		}
 		
 	}
