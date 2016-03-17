@@ -11,6 +11,18 @@ import com.aic.paas.provider.ps.bean.PcAppDepHistory;
  */
 public interface PcAppDepHistoryDao extends Dao<PcAppDepHistory, CPcAppDepHistory> {
 
+	
+	
+	
+	/**
+	 * 跟据容器全名查询最新布署容器
+	 * @param appImageFullName
+	 * @return
+	 */
+	public PcAppDepHistory selectMaxByAppImageFullName(String appImageFullName);
+	
+	
+	
 
 }
 

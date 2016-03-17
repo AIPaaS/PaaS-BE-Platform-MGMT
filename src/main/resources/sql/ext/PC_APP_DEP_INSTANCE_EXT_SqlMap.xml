@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap namespace="PC_APP_DEP_INSTANCE">
+
+
+	<update id="disableDepInstanceByInstanceName" parameterClass="java.util.Map">
+		update PC_APP_DEP_INSTANCE set STATUS=0, MODIFY_TIME=#modifyTime:BIGINT# where INSTANCE_NAME=#instanceName:VARCHAR#
+	</update>
+
+
+</sqlMap>

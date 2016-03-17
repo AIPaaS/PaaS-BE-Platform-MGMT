@@ -59,7 +59,8 @@
 	<sqlMap resource="sql/ext/PC_SERVICE_EXT_SqlMap.xml" />
 	<sqlMap resource="sql/ext/PC_COMPUTER_TAG_EXT_SqlMap.xml" />
 	<sqlMap resource="sql/ext/PC_APP_TASK_EXT_SqlMap.xml" />
-	
+	<sqlMap resource="sql/ext/PC_APP_DEP_INSTANCE_EXT_SqlMap.xml" />
+	<sqlMap resource="sql/ext/PC_APP_DEP_HISTORY_EXT_SqlMap.xml" />
 	
 	
 </sqlMapConfig>

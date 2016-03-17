@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap namespace="PC_APP_DEP_HISTORY">
+
+
+	
+	<select id="selectMaxByAppImageFullName" parameterClass="java.util.Map" resultMap="queryResult">
+		select 
+			<include refid="PC_APP_DEP_HISTORY.sql_query_columns" />
+		from PC_APP_DEP_HISTORY 
+			where id=(select max(id) from PC_APP_DEP_HISTORY where DATA_STATUS=1 and CONTAINER_FULL_NAME=#containerFullName:VARCHAR# )
+	</select>
+	
+
+
+
+</sqlMap>
