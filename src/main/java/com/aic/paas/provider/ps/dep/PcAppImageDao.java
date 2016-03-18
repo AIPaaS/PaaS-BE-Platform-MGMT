@@ -1,9 +1,9 @@
-package com.aic.testcode.db;
+package com.aic.paas.provider.ps.dep;
 
 
+import com.aic.paas.provider.ps.dep.bean.CPcAppImage;
+import com.aic.paas.provider.ps.dep.bean.PcAppImage;
 import com.binary.framework.dao.Dao;
-import com.aic.testcode.bean.CPcAppImage;
-import com.aic.testcode.bean.PcAppImage;
 
 
 /**
