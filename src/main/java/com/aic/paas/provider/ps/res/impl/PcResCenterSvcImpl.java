@@ -287,7 +287,7 @@ public class PcResCenterSvcImpl implements PcResCenterSvc {
 		
 		for(int i=0;i<resinfo.getSlavePartList().size();i++){
 			Map<String,Object> map = new HashMap<String, Object>();
-			PcComputer pc = resinfo.getCorePartList().get(i);
+			PcComputer pc = resinfo.getSlavePartList().get(i);
 			map.put("id", i+1);
 			map.put("ip", pc.getIp());
 			map.put("root", pc.getLoginName());
