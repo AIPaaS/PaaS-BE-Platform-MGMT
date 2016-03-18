@@ -644,12 +644,12 @@ public class PcAppImageSvcImpl implements PcAppImageSvc {
 		PcAppVersion appVno = new PcAppVersion();
 		appVno.setSetupStatus(0);
 		if(setup == AppImageSetup.FINISHED) {
-			boolean allfed = appImageDao.isFinishAllAppImage(appId);
+			boolean allfed = appImageDao.isFinishAllAppImage(appId, appVnoId);
 			if(allfed) {
 				appVno.setSetupStatus(1);
 			}
 		}
-		appVnoDao.updateById(appVno, appId);
+		appVnoDao.updateById(appVno, appVnoId);
 	}
 	
 	
