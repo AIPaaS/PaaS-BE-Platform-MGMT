@@ -11,7 +11,7 @@ import com.binary.jdbc.Page;
 public interface PcAppAccessSvc {
 	
 	/**
-	 * 新增方法接口：
+	 * 新增方法接口：异步修改远程haproxy配置
 	 */
 	public String remoteMonitorService(ParmDockerImage pdi);
 	
