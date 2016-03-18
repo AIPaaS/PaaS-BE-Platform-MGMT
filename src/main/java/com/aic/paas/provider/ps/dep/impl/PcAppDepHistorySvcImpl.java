@@ -9,6 +9,8 @@ import com.aic.paas.provider.ps.bean.PcAppDepHistory;
 import com.aic.paas.provider.ps.db.PcAppDepHistoryDao;
 import com.aic.paas.provider.ps.dep.PcAppDepHistorySvc;
 
+
+
 public class PcAppDepHistorySvcImpl implements PcAppDepHistorySvc {
 
 	@Autowired
@@ -25,5 +27,9 @@ public class PcAppDepHistorySvcImpl implements PcAppDepHistorySvc {
 		cPcAppDepHistory.setTaskId(taskId);
 		return pcAppDepHistoryDao.selectList(cPcAppDepHistory, null);
 	}
-
+	
+	@Override
+	public long update(PcAppDepHistory pcAppDepHistory, CPcAppDepHistory cdt) {
+		return pcAppDepHistoryDao.updateByCdt(pcAppDepHistory,cdt);
+	}
 }
