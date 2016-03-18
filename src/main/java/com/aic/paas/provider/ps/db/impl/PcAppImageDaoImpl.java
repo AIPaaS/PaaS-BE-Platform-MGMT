@@ -28,7 +28,7 @@ public class PcAppImageDaoImpl extends IBatisDaoTemplate<PcAppImage, CPcAppImage
 		BinaryUtils.checkEmpty(appVnoIds, "appVnoIds");
 		
 		StringBuilder sb = new StringBuilder();
-		sb.append(" select APP_ID appId, sum(CPU_COUNT) cpuCount, sum(MEM_SIZE) memSize, sum(DISK_SIZE) diskSize, ")
+		sb.append(" select APP_ID appId, sum(CPU_TOTAL) cpuCount, sum(MEM_TOTAL) memSize, sum(DISK_TOTAL) diskSize, ")
 			.append("			sum(INSTANCE_COUNT) instanceCount, count(1)  custom1 ")
 			.append("		from PC_APP_IMAGE ")
 			.append("		where DATA_STATUS=1 and APP_ID in ("+Conver.toString(appIds)+") and APP_VNO_ID in ("+Conver.toString(appVnoIds)+") ");
@@ -52,7 +52,8 @@ public class PcAppImageDaoImpl extends IBatisDaoTemplate<PcAppImage, CPcAppImage
 		
 		StringBuilder sb = new StringBuilder();
 		sb.append(" select APP_ID appId, NET_ZONE_ID netZoneId, ")
-			.append("			sum(CPU_COUNT) cpuCount, sum(MEM_SIZE) memSize, sum(DISK_SIZE) diskSize, ")
+			.append("			sum(CPU_TOTAL) cpuCount, sum(MEM_TOTAL) memSize, sum(DISK_TOTAL" +
+					") diskSize, ")
 			.append("			sum(INSTANCE_COUNT) instanceCount, count(1)  custom1 ")
 			.append("		from PC_APP_IMAGE ")
 			.append("		where DATA_STATUS=1 and APP_ID="+appId+" and APP_VNO_ID="+appVnoId+"  ");
