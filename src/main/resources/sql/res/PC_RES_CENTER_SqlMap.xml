@@ -13,6 +13,7 @@
 		<result column="IMAGE_PATH" jdbcType="VARCHAR" property="imagePath"/>	<!-- 镜像地址 -->
 		<result column="DOMAIN" jdbcType="VARCHAR" property="domain"/>	<!-- 集群内部服务域名后缀 -->
 		<result column="EXTERNAL_DOMAIN" jdbcType="VARCHAR" property="externalDomain"/>	<!-- 非mesos集群管理域名 -->
+		<result column="INIT_STATUS" jdbcType="INTEGER" property="initStatus"/>	<!-- 初始化状态 -->
 		<result column="REMARK" jdbcType="VARCHAR" property="remark"/>	<!-- 备注 -->
 		<result column="CUSTOM_1" jdbcType="BIGINT" property="custom1"/>	<!-- 备用字段_1 -->
 		<result column="CUSTOM_2" jdbcType="BIGINT" property="custom2"/>	<!-- 备用字段_2 -->
@@ -108,6 +109,18 @@
 		</isNotEmpty>
 		<isNotEmpty prepend="and" property="externalDomains" >
 			EXTERNAL_DOMAIN in ($externalDomains$)
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="cdt.initStatus" >
+			INIT_STATUS = #cdt.initStatus:INTEGER#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="initStatuss" >
+			INIT_STATUS in ($initStatuss$)
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="cdt.startInitStatus" >
+			<![CDATA[ INIT_STATUS >= #cdt.startInitStatus:INTEGER# ]]>
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="cdt.endInitStatus" >
+			<![CDATA[ INIT_STATUS <= #cdt.endInitStatus:INTEGER# ]]>
 		</isNotEmpty>
 		<isNotEmpty prepend="and" property="cdt.remark" >
 			REMARK like #cdt.remark:VARCHAR# 
@@ -236,6 +249,9 @@
 		<isNotNull prepend="," property="record.externalDomain"> 
 			EXTERNAL_DOMAIN = #record.externalDomain:VARCHAR#
 		</isNotNull>
+		<isNotNull prepend="," property="record.initStatus"> 
+			INIT_STATUS = #record.initStatus:INTEGER#
+		</isNotNull>
 		<isNotNull prepend="," property="record.remark"> 
 			REMARK = #record.remark:VARCHAR#
 		</isNotNull>
@@ -274,9 +290,9 @@
 
 	<sql id="sql_query_columns">
 		ID, DATA_CENTER_ID, RES_CODE, RES_NAME, ENV_TYPE, IMG_RESP_ID, 
-		IMAGE_PATH, DOMAIN, EXTERNAL_DOMAIN, REMARK, CUSTOM_1, CUSTOM_2, 
-		CUSTOM_3, CUSTOM_4, CUSTOM_5, CUSTOM_6, STATUS, DATA_STATUS, 
-		CREATE_TIME, MODIFY_TIME
+		IMAGE_PATH, DOMAIN, EXTERNAL_DOMAIN, INIT_STATUS, REMARK, CUSTOM_1, 
+		CUSTOM_2, CUSTOM_3, CUSTOM_4, CUSTOM_5, CUSTOM_6, STATUS, 
+		DATA_STATUS, CREATE_TIME, MODIFY_TIME
 	</sql>
 	
 
@@ -315,14 +331,16 @@
 	<insert id="insert" parameterClass="java.util.Map">
 		insert into PC_RES_CENTER(
 			ID, DATA_CENTER_ID, RES_CODE, RES_NAME, ENV_TYPE, 
-			IMG_RESP_ID, IMAGE_PATH, DOMAIN, EXTERNAL_DOMAIN, REMARK, 
-			CUSTOM_1, CUSTOM_2, CUSTOM_3, CUSTOM_4, CUSTOM_5, 
-			CUSTOM_6, STATUS, DATA_STATUS, CREATE_TIME, MODIFY_TIME)
+			IMG_RESP_ID, IMAGE_PATH, DOMAIN, EXTERNAL_DOMAIN, INIT_STATUS, 
+			REMARK, CUSTOM_1, CUSTOM_2, CUSTOM_3, CUSTOM_4, 
+			CUSTOM_5, CUSTOM_6, STATUS, DATA_STATUS, CREATE_TIME, 
+			MODIFY_TIME)
 		values (
 			#record.id:BIGINT#, #record.dataCenterId:BIGINT#, #record.resCode:VARCHAR#, #record.resName:VARCHAR#, #record.envType:INTEGER#, 
-			#record.imgRespId:BIGINT#, #record.imagePath:VARCHAR#, #record.domain:VARCHAR#, #record.externalDomain:VARCHAR#, #record.remark:VARCHAR#, 
-			#record.custom1:BIGINT#, #record.custom2:BIGINT#, #record.custom3:BIGINT#, #record.custom4:VARCHAR#, #record.custom5:VARCHAR#, 
-			#record.custom6:VARCHAR#, #record.status:INTEGER#, #record.dataStatus:INTEGER#, #record.createTime:BIGINT#, #record.modifyTime:BIGINT#)
+			#record.imgRespId:BIGINT#, #record.imagePath:VARCHAR#, #record.domain:VARCHAR#, #record.externalDomain:VARCHAR#, #record.initStatus:INTEGER#, 
+			#record.remark:VARCHAR#, #record.custom1:BIGINT#, #record.custom2:BIGINT#, #record.custom3:BIGINT#, #record.custom4:VARCHAR#, 
+			#record.custom5:VARCHAR#, #record.custom6:VARCHAR#, #record.status:INTEGER#, #record.dataStatus:INTEGER#, #record.createTime:BIGINT#, 
+			#record.modifyTime:BIGINT#)
 	</insert>
 	
 
