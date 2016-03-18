@@ -1,4 +1,4 @@
-package com.aic.paas.provider.ps.bean;
+package com.aic.paas.provider.ps.dep.bean;
 
 
 

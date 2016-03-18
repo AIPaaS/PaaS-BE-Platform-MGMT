@@ -1,4 +1,4 @@
-package com.aic.paas.provider.ps.db;
+package com.aic.paas.provider.ps.dep;
 
 
 import com.aic.paas.provider.ps.dep.bean.CPcAppImage;

@@ -1,11 +1,9 @@
-package com.aic.paas.provider.ps.db.impl;
+package com.aic.paas.provider.ps.dep.impl;
 
 
-
-
-import com.aic.paas.provider.ps.bean.CPcAppImage;
-import com.aic.paas.provider.ps.bean.PcAppImage;
 import com.aic.paas.provider.ps.dep.PcAppImageDao;
+import com.aic.paas.provider.ps.dep.bean.CPcAppImage;
+import com.aic.paas.provider.ps.dep.bean.PcAppImage;
 import com.binary.framework.dao.support.tpl.IBatisDaoTemplate;
 
 
