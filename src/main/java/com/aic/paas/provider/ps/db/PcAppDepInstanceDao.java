@@ -11,7 +11,21 @@ import com.aic.paas.provider.ps.bean.PcAppDepInstance;
  */
 public interface PcAppDepInstanceDao extends Dao<PcAppDepInstance, CPcAppDepInstance> {
 
+	
+	
+	
+	
+	/**
+	 * 跟据实例名称删除实例
+	 * @param instanceName 实例名称
+	 * @return 记录条数
+	 */
+	public int disableDepInstanceByInstanceName(String instanceName);
 
+	
+	
+	
+	
 }
 
 

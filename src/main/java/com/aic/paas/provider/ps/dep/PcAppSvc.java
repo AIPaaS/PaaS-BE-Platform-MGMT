@@ -12,6 +12,7 @@ import com.aic.paas.provider.ps.bean.PcAppVersion;
 import com.aic.paas.provider.ps.dep.bean.AppInfo;
 import com.aic.paas.provider.ps.dep.bean.AppResInfo;
 import com.aic.paas.provider.ps.dep.bean.AppZoneResInfo;
+import com.binary.framework.exception.ServiceException;
 import com.binary.jdbc.Page;
 
 public interface PcAppSvc {
@@ -281,7 +282,7 @@ public interface PcAppSvc {
 	 * @param record : PcApp数据记录
 	 * @return 当前记录主键[id]值
 	 */
-	public Long saveOrUpdate(PcApp record);
+	public Long saveOrUpdate(PcApp record) throws ServiceException;
 	
 	
 	

@@ -197,39 +197,42 @@ public class PcResCenterSvcImpl implements PcResCenterSvc {
 		
 		ResDetailInfo  resinfo = pcComputerSvc.queryByResCenter(resCenterId);
 
-		map.put("clusterId", resinfo.getResCenterId());
-		map.put("clusteName", resinfo.getResCenterName());
+		map.put("clusterId", resinfo.getResCenterId()+"");
+		map.put("clusterName", resinfo.getResCenterName());
 		//镜像地址
 		map.put("imagePath", resinfo.getImagePath());
 		map.put("useAgent",useAgent);
 		//agentid为资源中心id
-		map.put("aid", resinfo.getResCenterId());
+		map.put("aid", resinfo.getResCenterId()+"");
+//		map.put("aid", "dev");
 		
-		map.put("zones", getZoneParam(resCenterId));
+		map.put("attributesList", getZoneParam(resCenterId));
 		
 		map.put("dataCenter", resinfo.getDataCenterName());
 		map.put("domain", resinfo.getDomain());
 		map.put("externalDomain", resinfo.getExternalDomain());
-		map.put("loadVirtulIP", propertiesPool.get("loadVirtulIP"));
+		map.put("loadVirtualIP", propertiesPool.get("loadVirtulIP"));
 				
-		map.put("mesos-master", getMasterParam(resinfo));
+		map.put("mesosMaster", getMasterParam(resinfo));
+		map.put("mesosSlave", getSlaveParam(resinfo));
 		
 		map.put("webHaproxy", getWebHaproxyParam(resinfo,loadOnly));
-		return null;
+		return map;
 	}
 
-
+	
 	private List<Map<String,Object>> getZoneParam(Long resCenterId){
 		
 		CPcNetZone cpnz = new CPcNetZone();
 		cpnz.setResCenterId(resCenterId);
+		cpnz.setStatus(1);
 		List<PcNetZone> zoneist = pcNetZoneDao.selectList(cpnz, "id");
 		
 		List<Map<String,Object>> list =new ArrayList<Map<String,Object>>();
-		
+
 		for(PcNetZone pcnz : zoneist){
 			Map<String,Object> map = new HashMap<String, Object>();
-			map.put("zone", pcnz.getZoneName());
+			map.put("zone", pcnz.getZoneCode());
 			map.put("network", pcnz.getNetSegExp());
 			list.add(map);
 		}
@@ -238,6 +241,9 @@ public class PcResCenterSvcImpl implements PcResCenterSvc {
 	}
 
 	private List<Map<String,Object>> getMasterParam(ResDetailInfo resinfo){
+		if(resinfo.getCorePartList()==null||resinfo.getCorePartList().size()<3)
+			throw new ServiceException(" the center-netZone of resCenter haven't enough computer! ");
+		
 		List<Map<String,Object>> list = new ArrayList<Map<String,Object>>();
 		
 		//所有id对应的区域名
@@ -253,7 +259,7 @@ public class PcResCenterSvcImpl implements PcResCenterSvc {
 		for(int i=0;i<resinfo.getCorePartList().size();i++){
 			Map<String,Object> map = new HashMap<String, Object>();
 			PcComputer pc = resinfo.getCorePartList().get(i);
-			map.put("id", i);
+			map.put("id", i+1);
 			map.put("ip", pc.getIp());
 			map.put("root", pc.getLoginName());
 			map.put("passwd", pc.getLoginPwd());
@@ -263,8 +269,11 @@ public class PcResCenterSvcImpl implements PcResCenterSvc {
 		return list;
 	}
 	
-	//
+
 	private List<Map<String,Object>> getSlaveParam(ResDetailInfo resinfo){
+		if(resinfo.getSlavePartList()==null)
+			throw new ServiceException("there aran't enough slave computer");
+		
 		List<Map<String,Object>> list = new ArrayList<Map<String,Object>>();
 		
 		//所有id对应的区域名
@@ -279,7 +288,7 @@ public class PcResCenterSvcImpl implements PcResCenterSvc {
 		for(int i=0;i<resinfo.getVisitPartList().size();i++){
 			Map<String,Object> map = new HashMap<String, Object>();
 			PcComputer pc = resinfo.getCorePartList().get(i);
-			map.put("id", i);
+			map.put("id", i+1);
 			map.put("ip", pc.getIp());
 			map.put("root", pc.getLoginName());
 			map.put("passwd", pc.getLoginPwd());
@@ -297,25 +306,31 @@ public class PcResCenterSvcImpl implements PcResCenterSvc {
 			map.put("memOffer", pc.getMemOffer());
 			list.add(map);
 		}
+		
+		
 		return list;
 	}
 	
 	private Map<String,Object> getWebHaproxyParam(ResDetailInfo resinfo,Boolean loadOnly){
-		Map<String,Object> map = new HashMap<String, Object>();
+		if(resinfo.getVisitPartList()==null||resinfo.getVisitPartList().size()<2)
+			throw new ServiceException("the computer of Haproxy haven't enough!");
 		
-		Map<String,Object> hostsMap = new HashMap<String, Object>();
+		Map<String,Object> map = new HashMap<String, Object>();
+		List<Map<String,Object>> list = new ArrayList<Map<String,Object>>();
 		List<PcComputer> pcList = resinfo.getVisitPartList();
 		for(int i=0;i<pcList.size();i++){
+			Map<String,Object> hostsMap = new HashMap<String, Object>();
 			PcComputer pc = pcList.get(i);
-			hostsMap.put("id", i);
+			hostsMap.put("id", i+1);
 			hostsMap.put("ip", pc.getIp());
 			hostsMap.put("root", pc.getLoginName());
 			hostsMap.put("passwd", pc.getLoginPwd());
+			list.add(hostsMap);
 		}
 		
 		map.put("loadOnly", loadOnly);
-		map.put("virtulIP", propertiesPool.get("virtulIP"));
-		map.put("hosts", hostsMap);
+		map.put("virtualIp", propertiesPool.get("virtulIP"));
+		map.put("hosts", list);
 		return map;
 	}
 }

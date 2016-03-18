@@ -68,7 +68,7 @@ public class PcAppAccessSvcImpl implements PcAppAccessSvc{
 				appAccessModel.setAccessCode(appAccess.getAccessCode());
 				appAccessModel.setAccessCodeOld(appAccess.getAccessCode());
 				String resCenterId = appAccess.getResCenterId().toString();
-				resCenterId="DEV";
+				resCenterId="dev";
 				appAccessModel.setResCenterId(resCenterId);
 				
 				if("KILLED".equals(param.getTaskStatus())){
@@ -180,11 +180,11 @@ public class PcAppAccessSvcImpl implements PcAppAccessSvc{
 		param.setAccessCodeOld(record.getAccessCode());
 		PcResCenter resCenter = resCenterDao.selectById(record.getResCenterId());
 		if(pai!=null&&resCenter!=null)
-//			param.setDns(param.getContainer()+".marathon."+resCenter.getDomain());
-			param.setDns(param.getContainer()+"._tcp.marathon.ai");
+//			param.setDns("_"+param.getContainer()+".marathon."+resCenter.getDomain());
+			param.setDns("_"+param.getContainer()+"._tcp.marathon.ai");
 		param.setProtocol(record.getProtocol());
 //		param.setResCenterId(record.getResCenterId().toString());
-		param.setResCenterId("DEV");
+		param.setResCenterId("dev");
 		//获取后场返回值 
 		String result = null;
 		if(isadd){

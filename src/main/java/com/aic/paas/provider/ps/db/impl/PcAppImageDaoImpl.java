@@ -90,9 +90,11 @@ public class PcAppImageDaoImpl extends IBatisDaoTemplate<PcAppImage, CPcAppImage
 	
 	
 	@Override
-	public boolean isFinishAllAppImage(Long appId) {
+	public boolean isFinishAllAppImage(Long appId, Long appVnoId) {
 		BinaryUtils.checkEmpty(appId, "appId");
-		String sql = " select avg(SETUP_NUM) SN from PC_APP_IMAGE  where APP_ID="+appId;
+		BinaryUtils.checkEmpty(appVnoId, "appVnoId");
+		
+		String sql = " select avg(SETUP_NUM) SN from PC_APP_IMAGE  where DATA_STATUS=1 and APP_ID="+appId+" and APP_VNO_ID="+appVnoId;
 		
 		JdbcOperator jo = getJdbcOperator();
 		Map<String, Object> first = jo.selectFirst(sql);

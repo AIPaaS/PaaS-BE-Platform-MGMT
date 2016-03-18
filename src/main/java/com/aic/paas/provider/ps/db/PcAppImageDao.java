@@ -72,7 +72,7 @@ public interface PcAppImageDao extends Dao<PcAppImage, CPcAppImage> {
 	 * @param appId
 	 * @return
 	 */
-	public boolean isFinishAllAppImage(Long appId);
+	public boolean isFinishAllAppImage(Long appId, Long appVnoId);
 	
 	
 	
