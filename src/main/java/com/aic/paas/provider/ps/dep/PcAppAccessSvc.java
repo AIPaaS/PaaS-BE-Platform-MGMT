@@ -13,7 +13,7 @@ public interface PcAppAccessSvc {
 	/**
 	 * 新增方法接口：
 	 */
-	public void remoteMonitorService(ParmDockerImage pdi);
+	public String remoteMonitorService(ParmDockerImage pdi);
 	
 	
 	

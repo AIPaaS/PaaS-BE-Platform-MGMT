@@ -10,7 +10,16 @@ public class AppAccessCodeUrl implements Serializable{
 	private String code;
 	//应用访问地址
 	private String accessUrl;
+	//信息
+	private String msg;
 	
+	
+	public String getMsg() {
+		return msg;
+	}
+	public void setMsg(String msg) {
+		this.msg = msg;
+	}
 	public String getCode() {
 		return code;
 	}

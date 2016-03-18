@@ -45,7 +45,9 @@ public class PcAppAccessSvcImpl implements PcAppAccessSvc{
 	
 	
 	@Override
-	public void remoteMonitorService(ParmDockerImage param) {
+	public String remoteMonitorService(ParmDockerImage param) {
+		//获取后场返回值 
+		String result = "{\"code\":\"000000\",\"msg\":\"ok\"}";
 		String fullName = param.getDockerImage();
 		List<PcAppImage> list = appImageDao.selectListByFullName(fullName, null, "ID desc");
 		if(list==null || list.size() == 0 ){
@@ -68,13 +70,15 @@ public class PcAppAccessSvcImpl implements PcAppAccessSvc{
 				String resCenterId = appAccess.getResCenterId().toString();
 				resCenterId="DEV";
 				appAccessModel.setResCenterId(resCenterId);
+				
 				if("KILLED".equals(param.getTaskStatus())){
-					iAppAccess.removeAccess(appAccessModel);
+					result = iAppAccess.removeAccess(appAccessModel);
 				}else if("RUNNING".equals(param.getTaskStatus())){
-					iAppAccess.updateAccess(appAccessModel);
+					result = iAppAccess.updateAccess(appAccessModel);
 				}
 			}
 		}
+		return result;
 	}
 
 	
