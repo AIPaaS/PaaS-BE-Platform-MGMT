@@ -285,7 +285,7 @@ public class PcResCenterSvcImpl implements PcResCenterSvc {
 			idName.put(pnz.getId(), pnz.getZoneCode());
 		}
 		
-		for(int i=0;i<resinfo.getVisitPartList().size();i++){
+		for(int i=0;i<resinfo.getSlavePartList().size();i++){
 			Map<String,Object> map = new HashMap<String, Object>();
 			PcComputer pc = resinfo.getCorePartList().get(i);
 			map.put("id", i+1);
