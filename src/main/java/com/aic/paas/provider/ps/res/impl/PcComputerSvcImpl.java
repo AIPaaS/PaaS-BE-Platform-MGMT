@@ -307,6 +307,7 @@ public class PcComputerSvcImpl implements PcComputerSvc {
 		resInfo.setImagePath(prc.getImagePath());
 		resInfo.setDomain(prc.getDomain());
 		resInfo.setExternalDomain(prc.getExternalDomain());
+		resInfo.setInitStatus(prc.getInitStatus()==null ? 0 : prc.getInitStatus());
 		
 		//该数据中心的服务器
 		CPcComputer cp = new CPcComputer();
