@@ -3,7 +3,7 @@
 <sqlMap namespace="PC_APP_DEP_KV_HISTORY">
 
 
-	<resultMap class="com.aic.paas.provider.ps.bean.PcAppDepKvHistory" id="queryResult">
+	<resultMap class="com.aic.testcode.bean.PcAppDepKvHistory" id="queryResult">
 		<result column="ID" jdbcType="BIGINT" property="id"/>	<!-- ID -->
 		<result column="TYPE_ID" jdbcType="INTEGER" property="typeId"/>	<!-- 定义类型 -->
 		<result column="SOURCE_ID" jdbcType="BIGINT" property="sourceId"/>	<!-- 来源ID -->

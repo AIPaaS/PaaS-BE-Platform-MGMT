@@ -3,11 +3,10 @@
 <sqlMap namespace="PC_APP_IMAGE">
 
 
-	<resultMap class="com.aic.paas.provider.ps.bean.PcAppImage" id="queryResult">
+	<resultMap class="com.aic.testcode.bean.PcAppImage" id="queryResult">
 		<result column="ID" jdbcType="BIGINT" property="id"/>	<!-- ID -->
 		<result column="MNT_ID" jdbcType="BIGINT" property="mntId"/>	<!-- 租户ID -->
 		<result column="IMAGE_ID" jdbcType="BIGINT" property="imageId"/>	<!-- 镜像ID -->
-		<result column="IMAGE" jdbcType="VARCHAR" property="image"/>	<!-- 镜像 -->
 		<result column="APP_ID" jdbcType="BIGINT" property="appId"/>	<!-- 应用ID -->
 		<result column="APP_VNO_ID" jdbcType="BIGINT" property="appVnoId"/>	<!-- 应用版本ID -->
 		<result column="CONTAINER_NAME" jdbcType="VARCHAR" property="containerName"/>	<!-- 容器名 -->
@@ -16,8 +15,11 @@
 		<result column="RES_CENTER_ID" jdbcType="BIGINT" property="resCenterId"/>	<!-- 所属资源中心 -->
 		<result column="NET_ZONE_ID" jdbcType="BIGINT" property="netZoneId"/>	<!-- 所在网络区域 -->
 		<result column="CPU_COUNT" jdbcType="INTEGER" property="cpuCount"/>	<!-- CPU个数 -->
+		<result column="CPU_TOTAL" jdbcType="INTEGER" property="cpuTotal"/>	<!-- CPU总数 -->
 		<result column="MEM_SIZE" jdbcType="BIGINT" property="memSize"/>	<!-- 内存大小 -->
+		<result column="MEM_TOTAL" jdbcType="BIGINT" property="memTotal"/>	<!-- 内存总数 -->
 		<result column="DISK_SIZE" jdbcType="BIGINT" property="diskSize"/>	<!-- 存储大小 -->
+		<result column="DISK_TOTAL" jdbcType="BIGINT" property="diskTotal"/>	<!-- 存储总数 -->
 		<result column="INSTANCE_COUNT" jdbcType="INTEGER" property="instanceCount"/>	<!-- 容器实例数 -->
 		<result column="IS_SUPPORT_FLEX" jdbcType="INTEGER" property="isSupportFlex"/>	<!-- 是否自动伸缩 -->
 		<result column="CPU_FLEX_UPPER_LIMIT" jdbcType="INTEGER" property="cpuFlexUpperLimit"/>	<!-- 容器伸缩CPU上限值 -->
@@ -83,9 +85,6 @@
 		</isNotEmpty>
 		<isNotEmpty prepend="and" property="cdt.endImageId" >
 			<![CDATA[ IMAGE_ID <= #cdt.endImageId:BIGINT# ]]>
-		</isNotEmpty>
-		<isNotEmpty prepend="and" property="cdt.image" >
-			IMAGE like #cdt.image:VARCHAR# 
 		</isNotEmpty>
 		<isNotEmpty prepend="and" property="cdt.appId" >
 			APP_ID = #cdt.appId:BIGINT#
@@ -165,6 +164,18 @@
 		<isNotEmpty prepend="and" property="cdt.endCpuCount" >
 			<![CDATA[ CPU_COUNT <= #cdt.endCpuCount:INTEGER# ]]>
 		</isNotEmpty>
+		<isNotEmpty prepend="and" property="cdt.cpuTotal" >
+			CPU_TOTAL = #cdt.cpuTotal:INTEGER#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="cpuTotals" >
+			CPU_TOTAL in ($cpuTotals$)
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="cdt.startCpuTotal" >
+			<![CDATA[ CPU_TOTAL >= #cdt.startCpuTotal:INTEGER# ]]>
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="cdt.endCpuTotal" >
+			<![CDATA[ CPU_TOTAL <= #cdt.endCpuTotal:INTEGER# ]]>
+		</isNotEmpty>
 		<isNotEmpty prepend="and" property="cdt.memSize" >
 			MEM_SIZE = #cdt.memSize:BIGINT#
 		</isNotEmpty>
@@ -177,6 +188,18 @@
 		<isNotEmpty prepend="and" property="cdt.endMemSize" >
 			<![CDATA[ MEM_SIZE <= #cdt.endMemSize:BIGINT# ]]>
 		</isNotEmpty>
+		<isNotEmpty prepend="and" property="cdt.memTotal" >
+			MEM_TOTAL = #cdt.memTotal:BIGINT#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="memTotals" >
+			MEM_TOTAL in ($memTotals$)
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="cdt.startMemTotal" >
+			<![CDATA[ MEM_TOTAL >= #cdt.startMemTotal:BIGINT# ]]>
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="cdt.endMemTotal" >
+			<![CDATA[ MEM_TOTAL <= #cdt.endMemTotal:BIGINT# ]]>
+		</isNotEmpty>
 		<isNotEmpty prepend="and" property="cdt.diskSize" >
 			DISK_SIZE = #cdt.diskSize:BIGINT#
 		</isNotEmpty>
@@ -188,6 +211,18 @@
 		</isNotEmpty>
 		<isNotEmpty prepend="and" property="cdt.endDiskSize" >
 			<![CDATA[ DISK_SIZE <= #cdt.endDiskSize:BIGINT# ]]>
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="cdt.diskTotal" >
+			DISK_TOTAL = #cdt.diskTotal:BIGINT#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="diskTotals" >
+			DISK_TOTAL in ($diskTotals$)
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="cdt.startDiskTotal" >
+			<![CDATA[ DISK_TOTAL >= #cdt.startDiskTotal:BIGINT# ]]>
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="cdt.endDiskTotal" >
+			<![CDATA[ DISK_TOTAL <= #cdt.endDiskTotal:BIGINT# ]]>
 		</isNotEmpty>
 		<isNotEmpty prepend="and" property="cdt.instanceCount" >
 			INSTANCE_COUNT = #cdt.instanceCount:INTEGER#
@@ -439,9 +474,6 @@
 		<isNotNull prepend="," property="record.imageId"> 
 			IMAGE_ID = #record.imageId:BIGINT#
 		</isNotNull>
-		<isNotNull prepend="," property="record.image"> 
-			IMAGE = #record.image:VARCHAR#
-		</isNotNull>
 		<isNotNull prepend="," property="record.appId"> 
 			APP_ID = #record.appId:BIGINT#
 		</isNotNull>
@@ -466,11 +498,20 @@
 		<isNotNull prepend="," property="record.cpuCount"> 
 			CPU_COUNT = #record.cpuCount:INTEGER#
 		</isNotNull>
+		<isNotNull prepend="," property="record.cpuTotal"> 
+			CPU_TOTAL = #record.cpuTotal:INTEGER#
+		</isNotNull>
 		<isNotNull prepend="," property="record.memSize"> 
 			MEM_SIZE = #record.memSize:BIGINT#
 		</isNotNull>
+		<isNotNull prepend="," property="record.memTotal"> 
+			MEM_TOTAL = #record.memTotal:BIGINT#
+		</isNotNull>
 		<isNotNull prepend="," property="record.diskSize"> 
 			DISK_SIZE = #record.diskSize:BIGINT#
+		</isNotNull>
+		<isNotNull prepend="," property="record.diskTotal"> 
+			DISK_TOTAL = #record.diskTotal:BIGINT#
 		</isNotNull>
 		<isNotNull prepend="," property="record.instanceCount"> 
 			INSTANCE_COUNT = #record.instanceCount:INTEGER#
@@ -554,13 +595,13 @@
 	
 
 	<sql id="sql_query_columns">
-		ID, MNT_ID, IMAGE_ID, IMAGE, APP_ID, APP_VNO_ID, 
-		CONTAINER_NAME, CONTAINER_FULL_NAME, DATA_CENTER_ID, RES_CENTER_ID, NET_ZONE_ID, CPU_COUNT, 
-		MEM_SIZE, DISK_SIZE, INSTANCE_COUNT, IS_SUPPORT_FLEX, CPU_FLEX_UPPER_LIMIT, CPU_FLEX_LOWER_LIMIT, 
-		MAX_INSTANCE_COUNT, MIN_INSTANCE_COUNT, LOG_MP_PATH, DATA_MP_PATH, IS_UNIFORM, TARGS, 
-		SETUP_NUM, TIMER_START_TIME, TIMER_END_TIME, TIMER_TYPE, TIMER_EXP, CUSTOM_1, 
-		CUSTOM_2, CUSTOM_3, CUSTOM_4, CUSTOM_5, CUSTOM_6, DATA_STATUS, 
-		CREATOR, CREATE_TIME, MODIFIER, MODIFY_TIME
+		ID, MNT_ID, IMAGE_ID, APP_ID, APP_VNO_ID, CONTAINER_NAME, 
+		CONTAINER_FULL_NAME, DATA_CENTER_ID, RES_CENTER_ID, NET_ZONE_ID, CPU_COUNT, CPU_TOTAL, 
+		MEM_SIZE, MEM_TOTAL, DISK_SIZE, DISK_TOTAL, INSTANCE_COUNT, IS_SUPPORT_FLEX, 
+		CPU_FLEX_UPPER_LIMIT, CPU_FLEX_LOWER_LIMIT, MAX_INSTANCE_COUNT, MIN_INSTANCE_COUNT, LOG_MP_PATH, DATA_MP_PATH, 
+		IS_UNIFORM, TARGS, SETUP_NUM, TIMER_START_TIME, TIMER_END_TIME, TIMER_TYPE, 
+		TIMER_EXP, CUSTOM_1, CUSTOM_2, CUSTOM_3, CUSTOM_4, CUSTOM_5, 
+		CUSTOM_6, DATA_STATUS, CREATOR, CREATE_TIME, MODIFIER, MODIFY_TIME
 	</sql>
 	
 
@@ -598,23 +639,25 @@
 
 	<insert id="insert" parameterClass="java.util.Map">
 		insert into PC_APP_IMAGE(
-			ID, MNT_ID, IMAGE_ID, IMAGE, APP_ID, 
-			APP_VNO_ID, CONTAINER_NAME, CONTAINER_FULL_NAME, DATA_CENTER_ID, RES_CENTER_ID, 
-			NET_ZONE_ID, CPU_COUNT, MEM_SIZE, DISK_SIZE, INSTANCE_COUNT, 
-			IS_SUPPORT_FLEX, CPU_FLEX_UPPER_LIMIT, CPU_FLEX_LOWER_LIMIT, MAX_INSTANCE_COUNT, MIN_INSTANCE_COUNT, 
-			LOG_MP_PATH, DATA_MP_PATH, IS_UNIFORM, TARGS, SETUP_NUM, 
-			TIMER_START_TIME, TIMER_END_TIME, TIMER_TYPE, TIMER_EXP, CUSTOM_1, 
-			CUSTOM_2, CUSTOM_3, CUSTOM_4, CUSTOM_5, CUSTOM_6, 
-			DATA_STATUS, CREATOR, CREATE_TIME, MODIFIER, MODIFY_TIME)
+			ID, MNT_ID, IMAGE_ID, APP_ID, APP_VNO_ID, 
+			CONTAINER_NAME, CONTAINER_FULL_NAME, DATA_CENTER_ID, RES_CENTER_ID, NET_ZONE_ID, 
+			CPU_COUNT, CPU_TOTAL, MEM_SIZE, MEM_TOTAL, DISK_SIZE, 
+			DISK_TOTAL, INSTANCE_COUNT, IS_SUPPORT_FLEX, CPU_FLEX_UPPER_LIMIT, CPU_FLEX_LOWER_LIMIT, 
+			MAX_INSTANCE_COUNT, MIN_INSTANCE_COUNT, LOG_MP_PATH, DATA_MP_PATH, IS_UNIFORM, 
+			TARGS, SETUP_NUM, TIMER_START_TIME, TIMER_END_TIME, TIMER_TYPE, 
+			TIMER_EXP, CUSTOM_1, CUSTOM_2, CUSTOM_3, CUSTOM_4, 
+			CUSTOM_5, CUSTOM_6, DATA_STATUS, CREATOR, CREATE_TIME, 
+			MODIFIER, MODIFY_TIME)
 		values (
-			#record.id:BIGINT#, #record.mntId:BIGINT#, #record.imageId:BIGINT#, #record.image:VARCHAR#, #record.appId:BIGINT#, 
-			#record.appVnoId:BIGINT#, #record.containerName:VARCHAR#, #record.containerFullName:VARCHAR#, #record.dataCenterId:BIGINT#, #record.resCenterId:BIGINT#, 
-			#record.netZoneId:BIGINT#, #record.cpuCount:INTEGER#, #record.memSize:BIGINT#, #record.diskSize:BIGINT#, #record.instanceCount:INTEGER#, 
-			#record.isSupportFlex:INTEGER#, #record.cpuFlexUpperLimit:INTEGER#, #record.cpuFlexLowerLimit:INTEGER#, #record.maxInstanceCount:INTEGER#, #record.minInstanceCount:INTEGER#, 
-			#record.logMpPath:VARCHAR#, #record.dataMpPath:VARCHAR#, #record.isUniform:INTEGER#, #record.targs:VARCHAR#, #record.setupNum:INTEGER#, 
-			#record.timerStartTime:BIGINT#, #record.timerEndTime:BIGINT#, #record.timerType:INTEGER#, #record.timerExp:VARCHAR#, #record.custom1:BIGINT#, 
-			#record.custom2:BIGINT#, #record.custom3:BIGINT#, #record.custom4:VARCHAR#, #record.custom5:VARCHAR#, #record.custom6:VARCHAR#, 
-			#record.dataStatus:INTEGER#, #record.creator:VARCHAR#, #record.createTime:BIGINT#, #record.modifier:VARCHAR#, #record.modifyTime:BIGINT#)
+			#record.id:BIGINT#, #record.mntId:BIGINT#, #record.imageId:BIGINT#, #record.appId:BIGINT#, #record.appVnoId:BIGINT#, 
+			#record.containerName:VARCHAR#, #record.containerFullName:VARCHAR#, #record.dataCenterId:BIGINT#, #record.resCenterId:BIGINT#, #record.netZoneId:BIGINT#, 
+			#record.cpuCount:INTEGER#, #record.cpuTotal:INTEGER#, #record.memSize:BIGINT#, #record.memTotal:BIGINT#, #record.diskSize:BIGINT#, 
+			#record.diskTotal:BIGINT#, #record.instanceCount:INTEGER#, #record.isSupportFlex:INTEGER#, #record.cpuFlexUpperLimit:INTEGER#, #record.cpuFlexLowerLimit:INTEGER#, 
+			#record.maxInstanceCount:INTEGER#, #record.minInstanceCount:INTEGER#, #record.logMpPath:VARCHAR#, #record.dataMpPath:VARCHAR#, #record.isUniform:INTEGER#, 
+			#record.targs:VARCHAR#, #record.setupNum:INTEGER#, #record.timerStartTime:BIGINT#, #record.timerEndTime:BIGINT#, #record.timerType:INTEGER#, 
+			#record.timerExp:VARCHAR#, #record.custom1:BIGINT#, #record.custom2:BIGINT#, #record.custom3:BIGINT#, #record.custom4:VARCHAR#, 
+			#record.custom5:VARCHAR#, #record.custom6:VARCHAR#, #record.dataStatus:INTEGER#, #record.creator:VARCHAR#, #record.createTime:BIGINT#, 
+			#record.modifier:VARCHAR#, #record.modifyTime:BIGINT#)
 	</insert>
 	
 

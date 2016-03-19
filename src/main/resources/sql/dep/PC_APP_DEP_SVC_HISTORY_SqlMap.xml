@@ -3,7 +3,7 @@
 <sqlMap namespace="PC_APP_DEP_SVC_HISTORY">
 
 
-	<resultMap class="com.aic.paas.provider.ps.bean.PcAppDepSvcHistory" id="queryResult">
+	<resultMap class="com.aic.testcode.bean.PcAppDepSvcHistory" id="queryResult">
 		<result column="ID" jdbcType="BIGINT" property="id"/>	<!-- ID -->
 		<result column="APP_DEP_HISTORY_ID" jdbcType="BIGINT" property="appDepHistoryId"/>	<!-- 所属应用部署历史ID -->
 		<result column="SVC_CODE" jdbcType="VARCHAR" property="svcCode"/>	<!-- 服务代码 -->

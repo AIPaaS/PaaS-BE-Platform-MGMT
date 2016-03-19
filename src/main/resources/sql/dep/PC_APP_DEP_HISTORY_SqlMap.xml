@@ -3,9 +3,8 @@
 <sqlMap namespace="PC_APP_DEP_HISTORY">
 
 
-	<resultMap class="com.aic.paas.provider.ps.bean.PcAppDepHistory" id="queryResult">
+	<resultMap class="com.aic.testcode.bean.PcAppDepHistory" id="queryResult">
 		<result column="ID" jdbcType="BIGINT" property="id"/>	<!-- ID -->
-		<result column="TASK_ID" jdbcType="BIGINT" property="taskId"/>	<!-- 任务ID -->
 		<result column="MNT_ID" jdbcType="BIGINT" property="mntId"/>	<!-- 租户ID -->
 		<result column="APP_ID" jdbcType="BIGINT" property="appId"/>	<!-- 应用ID -->
 		<result column="APP_VNO_ID" jdbcType="BIGINT" property="appVnoId"/>	<!-- 应用版本ID -->
@@ -71,18 +70,6 @@
 		</isNotEmpty>
 		<isNotEmpty prepend="and" property="cdt.endId" >
 			<![CDATA[ ID <= #cdt.endId:BIGINT# ]]>
-		</isNotEmpty>
-		<isNotEmpty prepend="and" property="cdt.taskId" >
-			TASK_ID = #cdt.taskId:BIGINT#
-		</isNotEmpty>
-		<isNotEmpty prepend="and" property="taskIds" >
-			TASK_ID in ($taskIds$)
-		</isNotEmpty>
-		<isNotEmpty prepend="and" property="cdt.startTaskId" >
-			<![CDATA[ TASK_ID >= #cdt.startTaskId:BIGINT# ]]>
-		</isNotEmpty>
-		<isNotEmpty prepend="and" property="cdt.endTaskId" >
-			<![CDATA[ TASK_ID <= #cdt.endTaskId:BIGINT# ]]>
 		</isNotEmpty>
 		<isNotEmpty prepend="and" property="cdt.mntId" >
 			MNT_ID = #cdt.mntId:BIGINT#
@@ -550,9 +537,6 @@
 		<isNotNull prepend="," property="record.id"> 
 			ID = #record.id:BIGINT#
 		</isNotNull>
-		<isNotNull prepend="," property="record.taskId"> 
-			TASK_ID = #record.taskId:BIGINT#
-		</isNotNull>
 		<isNotNull prepend="," property="record.mntId"> 
 			MNT_ID = #record.mntId:BIGINT#
 		</isNotNull>
@@ -707,15 +691,15 @@
 	
 
 	<sql id="sql_query_columns">
-		ID, TASK_ID, MNT_ID, APP_ID, APP_VNO_ID, APP_CODE, 
-		APP_NAME, APP_TYPE, APP_VERSION_NO, IMAGE_ID, IMAGE_DEF_ID, IMAGE_RESP_ID, 
-		IMAGE_NAME, IMAGE_FULL_NAME, BUILD_NO, CONTAINER_NAME, CONTAINER_FULL_NAME, DATA_CENTER_ID, 
-		RES_CENTER_ID, NET_ZONE_ID, CPU_COUNT, MEM_SIZE, DISK_SIZE, INSTANCE_COUNT, 
-		IS_SUPPORT_FLEX, CPU_FLEX_UPPER_LIMIT, CPU_FLEX_LOWER_LIMIT, MAX_INSTANCE_COUNT, MIN_INSTANCE_COUNT, LOG_MP_PATH, 
-		DATA_MP_PATH, IS_UNIFORM, TARGS, DEPEND_CONT_IDS, DEPEND_CONT_NAMES, TIMER_START_TIME, 
-		TIMER_END_TIME, TIMER_TYPE, TIMER_EXP, CUSTOM_1, CUSTOM_2, CUSTOM_3, 
-		CUSTOM_4, CUSTOM_5, CUSTOM_6, DEP_STATUS, RUN_STATUS, DATA_STATUS, 
-		CREATOR, CREATE_TIME, MODIFIER, MODIFY_TIME
+		ID, MNT_ID, APP_ID, APP_VNO_ID, APP_CODE, APP_NAME, 
+		APP_TYPE, APP_VERSION_NO, IMAGE_ID, IMAGE_DEF_ID, IMAGE_RESP_ID, IMAGE_NAME, 
+		IMAGE_FULL_NAME, BUILD_NO, CONTAINER_NAME, CONTAINER_FULL_NAME, DATA_CENTER_ID, RES_CENTER_ID, 
+		NET_ZONE_ID, CPU_COUNT, MEM_SIZE, DISK_SIZE, INSTANCE_COUNT, IS_SUPPORT_FLEX, 
+		CPU_FLEX_UPPER_LIMIT, CPU_FLEX_LOWER_LIMIT, MAX_INSTANCE_COUNT, MIN_INSTANCE_COUNT, LOG_MP_PATH, DATA_MP_PATH, 
+		IS_UNIFORM, TARGS, DEPEND_CONT_IDS, DEPEND_CONT_NAMES, TIMER_START_TIME, TIMER_END_TIME, 
+		TIMER_TYPE, TIMER_EXP, CUSTOM_1, CUSTOM_2, CUSTOM_3, CUSTOM_4, 
+		CUSTOM_5, CUSTOM_6, DEP_STATUS, RUN_STATUS, DATA_STATUS, CREATOR, 
+		CREATE_TIME, MODIFIER, MODIFY_TIME
 	</sql>
 	
 
@@ -753,29 +737,29 @@
 
 	<insert id="insert" parameterClass="java.util.Map">
 		insert into PC_APP_DEP_HISTORY(
-			ID, TASK_ID, MNT_ID, APP_ID, APP_VNO_ID, 
-			APP_CODE, APP_NAME, APP_TYPE, APP_VERSION_NO, IMAGE_ID, 
-			IMAGE_DEF_ID, IMAGE_RESP_ID, IMAGE_NAME, IMAGE_FULL_NAME, BUILD_NO, 
-			CONTAINER_NAME, CONTAINER_FULL_NAME, DATA_CENTER_ID, RES_CENTER_ID, NET_ZONE_ID, 
-			CPU_COUNT, MEM_SIZE, DISK_SIZE, INSTANCE_COUNT, IS_SUPPORT_FLEX, 
-			CPU_FLEX_UPPER_LIMIT, CPU_FLEX_LOWER_LIMIT, MAX_INSTANCE_COUNT, MIN_INSTANCE_COUNT, LOG_MP_PATH, 
-			DATA_MP_PATH, IS_UNIFORM, TARGS, DEPEND_CONT_IDS, DEPEND_CONT_NAMES, 
-			TIMER_START_TIME, TIMER_END_TIME, TIMER_TYPE, TIMER_EXP, CUSTOM_1, 
-			CUSTOM_2, CUSTOM_3, CUSTOM_4, CUSTOM_5, CUSTOM_6, 
-			DEP_STATUS, RUN_STATUS, DATA_STATUS, CREATOR, CREATE_TIME, 
-			MODIFIER, MODIFY_TIME)
+			ID, MNT_ID, APP_ID, APP_VNO_ID, APP_CODE, 
+			APP_NAME, APP_TYPE, APP_VERSION_NO, IMAGE_ID, IMAGE_DEF_ID, 
+			IMAGE_RESP_ID, IMAGE_NAME, IMAGE_FULL_NAME, BUILD_NO, CONTAINER_NAME, 
+			CONTAINER_FULL_NAME, DATA_CENTER_ID, RES_CENTER_ID, NET_ZONE_ID, CPU_COUNT, 
+			MEM_SIZE, DISK_SIZE, INSTANCE_COUNT, IS_SUPPORT_FLEX, CPU_FLEX_UPPER_LIMIT, 
+			CPU_FLEX_LOWER_LIMIT, MAX_INSTANCE_COUNT, MIN_INSTANCE_COUNT, LOG_MP_PATH, DATA_MP_PATH, 
+			IS_UNIFORM, TARGS, DEPEND_CONT_IDS, DEPEND_CONT_NAMES, TIMER_START_TIME, 
+			TIMER_END_TIME, TIMER_TYPE, TIMER_EXP, CUSTOM_1, CUSTOM_2, 
+			CUSTOM_3, CUSTOM_4, CUSTOM_5, CUSTOM_6, DEP_STATUS, 
+			RUN_STATUS, DATA_STATUS, CREATOR, CREATE_TIME, MODIFIER, 
+			MODIFY_TIME)
 		values (
-			#record.id:BIGINT#, #record.taskId:BIGINT#, #record.mntId:BIGINT#, #record.appId:BIGINT#, #record.appVnoId:BIGINT#, 
-			#record.appCode:VARCHAR#, #record.appName:VARCHAR#, #record.appType:INTEGER#, #record.appVersionNo:VARCHAR#, #record.imageId:BIGINT#, 
-			#record.imageDefId:BIGINT#, #record.imageRespId:BIGINT#, #record.imageName:VARCHAR#, #record.imageFullName:VARCHAR#, #record.buildNo:VARCHAR#, 
-			#record.containerName:VARCHAR#, #record.containerFullName:VARCHAR#, #record.dataCenterId:BIGINT#, #record.resCenterId:BIGINT#, #record.netZoneId:BIGINT#, 
-			#record.cpuCount:INTEGER#, #record.memSize:BIGINT#, #record.diskSize:BIGINT#, #record.instanceCount:INTEGER#, #record.isSupportFlex:INTEGER#, 
-			#record.cpuFlexUpperLimit:INTEGER#, #record.cpuFlexLowerLimit:INTEGER#, #record.maxInstanceCount:INTEGER#, #record.minInstanceCount:INTEGER#, #record.logMpPath:VARCHAR#, 
-			#record.dataMpPath:VARCHAR#, #record.isUniform:INTEGER#, #record.targs:VARCHAR#, #record.dependContIds:VARCHAR#, #record.dependContNames:VARCHAR#, 
-			#record.timerStartTime:BIGINT#, #record.timerEndTime:BIGINT#, #record.timerType:INTEGER#, #record.timerExp:VARCHAR#, #record.custom1:BIGINT#, 
-			#record.custom2:BIGINT#, #record.custom3:BIGINT#, #record.custom4:VARCHAR#, #record.custom5:VARCHAR#, #record.custom6:VARCHAR#, 
-			#record.depStatus:INTEGER#, #record.runStatus:INTEGER#, #record.dataStatus:INTEGER#, #record.creator:VARCHAR#, #record.createTime:BIGINT#, 
-			#record.modifier:VARCHAR#, #record.modifyTime:BIGINT#)
+			#record.id:BIGINT#, #record.mntId:BIGINT#, #record.appId:BIGINT#, #record.appVnoId:BIGINT#, #record.appCode:VARCHAR#, 
+			#record.appName:VARCHAR#, #record.appType:INTEGER#, #record.appVersionNo:VARCHAR#, #record.imageId:BIGINT#, #record.imageDefId:BIGINT#, 
+			#record.imageRespId:BIGINT#, #record.imageName:VARCHAR#, #record.imageFullName:VARCHAR#, #record.buildNo:VARCHAR#, #record.containerName:VARCHAR#, 
+			#record.containerFullName:VARCHAR#, #record.dataCenterId:BIGINT#, #record.resCenterId:BIGINT#, #record.netZoneId:BIGINT#, #record.cpuCount:INTEGER#, 
+			#record.memSize:BIGINT#, #record.diskSize:BIGINT#, #record.instanceCount:INTEGER#, #record.isSupportFlex:INTEGER#, #record.cpuFlexUpperLimit:INTEGER#, 
+			#record.cpuFlexLowerLimit:INTEGER#, #record.maxInstanceCount:INTEGER#, #record.minInstanceCount:INTEGER#, #record.logMpPath:VARCHAR#, #record.dataMpPath:VARCHAR#, 
+			#record.isUniform:INTEGER#, #record.targs:VARCHAR#, #record.dependContIds:VARCHAR#, #record.dependContNames:VARCHAR#, #record.timerStartTime:BIGINT#, 
+			#record.timerEndTime:BIGINT#, #record.timerType:INTEGER#, #record.timerExp:VARCHAR#, #record.custom1:BIGINT#, #record.custom2:BIGINT#, 
+			#record.custom3:BIGINT#, #record.custom4:VARCHAR#, #record.custom5:VARCHAR#, #record.custom6:VARCHAR#, #record.depStatus:INTEGER#, 
+			#record.runStatus:INTEGER#, #record.dataStatus:INTEGER#, #record.creator:VARCHAR#, #record.createTime:BIGINT#, #record.modifier:VARCHAR#, 
+			#record.modifyTime:BIGINT#)
 	</insert>
 	
 
