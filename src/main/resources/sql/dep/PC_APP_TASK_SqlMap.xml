@@ -3,7 +3,7 @@
 <sqlMap namespace="PC_APP_TASK">
 
 
-	<resultMap class="com.aic.testcode.bean.PcAppTask" id="queryResult">
+	<resultMap class="com.aic.paas.provider.ps.bean.PcAppTask" id="queryResult">
 		<result column="ID" jdbcType="BIGINT" property="id"/>	<!-- ID -->
 		<result column="APP_ID" jdbcType="BIGINT" property="appId"/>	<!-- 应用ID -->
 		<result column="APP_VNO_ID" jdbcType="BIGINT" property="appVnoId"/>	<!-- 应用版本ID -->

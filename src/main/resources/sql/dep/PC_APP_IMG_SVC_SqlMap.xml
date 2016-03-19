@@ -3,7 +3,7 @@
 <sqlMap namespace="PC_APP_IMG_SVC">
 
 
-	<resultMap class="com.aic.testcode.bean.PcAppImgSvc" id="queryResult">
+	<resultMap class="com.aic.paas.provider.ps.bean.PcAppImgSvc" id="queryResult">
 		<result column="ID" jdbcType="BIGINT" property="id"/>	<!-- ID -->
 		<result column="APP_IMG_ID" jdbcType="BIGINT" property="appImgId"/>	<!-- 应用镜像ID -->
 		<result column="SVC_ID" jdbcType="BIGINT" property="svcId"/>	<!-- 服务ID -->

@@ -3,7 +3,7 @@
 <sqlMap namespace="PC_SVC_APPLY">
 
 
-	<resultMap class="com.aic.testcode.bean.PcSvcApply" id="queryResult">
+	<resultMap class="com.aic.paas.provider.ps.bean.PcSvcApply" id="queryResult">
 		<result column="ID" jdbcType="BIGINT" property="id"/>	<!-- ID -->
 		<result column="CODE" jdbcType="BIGINT" property="code"/>	<!-- 申请单号 -->
 		<result column="DATA_CENTER_ID" jdbcType="BIGINT" property="dataCenterId"/>	<!-- 所属数据中心 -->

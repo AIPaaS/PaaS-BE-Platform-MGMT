@@ -3,7 +3,7 @@
 <sqlMap namespace="PC_SERVICE">
 
 
-	<resultMap class="com.aic.testcode.bean.PcService" id="queryResult">
+	<resultMap class="com.aic.paas.provider.ps.bean.PcService" id="queryResult">
 		<result column="ID" jdbcType="BIGINT" property="id"/>	<!-- ID -->
 		<result column="DATA_CENTER_ID" jdbcType="BIGINT" property="dataCenterId"/>	<!-- 所属数据中心 -->
 		<result column="RES_CENTER_ID" jdbcType="BIGINT" property="resCenterId"/>	<!-- 所属资源中心 -->

@@ -3,7 +3,7 @@
 <sqlMap namespace="PC_APP_DEP_INSTANCE">
 
 
-	<resultMap class="com.aic.testcode.bean.PcAppDepInstance" id="queryResult">
+	<resultMap class="com.aic.paas.provider.ps.bean.PcAppDepInstance" id="queryResult">
 		<result column="ID" jdbcType="BIGINT" property="id"/>	<!-- ID -->
 		<result column="APP_DEP_HISTORY_ID" jdbcType="BIGINT" property="appDepHistoryId"/>	<!-- 所属应用部署历史ID -->
 		<result column="SERVER_IP" jdbcType="VARCHAR" property="serverIp"/>	<!-- 服务器IP -->

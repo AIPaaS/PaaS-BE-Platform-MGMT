@@ -3,7 +3,7 @@
 <sqlMap namespace="PC_APP_TASK_LOG">
 
 
-	<resultMap class="com.aic.testcode.bean.PcAppTaskLog" id="queryResult">
+	<resultMap class="com.aic.paas.provider.ps.bean.PcAppTaskLog" id="queryResult">
 		<result column="ID" jdbcType="BIGINT" property="id"/>	<!-- ID -->
 		<result column="LOG_TIME" jdbcType="BIGINT" property="logTime"/>	<!-- 日志时间 -->
 		<result column="TASK_ID" jdbcType="BIGINT" property="taskId"/>	<!-- 所属任务 -->
