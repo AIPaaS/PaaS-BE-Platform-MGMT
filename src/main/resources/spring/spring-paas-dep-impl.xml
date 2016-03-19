@@ -44,9 +44,7 @@
 	<bean id="PcAppAccessSvc" class="com.aic.paas.provider.ps.dep.impl.PcAppAccessSvcImpl" />
 	
 	
-	
-	<!-- remote -->
-	<bean id="iAppAccess" class="com.aic.paas.provider.ps.remote.impl.AppAccessRomteImpl" />
+
 	
 	
 	</beans>
