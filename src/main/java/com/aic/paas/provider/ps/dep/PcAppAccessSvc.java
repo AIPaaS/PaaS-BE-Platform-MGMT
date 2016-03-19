@@ -4,17 +4,10 @@ import java.util.List;
 
 import com.aic.paas.provider.ps.bean.CPcAppAccess;
 import com.aic.paas.provider.ps.bean.PcAppAccess;
-import com.aic.paas.provider.ps.dep.bean.ParmDockerImage;
 import com.aic.paas.provider.ps.dep.bean.PcAppAccessInfo;
 import com.binary.jdbc.Page;
 
 public interface PcAppAccessSvc {
-	
-	/**
-	 * 新增方法接口：异步修改远程haproxy配置
-	 */
-	public String remoteMonitorService(ParmDockerImage pdi);
-	
 	
 	
 	/**

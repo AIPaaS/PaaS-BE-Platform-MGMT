@@ -9,19 +9,12 @@ import com.aic.paas.provider.ps.bean.CPcAppAccess;
 import com.aic.paas.provider.ps.bean.PcApp;
 import com.aic.paas.provider.ps.bean.PcAppAccess;
 import com.aic.paas.provider.ps.bean.PcAppImage;
-import com.aic.paas.provider.ps.bean.PcResCenter;
 import com.aic.paas.provider.ps.db.PcAppAccessDao;
 import com.aic.paas.provider.ps.db.PcAppDao;
 import com.aic.paas.provider.ps.db.PcAppImageDao;
 import com.aic.paas.provider.ps.db.PcResCenterDao;
 import com.aic.paas.provider.ps.dep.PcAppAccessSvc;
-import com.aic.paas.provider.ps.dep.bean.ParmDockerImage;
 import com.aic.paas.provider.ps.dep.bean.PcAppAccessInfo;
-import com.aic.paas.provider.ps.remote.IAppAccess;
-import com.aic.paas.provider.ps.remote.bean.AppAccessCodeUrl;
-import com.aic.paas.provider.ps.remote.model.AppAccessModel;
-import com.alibaba.dubbo.common.json.JSON;
-import com.alibaba.dubbo.common.json.ParseException;
 import com.binary.core.util.BinaryUtils;
 import com.binary.framework.exception.ServiceException;
 import com.binary.jdbc.Page;
@@ -38,48 +31,9 @@ public class PcAppAccessSvcImpl implements PcAppAccessSvc{
 	PcAppDao appDao;
 
 	@Autowired
-	IAppAccess iAppAccess;
-	
-	@Autowired
 	PcResCenterDao resCenterDao;
 	
 	
-	@Override
-	public String remoteMonitorService(ParmDockerImage param) {
-		//获取后场返回值 
-		String result = "{\"code\":\"000000\",\"msg\":\"ok\"}";
-		String fullName = param.getDockerImage();
-		List<PcAppImage> list = appImageDao.selectListByFullName(fullName, null, "ID desc");
-		if(list==null || list.size() == 0 ){
-		}else{
-			PcAppImage appImage = list.get(0);
-			CPcAppAccess cdt = new CPcAppAccess();
-			cdt.setAppId(appImage.getAppId());
-			cdt.setAppImageId(appImage.getId());
-			List<PcAppAccess> ls = appAccessDao.selectList(cdt, null);
-			if(ls!=null && ls.size()>0){
-				PcAppAccess appAccess = ls.get(0);
-				AppAccessModel appAccessModel = new AppAccessModel();
-				appAccessModel.setContainer(fullName);
-//				String dns = "_"+fullName+"._tcp.marathon."+resCenterDao.selectById(appAccess.getResCenterId()).getDomain();
-				String dns = "_"+fullName+"._tcp.marathon.ai";
-				appAccessModel.setDns(dns);
-				appAccessModel.setProtocol(appAccess.getProtocol());
-				appAccessModel.setAccessCode(appAccess.getAccessCode());
-				appAccessModel.setAccessCodeOld(appAccess.getAccessCode());
-				String resCenterId = appAccess.getResCenterId().toString();
-				resCenterId="dev";
-				appAccessModel.setResCenterId(resCenterId);
-				
-				if("KILLED".equals(param.getTaskStatus())){
-					result = iAppAccess.removeAccess(appAccessModel);
-				}else if("RUNNING".equals(param.getTaskStatus())){
-					result = iAppAccess.updateAccess(appAccessModel);
-				}
-			}
-		}
-		return result;
-	}
 
 	
 	@Override
@@ -151,7 +105,7 @@ public class PcAppAccessSvcImpl implements PcAppAccessSvc{
 		if(!isadd){
 			//更新时，如果重新选择了入口的容器，需要更新PcAppImage
 			old = appAccessDao.selectById(id);
-			if(old.getAppImageId()!=record.getAppImageId()){
+			if(record.getAppImageId()!=null&&old.getAppImageId()!=record.getAppImageId()){
 				PcAppImage apprecord = new PcAppImage();
 				//取消旧的入口
 				apprecord.setId(old.getAppImageId());
@@ -165,51 +119,10 @@ public class PcAppAccessSvcImpl implements PcAppAccessSvc{
 				appImageDao.save(apprecord);
 			}
 		}
-		//调用能力后场接口
-		remoteService(record,isadd,old);
 		
 		return appAccessDao.save(record);
 	}
 
-	private void remoteService(PcAppAccess record, boolean isadd,PcAppAccess old) {
-		AppAccessModel param = new AppAccessModel();
-		PcAppImage pai = appImageDao.selectById(record.getAppImageId());
-		if(pai!=null)
-			param.setContainer(pai.getContainerFullName());
-		param.setAccessCode(record.getAccessCode());
-		param.setAccessCodeOld(record.getAccessCode());
-		PcResCenter resCenter = resCenterDao.selectById(record.getResCenterId());
-		if(pai!=null&&resCenter!=null)
-//			param.setDns("_"+param.getContainer()+".marathon."+resCenter.getDomain());
-			param.setDns("_"+param.getContainer()+"._tcp.marathon.ai");
-		param.setProtocol(record.getProtocol());
-//		param.setResCenterId(record.getResCenterId().toString());
-		param.setResCenterId("dev");
-		//获取后场返回值 
-		String result = null;
-		if(isadd){
-			result = iAppAccess.addAccess(param);
-		}else{
-			if(old==null)
-				old = appAccessDao.selectById(record.getId());
-			param.setAccessCodeOld(old.getAccessCode());
-			result = iAppAccess.updateAccess(param);
-		}
-		try {
-			AppAccessCodeUrl aacu = JSON.parse(result, AppAccessCodeUrl.class);
-			if("000000".equals(aacu.getCode())){
-				PcAppAccess paa = new PcAppAccess();
-				paa.setId(record.getId());
-				paa.setAccessUrl(aacu.getAccessUrl());
-				appAccessDao.save(paa);
-			}else{
-				throw new ServiceException(" modify remote cfg error ! "); 
-			}
-		} catch (ParseException e) {
-			throw new ServiceException(" modify remote cfg error ! "); 
-		}
-		
-	}
 
 	@Override
 	public int removeById(Long id) {
