@@ -3,6 +3,22 @@
 <sqlMap namespace="PC_APP_DEP_INSTANCE">
 
 
+	<select id="selectByInstanceName" parameterClass="java.util.Map" resultMap="queryResult">
+		select 
+			<include refid="PC_APP_DEP_INSTANCE.sql_query_columns" />
+		from PC_APP_DEP_INSTANCE 
+		where INSTANCE_NAME=#instanceName:VARCHAR# and DATA_STATUS=1
+		order by 
+			<isNotEmpty property="orders" >
+				$orders$
+			</isNotEmpty>
+			<isEmpty property="orders" >
+				ID
+			</isEmpty>  
+	</select>
+	
+
+
 	<update id="disableDepInstanceByInstanceName" parameterClass="java.util.Map">
 		update PC_APP_DEP_INSTANCE set STATUS=0, MODIFY_TIME=#modifyTime:BIGINT# where INSTANCE_NAME=#instanceName:VARCHAR#
 	</update>
