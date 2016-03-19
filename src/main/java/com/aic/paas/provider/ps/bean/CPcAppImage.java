@@ -245,6 +245,29 @@ public class CPcAppImage implements Condition {
 
 
 	/**
+	 * condition-field: CPU总数[CPU_TOTAL] operate-Equal[=]
+	 */
+	private Integer cpuTotal;
+
+
+	/**
+	 * condition-field: CPU总数[CPU_TOTAL] operate-In[in]
+	 */
+	private Integer[] cpuTotals;
+
+
+	/**
+	 * condition-field: CPU总数[CPU_TOTAL] operate-GTEqual[>=]
+	 */
+	private Integer startCpuTotal;
+
+	/**
+	 * condition-field: CPU总数[CPU_TOTAL] operate-LTEqual[<=]
+	 */
+	private Integer endCpuTotal;
+
+
+	/**
 	 * condition-field: 内存大小[MEM_SIZE] operate-Equal[=]
 	 * 单位：M
 	 */
@@ -272,6 +295,29 @@ public class CPcAppImage implements Condition {
 
 
 	/**
+	 * condition-field: 内存总数[MEM_TOTAL] operate-Equal[=]
+	 */
+	private Long memTotal;
+
+
+	/**
+	 * condition-field: 内存总数[MEM_TOTAL] operate-In[in]
+	 */
+	private Long[] memTotals;
+
+
+	/**
+	 * condition-field: 内存总数[MEM_TOTAL] operate-GTEqual[>=]
+	 */
+	private Long startMemTotal;
+
+	/**
+	 * condition-field: 内存总数[MEM_TOTAL] operate-LTEqual[<=]
+	 */
+	private Long endMemTotal;
+
+
+	/**
 	 * condition-field: 存储大小[DISK_SIZE] operate-Equal[=]
 	 * 单位：M
 	 */
@@ -296,6 +342,29 @@ public class CPcAppImage implements Condition {
 	 * 单位：M
 	 */
 	private Long endDiskSize;
+
+
+	/**
+	 * condition-field: 存储总数[DISK_TOTAL] operate-Equal[=]
+	 */
+	private Long diskTotal;
+
+
+	/**
+	 * condition-field: 存储总数[DISK_TOTAL] operate-In[in]
+	 */
+	private Long[] diskTotals;
+
+
+	/**
+	 * condition-field: 存储总数[DISK_TOTAL] operate-GTEqual[>=]
+	 */
+	private Long startDiskTotal;
+
+	/**
+	 * condition-field: 存储总数[DISK_TOTAL] operate-LTEqual[<=]
+	 */
+	private Long endDiskTotal;
 
 
 	/**
@@ -1109,6 +1178,38 @@ public class CPcAppImage implements Condition {
 	}
 
 
+	public Integer getCpuTotal() {
+		return this.cpuTotal;
+	}
+	public void setCpuTotal(Integer cpuTotal) {
+		this.cpuTotal = cpuTotal;
+	}
+
+
+	public Integer[] getCpuTotals() {
+		return this.cpuTotals;
+	}
+	public void setCpuTotals(Integer[] cpuTotals) {
+		this.cpuTotals = cpuTotals;
+	}
+
+
+	public Integer getStartCpuTotal() {
+		return this.startCpuTotal;
+	}
+	public void setStartCpuTotal(Integer startCpuTotal) {
+		this.startCpuTotal = startCpuTotal;
+	}
+
+
+	public Integer getEndCpuTotal() {
+		return this.endCpuTotal;
+	}
+	public void setEndCpuTotal(Integer endCpuTotal) {
+		this.endCpuTotal = endCpuTotal;
+	}
+
+
 	public Long getMemSize() {
 		return this.memSize;
 	}
@@ -1141,6 +1242,38 @@ public class CPcAppImage implements Condition {
 	}
 
 
+	public Long getMemTotal() {
+		return this.memTotal;
+	}
+	public void setMemTotal(Long memTotal) {
+		this.memTotal = memTotal;
+	}
+
+
+	public Long[] getMemTotals() {
+		return this.memTotals;
+	}
+	public void setMemTotals(Long[] memTotals) {
+		this.memTotals = memTotals;
+	}
+
+
+	public Long getStartMemTotal() {
+		return this.startMemTotal;
+	}
+	public void setStartMemTotal(Long startMemTotal) {
+		this.startMemTotal = startMemTotal;
+	}
+
+
+	public Long getEndMemTotal() {
+		return this.endMemTotal;
+	}
+	public void setEndMemTotal(Long endMemTotal) {
+		this.endMemTotal = endMemTotal;
+	}
+
+
 	public Long getDiskSize() {
 		return this.diskSize;
 	}
@@ -1170,6 +1303,38 @@ public class CPcAppImage implements Condition {
 	}
 	public void setEndDiskSize(Long endDiskSize) {
 		this.endDiskSize = endDiskSize;
+	}
+
+
+	public Long getDiskTotal() {
+		return this.diskTotal;
+	}
+	public void setDiskTotal(Long diskTotal) {
+		this.diskTotal = diskTotal;
+	}
+
+
+	public Long[] getDiskTotals() {
+		return this.diskTotals;
+	}
+	public void setDiskTotals(Long[] diskTotals) {
+		this.diskTotals = diskTotals;
+	}
+
+
+	public Long getStartDiskTotal() {
+		return this.startDiskTotal;
+	}
+	public void setStartDiskTotal(Long startDiskTotal) {
+		this.startDiskTotal = startDiskTotal;
+	}
+
+
+	public Long getEndDiskTotal() {
+		return this.endDiskTotal;
+	}
+	public void setEndDiskTotal(Long endDiskTotal) {
+		this.endDiskTotal = endDiskTotal;
 	}
 
 

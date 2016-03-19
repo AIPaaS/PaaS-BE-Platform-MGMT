@@ -1,6 +1,8 @@
 package com.aic.paas.provider.ps.db.impl;
 
 
+
+
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -19,7 +21,7 @@ import com.binary.jdbc.JdbcOperator;
  */
 public class PcAppImageDaoImpl extends IBatisDaoTemplate<PcAppImage, CPcAppImage> implements PcAppImageDao {
 
-	
+
 	
 	
 	@Override
@@ -104,6 +106,7 @@ public class PcAppImageDaoImpl extends IBatisDaoTemplate<PcAppImage, CPcAppImage
 		
 		return sn!=null &&sn.intValue()==9;
 	}
+
 
 }
 
