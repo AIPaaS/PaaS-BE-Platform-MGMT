@@ -5,6 +5,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.aic.paas.provider.ps.bean.CPcApp;
@@ -35,7 +37,7 @@ import com.binary.jdbc.Page;
 
 public class PcAppSvcImpl implements PcAppSvc {
 	
-	
+	static final Logger logger = LoggerFactory.getLogger(PcAppSvcImpl.class);
 	@Autowired
 	PcAppDao appDao;
 	
@@ -459,8 +461,9 @@ public class PcAppSvcImpl implements PcAppSvc {
 			cdt.setMntId(record.getMntId());
 			cdt.setAppCodeEqual(code);
 			List<PcApp> ls = appDao.selectList(cdt, null);
-			if(ls.size()>0 && (id==null || ls.size()>2 || ls.get(0).getId().longValue()!=id.longValue())) {
-				throw new ServiceException(" is exists code '"+code+"'! ");
+			if(ls.size()>0 && (id==null || ls.size()>1 || ls.get(0).getId().longValue()!=id.longValue())) {
+				logger.error(" is exists code '"+code+"'! ");
+				throw new ServiceException("1");
 			}
 		}
 		
@@ -472,7 +475,11 @@ public class PcAppSvcImpl implements PcAppSvc {
 			newVersion = true;
 		}else {
 			PcApp old = appDao.selectById(id);
-			if(old == null) throw new ServiceException(" app ["+id+"] not exists! ");
+			if(old == null)
+			{
+				logger.error(" app ["+id+"] not exists! ");
+				throw new ServiceException("2");
+			}
 //			int status = old.getStatus();
 //			if(status == 2) {		//1=未部署  2=运行中  3=停止
 //				if((record.getAppCode()!=null && !record.getAppCode().equals(old.getAppCode()))
@@ -489,7 +496,8 @@ public class PcAppSvcImpl implements PcAppSvc {
 				long count = appImageDao.selectCount(cdt);
 				
 				if(count > 0) {
-					throw new ServiceException(" The application ["+old.getAppCode()+"] has containers, application's resource center cannot be modified! ");
+					logger.error(" The application ["+old.getAppCode()+"] has containers, application's resource center cannot be modified! ");
+					throw new ServiceException("3");
 				}
 			}
 			
@@ -505,9 +513,9 @@ public class PcAppSvcImpl implements PcAppSvc {
 					cdt.setVersionNoEqual(verno);
 					List<PcAppVersion> ls = appVnoDao.selectList(cdt, null);
 					if(ls.size() > 0) {
-						throw new ServiceException(" is exists version '"+verno+"'! ");
+						logger.error(" is exists version '"+verno+"'! ");
+						throw new ServiceException("4");
 					}
-					
 					newVersion = true;
 				}
 			}
