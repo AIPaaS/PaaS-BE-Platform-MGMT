@@ -459,7 +459,7 @@ public class PcAppSvcImpl implements PcAppSvc {
 			cdt.setMntId(record.getMntId());
 			cdt.setAppCodeEqual(code);
 			List<PcApp> ls = appDao.selectList(cdt, null);
-			if(ls.size()>0 && (id==null || ls.size()>1 || ls.get(0).getId().longValue()!=id.longValue())) {
+			if(ls.size()>0 && (id==null || ls.size()>2 || ls.get(0).getId().longValue()!=id.longValue())) {
 				throw new ServiceException(" is exists code '"+code+"'! ");
 			}
 		}

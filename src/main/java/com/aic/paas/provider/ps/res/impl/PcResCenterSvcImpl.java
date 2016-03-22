@@ -220,6 +220,27 @@ public class PcResCenterSvcImpl implements PcResCenterSvc {
 		return map;
 	}
 
+	@Override
+	public Map<String, Object> getCancelParam(Long resCenterId,Boolean useAgent,Boolean loadOnly) {
+		Map<String,Object> map = new HashMap<String, Object>();
+		
+		ResDetailInfo  resinfo = pcComputerSvc.queryByResCenter(resCenterId);
+
+		map.put("clusterId", resinfo.getResCenterId()+"");
+		//镜像地址
+		map.put("imagePath", resinfo.getImagePath());
+		map.put("useAgent",useAgent);
+		//agentid为资源中心id
+		map.put("aid", resinfo.getResCenterId()+"");
+//		map.put("aid", "dev");
+				
+		map.put("mesosMaster", getMasterParam(resinfo));
+		map.put("mesosSlave", getSlaveParam(resinfo));
+		
+		map.put("webHaproxy", getWebHaproxyParam(resinfo,loadOnly));
+		return map;
+	}
+	
 	
 	private List<Map<String,Object>> getZoneParam(Long resCenterId){
 		
@@ -285,9 +306,9 @@ public class PcResCenterSvcImpl implements PcResCenterSvc {
 			idName.put(pnz.getId(), pnz.getZoneCode());
 		}
 		
-		for(int i=0;i<resinfo.getVisitPartList().size();i++){
+		for(int i=0;i<resinfo.getSlavePartList().size();i++){
 			Map<String,Object> map = new HashMap<String, Object>();
-			PcComputer pc = resinfo.getCorePartList().get(i);
+			PcComputer pc = resinfo.getSlavePartList().get(i);
 			map.put("id", i+1);
 			map.put("ip", pc.getIp());
 			map.put("root", pc.getLoginName());

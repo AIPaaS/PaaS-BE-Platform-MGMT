@@ -4,20 +4,33 @@ import java.util.List;
 
 import com.aic.paas.provider.ps.bean.PcComputer;
 
+
+
 public class ResDetailInfo {
-	Long resCenterId;
-	String resCenterName;
-	Long dataCenterId;
-	String dataCenterName;
-	String imagePath;
-	String domain;
-	String externalDomain;
-	List<PcComputer> corePartList;
-	List<PcComputer> visitPartList;
-	List<PcComputer> slavePartList;
 	
-	List<PcComputer> computerList;
+	private Long resCenterId;
+	private String resCenterName;
+	private Long dataCenterId;
+	private String dataCenterName;
+	private String imagePath;
+	private String domain;
+	private String externalDomain;
 	
+	//资源初始化状态
+	private Integer initStatus;
+	
+	private List<PcComputer> corePartList;
+	private List<PcComputer> visitPartList;
+	private List<PcComputer> slavePartList;
+	
+	private List<PcComputer> computerList;
+	
+	public Integer getInitStatus() {
+		return initStatus;
+	}
+	public void setInitStatus(Integer initStatus) {
+		this.initStatus = initStatus;
+	}
 	public List<PcComputer> getComputerList() {
 		return computerList;
 	}

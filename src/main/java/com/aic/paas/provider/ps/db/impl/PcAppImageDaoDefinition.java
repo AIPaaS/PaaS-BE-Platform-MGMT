@@ -1,10 +1,9 @@
 package com.aic.paas.provider.ps.db.impl;
 
 
-import com.binary.framework.dao.DaoDefinition;
-
 import com.aic.paas.provider.ps.bean.CPcAppImage;
 import com.aic.paas.provider.ps.bean.PcAppImage;
+import com.binary.framework.dao.DaoDefinition;
 
 
 /**

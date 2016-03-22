@@ -89,6 +89,12 @@ public class PcAppImage implements EntityBean {
 
 
 	/**
+	 * mapping-field: CPU总数[CPU_TOTAL]
+	 */
+	private Integer cpuTotal;
+
+
+	/**
 	 * mapping-field: 内存大小[MEM_SIZE]
 	 * 单位：M
 	 */
@@ -96,10 +102,22 @@ public class PcAppImage implements EntityBean {
 
 
 	/**
+	 * mapping-field: 内存总数[MEM_TOTAL]
+	 */
+	private Long memTotal;
+
+
+	/**
 	 * mapping-field: 存储大小[DISK_SIZE]
 	 * 单位：M
 	 */
 	private Long diskSize;
+
+
+	/**
+	 * mapping-field: 存储总数[DISK_TOTAL]
+	 */
+	private Long diskTotal;
 
 
 	/**
@@ -367,6 +385,14 @@ public class PcAppImage implements EntityBean {
 	}
 
 
+	public Integer getCpuTotal() {
+		return this.cpuTotal;
+	}
+	public void setCpuTotal(Integer cpuTotal) {
+		this.cpuTotal = cpuTotal;
+	}
+
+
 	public Long getMemSize() {
 		return this.memSize;
 	}
@@ -375,11 +401,27 @@ public class PcAppImage implements EntityBean {
 	}
 
 
+	public Long getMemTotal() {
+		return this.memTotal;
+	}
+	public void setMemTotal(Long memTotal) {
+		this.memTotal = memTotal;
+	}
+
+
 	public Long getDiskSize() {
 		return this.diskSize;
 	}
 	public void setDiskSize(Long diskSize) {
 		this.diskSize = diskSize;
+	}
+
+
+	public Long getDiskTotal() {
+		return this.diskTotal;
+	}
+	public void setDiskTotal(Long diskTotal) {
+		this.diskTotal = diskTotal;
 	}
 
 

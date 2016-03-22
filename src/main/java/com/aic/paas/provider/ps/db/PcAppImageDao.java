@@ -13,7 +13,6 @@ import com.binary.framework.dao.Dao;
  */
 public interface PcAppImageDao extends Dao<PcAppImage, CPcAppImage> {
 
-
 	
 	
 	
@@ -76,6 +75,7 @@ public interface PcAppImageDao extends Dao<PcAppImage, CPcAppImage> {
 	
 	
 	
+
 }
 
 
