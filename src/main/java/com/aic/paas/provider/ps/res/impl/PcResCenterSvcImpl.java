@@ -27,6 +27,7 @@ import com.aic.paas.provider.ps.res.bean.PcResCenterInfo;
 import com.aic.paas.provider.ps.res.bean.ResDetailInfo;
 import com.binary.core.util.BinaryUtils;
 import com.binary.framework.exception.ServiceException;
+import com.binary.framework.util.PrimaryKey;
 import com.binary.jdbc.Page;
 
 public class PcResCenterSvcImpl implements PcResCenterSvc {
@@ -242,7 +243,7 @@ public class PcResCenterSvcImpl implements PcResCenterSvc {
 	}
 	
 	@Override
-	public Map<String, Object> getAddSlaveParam(Long resCenterId,Boolean useAgent,Boolean loadOnly) {
+	public Map<String, Object> getAddSlaveParam(Long resCenterId,List<Long> computerIdList,Boolean useAgent) {
 		Map<String,Object> map = new HashMap<String, Object>();
 		
 		ResDetailInfo  resinfo = pcComputerSvc.queryByResCenter(resCenterId);
@@ -256,7 +257,7 @@ public class PcResCenterSvcImpl implements PcResCenterSvc {
 //		map.put("aid", "dev");
 				
 		map.put("mesosMaster", getMasterParam(resinfo));
-		map.put("mesosSlave", getAddSlaveParam(resinfo));
+		map.put("mesosSlave", getAddSlaveParam(resCenterId,computerIdList));
 		return map;
 	}
 	
@@ -298,7 +299,8 @@ public class PcResCenterSvcImpl implements PcResCenterSvc {
 		for(int i=0;i<resinfo.getCorePartList().size();i++){
 			Map<String,Object> map = new HashMap<String, Object>();
 			PcComputer pc = resinfo.getCorePartList().get(i);
-			map.put("id", i+1);
+			Long a = PrimaryKey.getInstance("AAAA").next();
+			map.put("id", a.intValue());
 			map.put("ip", pc.getIp());
 			map.put("root", pc.getLoginName());
 			map.put("passwd", pc.getLoginPwd());
@@ -327,7 +329,8 @@ public class PcResCenterSvcImpl implements PcResCenterSvc {
 		for(int i=0;i<resinfo.getSlavePartList().size();i++){
 			Map<String,Object> map = new HashMap<String, Object>();
 			PcComputer pc = resinfo.getSlavePartList().get(i);
-			map.put("id", i+1);
+			Long a = PrimaryKey.getInstance("AAAA").next();
+			map.put("id", a.intValue());
 			map.put("ip", pc.getIp());
 			map.put("root", pc.getLoginName());
 			map.put("passwd", pc.getLoginPwd());
@@ -360,7 +363,8 @@ public class PcResCenterSvcImpl implements PcResCenterSvc {
 		for(int i=0;i<pcList.size();i++){
 			Map<String,Object> hostsMap = new HashMap<String, Object>();
 			PcComputer pc = pcList.get(i);
-			hostsMap.put("id", i+1);
+			Long a = PrimaryKey.getInstance("AAAA").next();
+			hostsMap.put("id", a.intValue());
 			hostsMap.put("ip", pc.getIp());
 			hostsMap.put("root", pc.getLoginName());
 			hostsMap.put("passwd", pc.getLoginPwd());
@@ -373,25 +377,26 @@ public class PcResCenterSvcImpl implements PcResCenterSvc {
 		return map;
 	}
 	
-	private List<Map<String,Object>> getAddSlaveParam(ResDetailInfo resinfo){
-		if(resinfo.getToAddComputer() ==null)
-			throw new ServiceException("there aran't enough slave computer");
+	private List<Map<String,Object>> getAddSlaveParam(Long resId,List<Long> computerIdList){
+		if(computerIdList ==null)
+			throw new ServiceException("there aran't computer to slave");
 		
 		List<Map<String,Object>> list = new ArrayList<Map<String,Object>>();
 		
 		//所有id对应的区域名
 		CPcNetZone cpnz = new CPcNetZone();
-		cpnz.setResCenterId(resinfo.getResCenterId());
+		cpnz.setResCenterId(resId);
 		List<PcNetZone> zoneist = pcNetZoneDao.selectList(cpnz, "id");
 		Map<Long,String> idName = new HashMap<Long, String>();
 		for(PcNetZone pnz : zoneist) {
 			idName.put(pnz.getId(), pnz.getZoneCode());
 		}
 		
-		for(int i=0;i<resinfo.getToAddComputer().size();i++){
+		for(Long lo : computerIdList){
 			Map<String,Object> map = new HashMap<String, Object>();
-			PcComputer pc = resinfo.getToAddComputer().get(i);
-			map.put("id", i+1);
+			PcComputer pc = pcComputerSvc.queryById(lo);
+			Long a = PrimaryKey.getInstance("AAAA").next();
+			map.put("id", a.intValue());
 			map.put("ip", pc.getIp());
 			map.put("root", pc.getLoginName());
 			map.put("passwd", pc.getLoginPwd());
@@ -409,8 +414,6 @@ public class PcResCenterSvcImpl implements PcResCenterSvc {
 			map.put("memOffer", pc.getMemOffer());
 			list.add(map);
 		}
-		
-		
 		return list;
 	}
 	
