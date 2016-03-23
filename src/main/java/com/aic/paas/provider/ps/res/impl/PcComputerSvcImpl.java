@@ -344,9 +344,10 @@ public class PcComputerSvcImpl implements PcComputerSvc {
 				}else{
 					slavePartList.add(pc);
 				}
+				System.out.println("initStatus : "+prc.getInitStatus()+"----UseStatus :"+pc.getUseStatus());
 				if(BinaryUtils.isEmpty(prc.getInitStatus())) continue;
 				//新加的机器
-				if(prc.getInitStatus()==2 && BinaryUtils.isEmpty(pc.getUseStatus())||pc.getUseStatus()==0){
+				if(prc.getInitStatus()==2 && (BinaryUtils.isEmpty(pc.getUseStatus())||pc.getUseStatus()==0)){
 					toAddComputer.add(pc);
 				}
 			}
