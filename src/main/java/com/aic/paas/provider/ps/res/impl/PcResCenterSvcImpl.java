@@ -241,6 +241,24 @@ public class PcResCenterSvcImpl implements PcResCenterSvc {
 		return map;
 	}
 	
+	@Override
+	public Map<String, Object> getAddSlaveParam(Long resCenterId,Boolean useAgent,Boolean loadOnly) {
+		Map<String,Object> map = new HashMap<String, Object>();
+		
+		ResDetailInfo  resinfo = pcComputerSvc.queryByResCenter(resCenterId);
+
+		map.put("clusterId", resinfo.getResCenterId()+"");
+		//镜像地址
+		map.put("imagePath", resinfo.getImagePath());
+		map.put("useAgent",useAgent);
+		//agentid为资源中心id
+		map.put("aid", resinfo.getResCenterId()+"");
+//		map.put("aid", "dev");
+				
+		map.put("mesosMaster", getMasterParam(resinfo));
+		map.put("mesosSlave", getAddSlaveParam(resinfo));
+		return map;
+	}
 	
 	private List<Map<String,Object>> getZoneParam(Long resCenterId){
 		
@@ -354,4 +372,46 @@ public class PcResCenterSvcImpl implements PcResCenterSvc {
 		map.put("hosts", list);
 		return map;
 	}
+	
+	private List<Map<String,Object>> getAddSlaveParam(ResDetailInfo resinfo){
+		if(resinfo.getToAddComputer() ==null)
+			throw new ServiceException("there aran't enough slave computer");
+		
+		List<Map<String,Object>> list = new ArrayList<Map<String,Object>>();
+		
+		//所有id对应的区域名
+		CPcNetZone cpnz = new CPcNetZone();
+		cpnz.setResCenterId(resinfo.getResCenterId());
+		List<PcNetZone> zoneist = pcNetZoneDao.selectList(cpnz, "id");
+		Map<Long,String> idName = new HashMap<Long, String>();
+		for(PcNetZone pnz : zoneist) {
+			idName.put(pnz.getId(), pnz.getZoneCode());
+		}
+		
+		for(int i=0;i<resinfo.getToAddComputer().size();i++){
+			Map<String,Object> map = new HashMap<String, Object>();
+			PcComputer pc = resinfo.getToAddComputer().get(i);
+			map.put("id", i+1);
+			map.put("ip", pc.getIp());
+			map.put("root", pc.getLoginName());
+			map.put("passwd", pc.getLoginPwd());
+			map.put("zone", idName.get(pc.getNetZoneId()));
+			
+			String attributes = "ds:" + pc.getDataCenterId() + ";jf:"
+					+ pc.getRoomId() + ";rack:" + pc.getLocation() + ";ex:"
+					+ pc.getExSwitch() + ";cpu:" + pc.getCpuModel() + ";mem:"
+					+ pc.getMemSize() + ";disk:" + pc.getDiskSize()
+					+ ";netband:" + pc.getBandWidth();
+			map.put("attributes", attributes);
+			map.put("cpuTotal", pc.getCpuCount());
+			map.put("cpuOffer", pc.getCpuOffer());
+			map.put("memTotal", pc.getMemSize());
+			map.put("memOffer", pc.getMemOffer());
+			list.add(map);
+		}
+		
+		
+		return list;
+	}
+	
 }

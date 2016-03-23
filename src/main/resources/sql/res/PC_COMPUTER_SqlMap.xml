@@ -37,6 +37,7 @@
 		<result column="CUSTOM_4" jdbcType="VARCHAR" property="custom4"/>	<!-- 备用字段_4 -->
 		<result column="CUSTOM_5" jdbcType="VARCHAR" property="custom5"/>	<!-- 备用字段_5 -->
 		<result column="CUSTOM_6" jdbcType="VARCHAR" property="custom6"/>	<!-- 备用字段_6 -->
+		<result column="USE_STATUS" jdbcType="INTEGER" property="useStatus"/>	<!-- 使用状态 -->
 		<result column="DATA_STATUS" jdbcType="INTEGER" property="dataStatus"/>	<!-- 数据状态 -->
 		<result column="CREATE_TIME" jdbcType="BIGINT" property="createTime"/>	<!-- 创建时间 -->
 		<result column="MODIFY_TIME" jdbcType="BIGINT" property="modifyTime"/>	<!-- 修改时间 -->
@@ -311,6 +312,18 @@
 		<isNotEmpty prepend="and" property="cdt.custom6" >
 			CUSTOM_6 like #cdt.custom6:VARCHAR# 
 		</isNotEmpty>
+		<isNotEmpty prepend="and" property="cdt.useStatus" >
+			USE_STATUS = #cdt.useStatus:INTEGER#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="useStatuss" >
+			USE_STATUS in ($useStatuss$)
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="cdt.startUseStatus" >
+			<![CDATA[ USE_STATUS >= #cdt.startUseStatus:INTEGER# ]]>
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="cdt.endUseStatus" >
+			<![CDATA[ USE_STATUS <= #cdt.endUseStatus:INTEGER# ]]>
+		</isNotEmpty>
 		<isNotEmpty prepend="and" property="cdt.dataStatus" >
 			DATA_STATUS = #cdt.dataStatus:INTEGER#
 		</isNotEmpty>
@@ -450,6 +463,9 @@
 		<isNotNull prepend="," property="record.custom6"> 
 			CUSTOM_6 = #record.custom6:VARCHAR#
 		</isNotNull>
+		<isNotNull prepend="," property="record.useStatus"> 
+			USE_STATUS = #record.useStatus:INTEGER#
+		</isNotNull>
 		<isNotNull prepend="," property="record.dataStatus"> 
 			DATA_STATUS = #record.dataStatus:INTEGER#
 		</isNotNull>
@@ -468,7 +484,8 @@
 		MEM_SIZE, MEM_OFFER, MEM_TYPE, DISK_SIZE, DISK_TYPE, BAND_WIDTH, 
 		OS_NAME, LOGIN_NAME, LOGIN_PWD, EX_SWITCH, SUB_NET, MODEM, 
 		PHYSICAL_COMPUTER, REMARK, STATUS, CUSTOM_1, CUSTOM_2, CUSTOM_3, 
-		CUSTOM_4, CUSTOM_5, CUSTOM_6, DATA_STATUS, CREATE_TIME, MODIFY_TIME
+		CUSTOM_4, CUSTOM_5, CUSTOM_6, USE_STATUS, DATA_STATUS, CREATE_TIME, 
+		MODIFY_TIME
 	</sql>
 	
 
@@ -512,8 +529,8 @@
 			DISK_SIZE, DISK_TYPE, BAND_WIDTH, OS_NAME, LOGIN_NAME, 
 			LOGIN_PWD, EX_SWITCH, SUB_NET, MODEM, PHYSICAL_COMPUTER, 
 			REMARK, STATUS, CUSTOM_1, CUSTOM_2, CUSTOM_3, 
-			CUSTOM_4, CUSTOM_5, CUSTOM_6, DATA_STATUS, CREATE_TIME, 
-			MODIFY_TIME)
+			CUSTOM_4, CUSTOM_5, CUSTOM_6, USE_STATUS, DATA_STATUS, 
+			CREATE_TIME, MODIFY_TIME)
 		values (
 			#record.id:BIGINT#, #record.code:VARCHAR#, #record.roomId:BIGINT#, #record.location:VARCHAR#, #record.dataCenterId:BIGINT#, 
 			#record.resCenterId:BIGINT#, #record.netZoneId:BIGINT#, #record.ip:VARCHAR#, #record.cpuCount:INTEGER#, #record.cpuOffer:INTEGER#, 
@@ -521,8 +538,8 @@
 			#record.diskSize:BIGINT#, #record.diskType:VARCHAR#, #record.bandWidth:BIGINT#, #record.osName:VARCHAR#, #record.loginName:VARCHAR#, 
 			#record.loginPwd:VARCHAR#, #record.exSwitch:VARCHAR#, #record.subNet:VARCHAR#, #record.modem:VARCHAR#, #record.physicalComputer:VARCHAR#, 
 			#record.remark:VARCHAR#, #record.status:INTEGER#, #record.custom1:BIGINT#, #record.custom2:BIGINT#, #record.custom3:BIGINT#, 
-			#record.custom4:VARCHAR#, #record.custom5:VARCHAR#, #record.custom6:VARCHAR#, #record.dataStatus:INTEGER#, #record.createTime:BIGINT#, 
-			#record.modifyTime:BIGINT#)
+			#record.custom4:VARCHAR#, #record.custom5:VARCHAR#, #record.custom6:VARCHAR#, #record.useStatus:INTEGER#, #record.dataStatus:INTEGER#, 
+			#record.createTime:BIGINT#, #record.modifyTime:BIGINT#)
 	</insert>
 	
 

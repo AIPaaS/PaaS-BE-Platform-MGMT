@@ -332,6 +332,7 @@ public class PcComputerSvcImpl implements PcComputerSvc {
 		List<PcComputer> corePartList = new ArrayList<PcComputer>();
 		List<PcComputer> visitPartList = new ArrayList<PcComputer>();
 		List<PcComputer> slavePartList = new ArrayList<PcComputer>();
+		List<PcComputer> toAddComputer = new ArrayList<PcComputer>();
 		
 		Map<Long,String> map = getNetZoneCodeMap(resCenterId);
 		for(PcComputer pc :list){
@@ -343,13 +344,19 @@ public class PcComputerSvcImpl implements PcComputerSvc {
 				}else{
 					slavePartList.add(pc);
 				}
+				if(BinaryUtils.isEmpty(prc.getInitStatus())) continue;
+				//新加的机器
+				if(prc.getInitStatus()==2 && BinaryUtils.isEmpty(pc.getUseStatus())||pc.getUseStatus()==0){
+					toAddComputer.add(pc);
+				}
 			}
-		}
+		}		
 		
 		resInfo.setComputerList(list);
 		resInfo.setCorePartList(corePartList);
 		resInfo.setVisitPartList(visitPartList);
 		resInfo.setSlavePartList(slavePartList);
+		resInfo.setToAddComputer(toAddComputer);
 		return resInfo;
 	}
 	

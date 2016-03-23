@@ -134,6 +134,12 @@ public interface PcResCenterSvc {
 	 */
 	Map<String, Object> getCancelParam(Long resCenterId, Boolean useAgent,Boolean loadOnly);
 	
-	
-	
+	/**
+	 * 返回添加slave参数
+	 * @param resCenterId
+	 * @param useAgent
+	 * @param loadOnly
+	 * @return
+	 */
+	public Map<String, Object> getAddSlaveParam(Long resCenterId,Boolean useAgent,Boolean loadOnly);
 }

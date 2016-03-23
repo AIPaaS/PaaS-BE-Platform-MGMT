@@ -218,6 +218,12 @@ public class PcComputer implements EntityBean {
 
 
 	/**
+	 * mapping-field: 使用状态[USE_STATUS]
+	 */
+	private Integer useStatus;
+
+
+	/**
 	 * mapping-field: 数据状态[DATA_STATUS]
 	 * 数据状态：1-正常 0-删除
 	 */
@@ -501,6 +507,14 @@ public class PcComputer implements EntityBean {
 	}
 	public void setCustom6(String custom6) {
 		this.custom6 = custom6;
+	}
+
+
+	public Integer getUseStatus() {
+		return this.useStatus;
+	}
+	public void setUseStatus(Integer useStatus) {
+		this.useStatus = useStatus;
 	}
 
 

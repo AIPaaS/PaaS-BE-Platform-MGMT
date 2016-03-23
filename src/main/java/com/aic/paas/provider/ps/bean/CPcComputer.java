@@ -556,6 +556,29 @@ public class CPcComputer implements Condition {
 
 
 	/**
+	 * condition-field: 使用状态[USE_STATUS] operate-Equal[=]
+	 */
+	private Integer useStatus;
+
+
+	/**
+	 * condition-field: 使用状态[USE_STATUS] operate-In[in]
+	 */
+	private Integer[] useStatuss;
+
+
+	/**
+	 * condition-field: 使用状态[USE_STATUS] operate-GTEqual[>=]
+	 */
+	private Integer startUseStatus;
+
+	/**
+	 * condition-field: 使用状态[USE_STATUS] operate-LTEqual[<=]
+	 */
+	private Integer endUseStatus;
+
+
+	/**
 	 * condition-field: 数据状态[DATA_STATUS] operate-Equal[=]
 	 * 数据状态：1-正常 0-删除
 	 */
@@ -1347,6 +1370,38 @@ public class CPcComputer implements Condition {
 	}
 	public void setCustom6(String custom6) {
 		this.custom6 = custom6;
+	}
+
+
+	public Integer getUseStatus() {
+		return this.useStatus;
+	}
+	public void setUseStatus(Integer useStatus) {
+		this.useStatus = useStatus;
+	}
+
+
+	public Integer[] getUseStatuss() {
+		return this.useStatuss;
+	}
+	public void setUseStatuss(Integer[] useStatuss) {
+		this.useStatuss = useStatuss;
+	}
+
+
+	public Integer getStartUseStatus() {
+		return this.startUseStatus;
+	}
+	public void setStartUseStatus(Integer startUseStatus) {
+		this.startUseStatus = startUseStatus;
+	}
+
+
+	public Integer getEndUseStatus() {
+		return this.endUseStatus;
+	}
+	public void setEndUseStatus(Integer endUseStatus) {
+		this.endUseStatus = endUseStatus;
 	}
 
 

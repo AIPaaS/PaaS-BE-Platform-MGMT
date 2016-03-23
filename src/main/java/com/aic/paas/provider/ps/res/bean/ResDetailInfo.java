@@ -4,8 +4,6 @@ import java.util.List;
 
 import com.aic.paas.provider.ps.bean.PcComputer;
 
-
-
 public class ResDetailInfo {
 	
 	private Long resCenterId;
@@ -22,6 +20,8 @@ public class ResDetailInfo {
 	private List<PcComputer> corePartList;
 	private List<PcComputer> visitPartList;
 	private List<PcComputer> slavePartList;
+	
+	private List<PcComputer> toAddComputer;
 	
 	private List<PcComputer> computerList;
 	
@@ -97,6 +97,11 @@ public class ResDetailInfo {
 	public void setSlavePartList(List<PcComputer> slavePartList) {
 		this.slavePartList = slavePartList;
 	}
-	
+	public List<PcComputer> getToAddComputer() {
+		return toAddComputer;
+	}
+	public void setToAddComputer(List<PcComputer> toAddComputer) {
+		this.toAddComputer = toAddComputer;
+	}
 	
 }
