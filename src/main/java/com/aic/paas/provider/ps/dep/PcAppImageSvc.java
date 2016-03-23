@@ -189,7 +189,7 @@ public interface PcAppImageSvc {
 	
 	
 	
-	
+	public int getAppImageCount(Long appId);
 	
 	
 }
