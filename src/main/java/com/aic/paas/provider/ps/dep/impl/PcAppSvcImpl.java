@@ -520,7 +520,7 @@ public class PcAppSvcImpl implements PcAppSvc {
 				}
 			}
 			
-			if(record.getResCenterId()!=null && record.getResCenterId().equals(old.getResCenterId())) {
+			if(record.getResCenterId()!=null && !record.getResCenterId().equals(old.getResCenterId())) {
 				CPcAppImage cdt = new CPcAppImage();
 				cdt.setAppId(id);
 				long count = appImageDao.selectCount(cdt);
