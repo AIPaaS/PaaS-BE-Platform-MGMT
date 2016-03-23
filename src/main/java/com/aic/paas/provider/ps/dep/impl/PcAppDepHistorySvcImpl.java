@@ -25,5 +25,10 @@ public class PcAppDepHistorySvcImpl implements PcAppDepHistorySvc {
 		cPcAppDepHistory.setTaskId(taskId);
 		return pcAppDepHistoryDao.selectList(cPcAppDepHistory, null);
 	}
+	
+	@Override
+	public int update(PcAppDepHistory pcAppDepHistory, CPcAppDepHistory cdt) {
+		return pcAppDepHistoryDao.updateByCdt(pcAppDepHistory, cdt);
+	}
 
 }
