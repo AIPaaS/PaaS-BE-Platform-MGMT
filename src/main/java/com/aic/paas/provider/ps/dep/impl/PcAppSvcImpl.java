@@ -520,15 +520,6 @@ public class PcAppSvcImpl implements PcAppSvc {
 				}
 			}
 			
-			if(record.getResCenterId()!=null && !record.getResCenterId().equals(old.getResCenterId())) {
-				CPcAppImage cdt = new CPcAppImage();
-				cdt.setAppId(id);
-				long count = appImageDao.selectCount(cdt);
-				if(count>0){
-					logger.error(" container already exists! ");
-					throw new ServiceException("5");
-				}
-			}
 			
 			appDao.updateById(record, id);
 		}
