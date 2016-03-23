@@ -663,4 +663,11 @@ public class PcAppImageSvcImpl implements PcAppImageSvc {
 		return 0;
 	}
 
+	@Override
+	public List<PcAppImgSvc> getPcAppImgSvc(Long appImageId) {
+		CPcAppImgSvc cdt = new CPcAppImgSvc();
+		cdt.setAppImgId(appImageId);
+		return appImgSvcDao.selectList(cdt, null);
+	}
+
 }
