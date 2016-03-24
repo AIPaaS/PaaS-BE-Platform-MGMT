@@ -9,11 +9,14 @@ import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.aic.paas.comm.util.PropertiesPool;
+import com.aic.paas.provider.ps.bean.CPcAppAccess;
 import com.aic.paas.provider.ps.bean.CPcAppImage;
 import com.aic.paas.provider.ps.bean.CPcAppImgSvc;
 import com.aic.paas.provider.ps.bean.CPcKvPair;
 import com.aic.paas.provider.ps.bean.CPcService;
 import com.aic.paas.provider.ps.bean.PcApp;
+import com.aic.paas.provider.ps.bean.PcAppAccess;
 import com.aic.paas.provider.ps.bean.PcAppImage;
 import com.aic.paas.provider.ps.bean.PcAppImgSvc;
 import com.aic.paas.provider.ps.bean.PcAppRes;
@@ -25,7 +28,9 @@ import com.aic.paas.provider.ps.db.PcAppImageDao;
 import com.aic.paas.provider.ps.db.PcAppImgSvcDao;
 import com.aic.paas.provider.ps.db.PcAppVersionDao;
 import com.aic.paas.provider.ps.db.PcKvPairDao;
+import com.aic.paas.provider.ps.db.PcResCenterDao;
 import com.aic.paas.provider.ps.db.PcServiceDao;
+import com.aic.paas.provider.ps.dep.PcAppAccessSvc;
 import com.aic.paas.provider.ps.dep.PcAppImageSvc;
 import com.aic.paas.provider.ps.dep.PcAppSvc;
 import com.aic.paas.provider.ps.dep.PcServiceSvc;
@@ -34,6 +39,7 @@ import com.aic.paas.provider.ps.dep.bean.AppImageSettings;
 import com.aic.paas.provider.ps.dep.bean.AppImageSetup;
 import com.aic.paas.provider.ps.dep.bean.AppImageSvcInfo;
 import com.aic.paas.provider.ps.dep.bean.AppZoneResInfo;
+import com.aic.paas.provider.ps.dep.bean.PcAppImageInfo;
 import com.aic.paas.provider.ps.util.DepUtil;
 import com.binary.core.util.BinaryUtils;
 import com.binary.framework.exception.ServiceException;
@@ -69,6 +75,14 @@ public class PcAppImageSvcImpl implements PcAppImageSvc {
 	@Autowired
 	PcAppSvc appSvc;
 	
+	@Autowired
+	PcAppAccessSvc appAccessSvc;
+	
+	@Autowired
+	PropertiesPool propertiesPool;
+	
+	@Autowired
+	PcResCenterDao resCenterDao;
 	
 	@Override
 	public Page<PcAppImage> queryPage(Integer pageNum, Integer pageSize, CPcAppImage cdt, String orders) {
@@ -443,6 +457,11 @@ public class PcAppImageSvcImpl implements PcAppImageSvc {
 				if(params!=null && params.size()>0) {
 					for(int j=0; j<params.size(); j++) {
 						PcKvPair kv = params.get(j);
+						if((propertiesPool.get("defaultDnsKey")!=null&&
+								propertiesPool.get("defaultDnsKey").trim().equals(kv.getKvKey()))
+								||(propertiesPool.get("defaultPortKey")!=null&&
+										propertiesPool.get("defaultPortKey").trim().equals(kv.getKvKey())))
+							kv.setCustom1(1l);
 						kv.setTypeId(3);
 						kv.setSourceId(rltId);
 						kvrecords.add(kv);
@@ -487,19 +506,42 @@ public class PcAppImageSvcImpl implements PcAppImageSvc {
 		PcAppVersion appVno = appVnoDao.selectById(appImg.getAppVnoId());
 		if(appVno == null) throw new ServiceException(" not found app-verion by id '"+appImg.getAppVnoId()+"'! ");
 		
+		
 		CPcKvPair cdt = new CPcKvPair();
 		cdt.setTypeId(2);		//1=服务定义参数  2=镜像环境变量  3=镜像调用服务参数
 		cdt.setSourceId(appImageId);
 		kvPairDao.deleteByCdt(cdt);
-		
+//		boolean addDefault = true;
+
 		if(params!=null && params.size()>0) {
 			for(int i=0; i<params.size(); i++) {
 				PcKvPair kv = params.get(i);
+//				if(propertiesPool.get("defaultDnsKey")!=null&&
+//						propertiesPool.get("defaultDnsKey").trim().equals(kv.getKvKey()))
+//					addDefault = false;
 				kv.setTypeId(2);
 				kv.setSourceId(appImageId);
 			}
 			kvPairDao.insertBatch(params);
 		}
+//		if(addDefault){
+//			PcKvPair dnsKv = new PcKvPair();
+//			dnsKv.setKvKey(propertiesPool.get("defaultDnsKey").trim());
+//			dnsKv.setKeyDesc("default Dns");
+//			dnsKv.setKvVal(appImg.getContainerFullName()+".marathon."+
+//					resCenterDao.selectById(appImg.getResCenterId()).getDomain());
+//			dnsKv.setTypeId(2);
+//			dnsKv.setSourceId(appImageId);
+//			params.add(dnsKv);
+//			PcKvPair portKv = new PcKvPair();
+//			portKv.setKvKey(propertiesPool.get("defaultPortKey").trim());
+//			portKv.setKeyDesc("default Port");
+//			portKv.setKvVal(appImg.getPort()+"");
+//			portKv.setTypeId(2);
+//			portKv.setSourceId(appImageId);
+//			params.add(portKv);
+//		}
+
 		
 		updateSetupNum(app.getId(), appVno.getId(), appImageId, AppImageSetup.CONTAINER_PARAMS);
 	}
@@ -651,8 +693,248 @@ public class PcAppImageSvcImpl implements PcAppImageSvc {
 		}
 		appVnoDao.updateById(appVno, appVnoId);
 	}
+
+
+
+	@Override
+	public Long updateAppImage(Integer isOpen, Long appImageId, Long isAccess,
+			PcService svc, List<PcKvPair> params,Long merchentId) {
+		PcAppImage appImage = new PcAppImage();
+		appImage.setId(appImageId);
+		appImage.setProtocol(svc.getProtocol());
+		appImage.setPort(svc.getPort());
+		appImage.setIp(svc.getIp());
+		appImage.setIsAccess(isAccess);
+		appImage.setSvcUrl(svc.getSvcUrl());
+		long id= appImageDao.save(appImage);
+		PcAppImage old = appImageDao.selectById(appImageId);
+
+		//先删
+		Long[] rltIds = new Long[1];
+		rltIds[0] = appImageId;
+		
+		CPcKvPair kvcdt = new CPcKvPair();
+		kvcdt.setTypeId(4);			//1=服务定义参数  2=镜像环境变量  3=镜像调用服务参数 4=容器暴露的参数
+		kvcdt.setSourceIds(rltIds);
+		kvPairDao.deleteByCdt(kvcdt);
 	
+		boolean addDefault = true;
+		if(params!=null && params.size()>0) {
+			for(int j=0; j<params.size(); j++) {
+				PcKvPair kv = params.get(j);
+				if(propertiesPool.get("defaultDnsKey")!=null&&
+						propertiesPool.get("defaultDnsKey").trim().equals(kv.getKvKey()))
+					addDefault = false;
+				kv.setTypeId(4);
+				kv.setSourceId(appImageId);
+			}
+		}
+		if(addDefault&&old.getPort()!=null){
+			if(params==null)
+				params = new ArrayList<PcKvPair>();
+			PcKvPair dnsKv = new PcKvPair();
+			dnsKv.setKvKey(propertiesPool.get("defaultDnsKey").trim());
+			dnsKv.setKeyDesc("default Dns");
+			dnsKv.setKvVal(old.getContainerFullName()+".marathon."+resCenterDao.selectById(old.getResCenterId()).getDomain());
+			dnsKv.setTypeId(4);
+			dnsKv.setSourceId(appImageId);
+			//调用时 不允许修改
+			dnsKv.setCustom1(1l);
+			params.add(dnsKv);
+			PcKvPair portKv = new PcKvPair();
+			portKv.setKvKey(propertiesPool.get("defaultPortKey").trim());
+			portKv.setKeyDesc("default Port");
+			portKv.setKvVal(old.getPort()+"");
+			portKv.setTypeId(4);
+			portKv.setSourceId(appImageId);
+			//调用时 不允许修改
+			portKv.setCustom1(1l);
+			params.add(portKv);
+		}
+		kvPairDao.insertBatch(params);
+		
+		//liwx3 add 该容器作为应用的访问入口
+		PcApp app = appDao.selectById(old.getAppId());
+		if(isAccess==1){
+			saveOrUpdateAppAccess(app,old,merchentId,svc.getProtocol());
+		}else{
+			//是否本次取消访问入口
+			if(old.getIsAccess()!=null&&old.getIsAccess()==1)
+				removeAppAccess(old);
+		}
+		
+		return id;
+	}
+	private void saveOrUpdateAppAccess(PcApp app,
+			PcAppImage record, Long merchentId,Integer protocol) {
+		CPcAppAccess cdt = new CPcAppAccess();
+		cdt.setAppId(record.getAppId());
+		cdt.setAppImageId(record.getId());
+		List<PcAppAccess> pcaa = appAccessSvc.queryList(cdt, null);	
+		if(pcaa!=null&&pcaa.size()>0){
+			PcAppAccess appaccess = pcaa.get(0);
+			appaccess.setProtocol(protocol);
+			appAccessSvc.saveOrUpdate(appaccess);
+		}else{
+			PcAppAccess access = new PcAppAccess();
+			access.setAppId(record.getAppId());
+			access.setAccessCode(record.getContainerFullName());
+			access.setAppImageId(record.getId());
+			access.setMntId(merchentId);
+			access.setDataCenterId(app.getDataCenterId());
+			access.setResCenterId(app.getResCenterId());
+			access.setProtocol(protocol);
+			appAccessSvc.saveOrUpdate(access);
+		}
+		
+	}
+
+
+	private void removeAppAccess(PcAppImage record){
+		CPcAppAccess cdt = new CPcAppAccess();
+		cdt.setAppId(record.getAppId());
+		cdt.setAppImageId(record.getId());
+		List<PcAppAccess> pcaa = appAccessSvc.queryList(cdt, null);	
+		Long id = pcaa.get(0).getId();
+		appAccessSvc.removeById(id);
+	}
+
+
+
+	@Override
+	public List<PcAppImageInfo> queryAndParamList(CPcAppImage cdt, String orders) {
+		List<PcAppImage>  images = appImageDao.selectList(cdt, orders);
+		List<PcAppImageInfo> infos = new ArrayList<PcAppImageInfo>();
+		fillParams(images,infos,4);
+		return infos;
+	}
+
+
+
+	private void fillParams(List<PcAppImage> images, List<PcAppImageInfo> infos,int typeId) {
+		if(images!=null&&images.size()>0){
+			for(int i=0;i<images.size();i++){
+				PcAppImageInfo desc = new PcAppImageInfo();
+				PcAppImage appImage = images.get(i);
+				desc.setAppImage(appImage);
+				
+				CPcKvPair cdtkv = new CPcKvPair();
+				cdtkv.setTypeId(typeId); 		//1=服务定义参数  2=镜像环境变量  3=镜像调用服务参数 4=容器暴露参数
+				cdtkv.setSourceId(appImage.getId());
+				List<PcKvPair> params = kvPairDao.selectList(cdtkv, null);
+				desc.setParams(params);
+				infos.add(desc);
+			}
+		}
+		
+	}
+
+
+
+	@Override
+	public List<PcAppImageInfo> getAppImageDependImagesAndParam(Long appImageId) {
+		BinaryUtils.checkEmpty(appImageId, "appImageId");
+		CPcAppImgSvc cdt = new CPcAppImgSvc();
+		cdt.setAppImgId(appImageId);
+		cdt.setSvcType(4); // 1=平台服务 2=外部服务 3=镜像服务 4=非服务镜像
+		cdt.setCallType(2); // 1=调用 2=依赖
+		List<PcAppImgSvc> ls = appImgSvcDao.selectList(cdt, null);
+		List<PcAppImageInfo> dependInfos = new ArrayList<PcAppImageInfo>();
+		if (ls.size() > 0) {
+			for (int i = 0; i < ls.size(); i++) {
+				PcAppImageInfo info = new PcAppImageInfo();
+				PcAppImgSvc svc = ls.get(i);
+				long sourceId = svc.getId();
+				CPcKvPair cdtkv = new CPcKvPair();
+				cdtkv.setTypeId(3); // 1=服务定义参数 2=镜像环境变量 3=镜像调用服务参数 4=容器暴露参数
+				cdtkv.setSourceId(sourceId);
+				List<PcKvPair> params = kvPairDao.selectList(cdtkv, null);
+
+				PcAppImage appImage = appImageDao.selectById(svc.getSvcId());
+				info.setAppImage(appImage);
+				info.setParams(params);
+				dependInfos.add(info);
+			}
+
+		}
+		return dependInfos;
+	}
+
+
+
+	@Override
+	public void saveAppImageDependsAndParam(Long appImageId,
+			List<AppImageCallServiceRlt> dependAppImages) {
+		CPcAppImgSvc imgsvccdt = new CPcAppImgSvc();
+		imgsvccdt.setAppImgId(appImageId);
+		imgsvccdt.setSvcTypes(new Integer[] { 4 }); // 1=平台服务 2=外部服务 3=镜像服务
+													// 4=非服务镜像
+		List<PcAppImgSvc> ls = appImgSvcDao.selectList(imgsvccdt, null);
+		// 先删
+		if (ls.size() > 0) {
+			Long[] rltIds = new Long[ls.size()];
+			for (int i = 0; i < ls.size(); i++) {
+				PcAppImgSvc svc = ls.get(i);
+				rltIds[i] = svc.getId();
+			}
+
+			CPcKvPair kvcdt = new CPcKvPair();
+			kvcdt.setTypeId(3); // 1=服务定义参数 2=镜像环境变量 3=镜像调用服务参数
+			kvcdt.setSourceIds(rltIds);
+			kvPairDao.deleteByCdt(kvcdt);
+
+			// 1=平台服务 2=外部服务 3=镜像服务 4=非服务镜像
+			appImgSvcDao.deleteByCdt(imgsvccdt);
+		}
+
+		if (dependAppImages != null && dependAppImages.size() > 0) {
+			List<PcKvPair> kvrecords = new ArrayList<PcKvPair>();
+
+			for (int i = 0; i < dependAppImages.size(); i++) {
+				AppImageCallServiceRlt rlt = dependAppImages.get(i);
+				Long svcId = rlt.getSvcId();
+				Integer svcType = 4;
+				Integer callType = 2;
+				List<PcKvPair> params = rlt.getParams();
+
+				BinaryUtils.checkEmpty(svcId, " rltList[" + i + "].svcId ");
+				BinaryUtils.checkEmpty(svcType, " rltList[" + i + "].svcType ");
+				BinaryUtils.checkEmpty(callType, " rltList[" + i
+						+ "].callType ");
+
+				PcAppImgSvc rltrecord = new PcAppImgSvc();
+				rltrecord.setAppImgId(appImageId);
+				rltrecord.setSvcId(svcId);
+				rltrecord.setSvcType(svcType);
+				rltrecord.setCallType(callType);
+				Long rltId = appImgSvcDao.insert(rltrecord);
+
+				if (params != null && params.size() > 0) {
+					for (int j = 0; j < params.size(); j++) {
+						PcKvPair kv = params.get(j);
+						if ((propertiesPool.get("defaultDnsKey") != null && propertiesPool
+								.get("defaultDnsKey").trim()
+								.equals(kv.getKvKey()))
+								|| (propertiesPool.get("defaultPortKey") != null && propertiesPool
+										.get("defaultPortKey").trim()
+										.equals(kv.getKvKey())))
+							kv.setCustom1(1l);
+						kv.setTypeId(3);
+						kv.setSourceId(rltId);
+						kvrecords.add(kv);
+					}
+				}
+			}
+
+			if (kvrecords.size() > 0) {
+				kvPairDao.insertBatch(kvrecords);
+			}
+		}
+
 	
+	}
 	
-	
+
+
+
 }

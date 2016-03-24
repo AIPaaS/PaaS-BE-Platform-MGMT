@@ -83,12 +83,6 @@ public class CPcAppImage implements Condition {
 
 
 	/**
-	 * condition-field: 镜像[IMAGE] operate-Like[like]
-	 */
-	private String image;
-
-
-	/**
 	 * condition-field: 应用ID[APP_ID] operate-Equal[=]
 	 */
 	private Long appId;
@@ -245,29 +239,6 @@ public class CPcAppImage implements Condition {
 
 
 	/**
-	 * condition-field: CPU总数[CPU_TOTAL] operate-Equal[=]
-	 */
-	private Integer cpuTotal;
-
-
-	/**
-	 * condition-field: CPU总数[CPU_TOTAL] operate-In[in]
-	 */
-	private Integer[] cpuTotals;
-
-
-	/**
-	 * condition-field: CPU总数[CPU_TOTAL] operate-GTEqual[>=]
-	 */
-	private Integer startCpuTotal;
-
-	/**
-	 * condition-field: CPU总数[CPU_TOTAL] operate-LTEqual[<=]
-	 */
-	private Integer endCpuTotal;
-
-
-	/**
 	 * condition-field: 内存大小[MEM_SIZE] operate-Equal[=]
 	 * 单位：M
 	 */
@@ -295,29 +266,6 @@ public class CPcAppImage implements Condition {
 
 
 	/**
-	 * condition-field: 内存总数[MEM_TOTAL] operate-Equal[=]
-	 */
-	private Long memTotal;
-
-
-	/**
-	 * condition-field: 内存总数[MEM_TOTAL] operate-In[in]
-	 */
-	private Long[] memTotals;
-
-
-	/**
-	 * condition-field: 内存总数[MEM_TOTAL] operate-GTEqual[>=]
-	 */
-	private Long startMemTotal;
-
-	/**
-	 * condition-field: 内存总数[MEM_TOTAL] operate-LTEqual[<=]
-	 */
-	private Long endMemTotal;
-
-
-	/**
 	 * condition-field: 存储大小[DISK_SIZE] operate-Equal[=]
 	 * 单位：M
 	 */
@@ -342,29 +290,6 @@ public class CPcAppImage implements Condition {
 	 * 单位：M
 	 */
 	private Long endDiskSize;
-
-
-	/**
-	 * condition-field: 存储总数[DISK_TOTAL] operate-Equal[=]
-	 */
-	private Long diskTotal;
-
-
-	/**
-	 * condition-field: 存储总数[DISK_TOTAL] operate-In[in]
-	 */
-	private Long[] diskTotals;
-
-
-	/**
-	 * condition-field: 存储总数[DISK_TOTAL] operate-GTEqual[>=]
-	 */
-	private Long startDiskTotal;
-
-	/**
-	 * condition-field: 存储总数[DISK_TOTAL] operate-LTEqual[<=]
-	 */
-	private Long endDiskTotal;
 
 
 	/**
@@ -864,6 +789,103 @@ public class CPcAppImage implements Condition {
 	private Long endModifyTime;
 
 
+	/**
+	 * condition-field: 协议[PROTOCOL] operate-Equal[=]
+	 * 1=HTTP 2=TPC
+	 */
+	private Integer protocol;
+
+
+	/**
+	 * condition-field: 协议[PROTOCOL] operate-In[in]
+	 * 1=HTTP 2=TPC
+	 */
+	private Integer[] protocols;
+
+
+	/**
+	 * condition-field: 协议[PROTOCOL] operate-GTEqual[>=]
+	 * 1=HTTP 2=TPC
+	 */
+	private Integer startProtocol;
+
+	/**
+	 * condition-field: 协议[PROTOCOL] operate-LTEqual[<=]
+	 * 1=HTTP 2=TPC
+	 */
+	private Integer endProtocol;
+
+
+	/**
+	 * condition-field: IP[IP] operate-Like[like]
+	 */
+	private String ip;
+
+
+	/**
+	 * condition-field: IP[IP] operate-Equal[=]
+	 */
+	private String ipEqual;
+
+
+	/**
+	 * condition-field: IP[IP] operate-In[in]
+	 */
+	private String[] ips;
+
+
+	/**
+	 * condition-field: 端口[PORT] operate-Equal[=]
+	 */
+	private Integer port;
+
+
+	/**
+	 * condition-field: 端口[PORT] operate-In[in]
+	 */
+	private Integer[] ports;
+
+
+	/**
+	 * condition-field: 端口[PORT] operate-GTEqual[>=]
+	 */
+	private Integer startPort;
+
+	/**
+	 * condition-field: 端口[PORT] operate-LTEqual[<=]
+	 */
+	private Integer endPort;
+
+
+	/**
+	 * condition-field: URL[SVC_URL] operate-Like[like]
+	 */
+	private String svcUrl;
+
+
+	/**
+	 * condition-field: 是否应用入口[IS_ACCESS] operate-Equal[=]
+	 */
+	private Long isAccess;
+
+
+	/**
+	 * condition-field: 是否应用入口[IS_ACCESS] operate-In[in]
+	 */
+	private Long[] isAccesss;
+
+
+	/**
+	 * condition-field: 是否应用入口[IS_ACCESS] operate-GTEqual[>=]
+	 */
+	private Long startIsAccess;
+
+	/**
+	 * condition-field: 是否应用入口[IS_ACCESS] operate-LTEqual[<=]
+	 */
+	private Long endIsAccess;
+
+
 
 
 	public Long getId() {
@@ -959,14 +981,6 @@ public class CPcAppImage implements Condition {
 	}
 	public void setEndImageId(Long endImageId) {
 		this.endImageId = endImageId;
-	}
-
-
-	public String getImage() {
-		return this.image;
-	}
-	public void setImage(String image) {
-		this.image = image;
 	}
 
 
@@ -1178,38 +1192,6 @@ public class CPcAppImage implements Condition {
 	}
 
 
-	public Integer getCpuTotal() {
-		return this.cpuTotal;
-	}
-	public void setCpuTotal(Integer cpuTotal) {
-		this.cpuTotal = cpuTotal;
-	}
-
-
-	public Integer[] getCpuTotals() {
-		return this.cpuTotals;
-	}
-	public void setCpuTotals(Integer[] cpuTotals) {
-		this.cpuTotals = cpuTotals;
-	}
-
-
-	public Integer getStartCpuTotal() {
-		return this.startCpuTotal;
-	}
-	public void setStartCpuTotal(Integer startCpuTotal) {
-		this.startCpuTotal = startCpuTotal;
-	}
-
-
-	public Integer getEndCpuTotal() {
-		return this.endCpuTotal;
-	}
-	public void setEndCpuTotal(Integer endCpuTotal) {
-		this.endCpuTotal = endCpuTotal;
-	}
-
-
 	public Long getMemSize() {
 		return this.memSize;
 	}
@@ -1242,38 +1224,6 @@ public class CPcAppImage implements Condition {
 	}
 
 
-	public Long getMemTotal() {
-		return this.memTotal;
-	}
-	public void setMemTotal(Long memTotal) {
-		this.memTotal = memTotal;
-	}
-
-
-	public Long[] getMemTotals() {
-		return this.memTotals;
-	}
-	public void setMemTotals(Long[] memTotals) {
-		this.memTotals = memTotals;
-	}
-
-
-	public Long getStartMemTotal() {
-		return this.startMemTotal;
-	}
-	public void setStartMemTotal(Long startMemTotal) {
-		this.startMemTotal = startMemTotal;
-	}
-
-
-	public Long getEndMemTotal() {
-		return this.endMemTotal;
-	}
-	public void setEndMemTotal(Long endMemTotal) {
-		this.endMemTotal = endMemTotal;
-	}
-
-
 	public Long getDiskSize() {
 		return this.diskSize;
 	}
@@ -1303,38 +1253,6 @@ public class CPcAppImage implements Condition {
 	}
 	public void setEndDiskSize(Long endDiskSize) {
 		this.endDiskSize = endDiskSize;
-	}
-
-
-	public Long getDiskTotal() {
-		return this.diskTotal;
-	}
-	public void setDiskTotal(Long diskTotal) {
-		this.diskTotal = diskTotal;
-	}
-
-
-	public Long[] getDiskTotals() {
-		return this.diskTotals;
-	}
-	public void setDiskTotals(Long[] diskTotals) {
-		this.diskTotals = diskTotals;
-	}
-
-
-	public Long getStartDiskTotal() {
-		return this.startDiskTotal;
-	}
-	public void setStartDiskTotal(Long startDiskTotal) {
-		this.startDiskTotal = startDiskTotal;
-	}
-
-
-	public Long getEndDiskTotal() {
-		return this.endDiskTotal;
-	}
-	public void setEndDiskTotal(Long endDiskTotal) {
-		this.endDiskTotal = endDiskTotal;
 	}
 
 
@@ -1967,6 +1885,134 @@ public class CPcAppImage implements Condition {
 	}
 	public void setEndModifyTime(Long endModifyTime) {
 		this.endModifyTime = endModifyTime;
+	}
+
+
+	public Integer getProtocol() {
+		return this.protocol;
+	}
+	public void setProtocol(Integer protocol) {
+		this.protocol = protocol;
+	}
+
+
+	public Integer[] getProtocols() {
+		return this.protocols;
+	}
+	public void setProtocols(Integer[] protocols) {
+		this.protocols = protocols;
+	}
+
+
+	public Integer getStartProtocol() {
+		return this.startProtocol;
+	}
+	public void setStartProtocol(Integer startProtocol) {
+		this.startProtocol = startProtocol;
+	}
+
+
+	public Integer getEndProtocol() {
+		return this.endProtocol;
+	}
+	public void setEndProtocol(Integer endProtocol) {
+		this.endProtocol = endProtocol;
+	}
+
+
+	public String getIp() {
+		return this.ip;
+	}
+	public void setIp(String ip) {
+		this.ip = ip;
+	}
+
+
+	public String getIpEqual() {
+		return this.ipEqual;
+	}
+	public void setIpEqual(String ipEqual) {
+		this.ipEqual = ipEqual;
+	}
+
+
+	public String[] getIps() {
+		return this.ips;
+	}
+	public void setIps(String[] ips) {
+		this.ips = ips;
+	}
+
+
+	public Integer getPort() {
+		return this.port;
+	}
+	public void setPort(Integer port) {
+		this.port = port;
+	}
+
+
+	public Integer[] getPorts() {
+		return this.ports;
+	}
+	public void setPorts(Integer[] ports) {
+		this.ports = ports;
+	}
+
+
+	public Integer getStartPort() {
+		return this.startPort;
+	}
+	public void setStartPort(Integer startPort) {
+		this.startPort = startPort;
+	}
+
+
+	public Integer getEndPort() {
+		return this.endPort;
+	}
+	public void setEndPort(Integer endPort) {
+		this.endPort = endPort;
+	}
+
+
+	public String getSvcUrl() {
+		return this.svcUrl;
+	}
+	public void setSvcUrl(String svcUrl) {
+		this.svcUrl = svcUrl;
+	}
+
+
+	public Long getIsAccess() {
+		return this.isAccess;
+	}
+	public void setIsAccess(Long isAccess) {
+		this.isAccess = isAccess;
+	}
+
+
+	public Long[] getIsAccesss() {
+		return this.isAccesss;
+	}
+	public void setIsAccesss(Long[] isAccesss) {
+		this.isAccesss = isAccesss;
+	}
+
+
+	public Long getStartIsAccess() {
+		return this.startIsAccess;
+	}
+	public void setStartIsAccess(Long startIsAccess) {
+		this.startIsAccess = startIsAccess;
+	}
+
+
+	public Long getEndIsAccess() {
+		return this.endIsAccess;
+	}
+	public void setEndIsAccess(Long endIsAccess) {
+		this.endIsAccess = endIsAccess;
 	}
 
 

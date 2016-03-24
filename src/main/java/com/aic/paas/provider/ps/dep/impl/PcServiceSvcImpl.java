@@ -6,6 +6,7 @@ import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.aic.paas.comm.util.PropertiesPool;
 import com.aic.paas.provider.ps.bean.CPcAppImgSvc;
 import com.aic.paas.provider.ps.bean.CPcKvPair;
 import com.aic.paas.provider.ps.bean.CPcService;
@@ -47,6 +48,9 @@ public class PcServiceSvcImpl implements PcServiceSvc {
 	
 	@Autowired
 	PcResCenterDao resCenterDao;
+	
+	@Autowired
+	PropertiesPool propertiesPool;
 	
 	@Override
 	public Page<PcService> queryPage(Integer pageNum, Integer pageSize, CPcService cdt, String orders) {
@@ -239,14 +243,41 @@ public class PcServiceSvcImpl implements PcServiceSvc {
 		cdt.setSourceId(svcId);
 		kvPairDao.deleteByCdt(cdt);
 		
+		
+		boolean addDefault = true;
 		if(params!=null && params.size()>0) {
 			for(int i=0; i<params.size(); i++) {
 				PcKvPair kv = params.get(i);
+				if(propertiesPool.get("defaultDnsKey")!=null&&
+						propertiesPool.get("defaultDnsKey").trim().equals(kv.getKvKey()))
+					addDefault = false;
 				kv.setTypeId(1);
 				kv.setSourceId(svcId);
 			}
-			kvPairDao.insertBatch(params);
-		}		
+		}
+		if(addDefault){
+			PcService service = serviceDao.selectById(svcId);
+			PcKvPair dnsKv = new PcKvPair();
+			dnsKv.setKvKey(propertiesPool.get("defaultDnsKey").trim());
+			dnsKv.setKeyDesc("default Dns");
+			dnsKv.setKvVal(service.getSvcCode()+".marathon."+
+					resCenterDao.selectById(service.getResCenterId()).getDomain());
+			dnsKv.setTypeId(1);
+			dnsKv.setSourceId(svcId);
+			//调用时 不允许修改
+			dnsKv.setCustom1(1l);
+			params.add(dnsKv);
+			PcKvPair portKv = new PcKvPair();
+			portKv.setKvKey(propertiesPool.get("defaultPortKey").trim());
+			portKv.setKeyDesc("default Port");
+			portKv.setKvVal(service.getPort()+"");
+			portKv.setTypeId(1);
+			portKv.setSourceId(svcId);
+			//调用时 不允许修改
+			portKv.setCustom1(1l);
+			params.add(portKv);
+		}
+		kvPairDao.insertBatch(params);
 	}
 
 
