@@ -10,9 +10,10 @@
 		<result column="SVC_CODE" jdbcType="VARCHAR" property="svcCode"/>	<!-- 服务代码 -->
 		<result column="SVC_NAME" jdbcType="VARCHAR" property="svcName"/>	<!-- 服务名称 -->
 		<result column="PROTOCOL" jdbcType="INTEGER" property="protocol"/>	<!-- 开放协议 -->
-		<result column="IP" jdbcType="VARCHAR" property="ip"/>	<!-- 开放IP -->
+		<result column="IP" jdbcType="VARCHAR" property="ip"/>	<!-- IP -->
 		<result column="PORT" jdbcType="INTEGER" property="port"/>	<!-- 开放端口 -->
 		<result column="SVC_URL" jdbcType="VARCHAR" property="svcUrl"/>	<!-- 开放URL -->
+		<result column="DOMAIN_NAME" jdbcType="VARCHAR" property="domainName"/>	<!-- 服务DNS -->
 		<result column="SVC_TYPE" jdbcType="INTEGER" property="svcType"/>	<!-- 服务类型 -->
 		<result column="MNT_ID" jdbcType="BIGINT" property="mntId"/>	<!-- 所属租户 -->
 		<result column="MONITOR_URL" jdbcType="VARCHAR" property="monitorUrl"/>	<!-- 监控URL -->
@@ -93,6 +94,15 @@
 		<isNotEmpty prepend="and" property="cdt.endProtocol" >
 			<![CDATA[ PROTOCOL <= #cdt.endProtocol:INTEGER# ]]>
 		</isNotEmpty>
+		<isNotEmpty prepend="and" property="cdt.ip" >
+			IP like #cdt.ip:VARCHAR# 
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="cdt.ipEqual" >
+			IP = #cdt.ipEqual:VARCHAR#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="ips" >
+			IP in ($ips$)
+		</isNotEmpty>
 		<isNotEmpty prepend="and" property="cdt.port" >
 			PORT = #cdt.port:INTEGER#
 		</isNotEmpty>
@@ -107,6 +117,9 @@
 		</isNotEmpty>
 		<isNotEmpty prepend="and" property="cdt.svcUrl" >
 			SVC_URL like #cdt.svcUrl:VARCHAR# 
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="cdt.domainName" >
+			DOMAIN_NAME like #cdt.domainName:VARCHAR# 
 		</isNotEmpty>
 		<isNotEmpty prepend="and" property="cdt.svcType" >
 			SVC_TYPE = #cdt.svcType:INTEGER#
@@ -340,11 +353,17 @@
 		<isNotNull prepend="," property="record.protocol"> 
 			PROTOCOL = #record.protocol:INTEGER#
 		</isNotNull>
+		<isNotNull prepend="," property="record.ip"> 
+			IP = #record.ip:VARCHAR#
+		</isNotNull>
 		<isNotNull prepend="," property="record.port"> 
 			PORT = #record.port:INTEGER#
 		</isNotNull>
 		<isNotNull prepend="," property="record.svcUrl"> 
 			SVC_URL = #record.svcUrl:VARCHAR#
+		</isNotNull>
+		<isNotNull prepend="," property="record.domainName"> 
+			DOMAIN_NAME = #record.domainName:VARCHAR#
 		</isNotNull>
 		<isNotNull prepend="," property="record.svcType"> 
 			SVC_TYPE = #record.svcType:INTEGER#
@@ -417,10 +436,11 @@
 
 	<sql id="sql_query_columns">
 		ID, DATA_CENTER_ID, RES_CENTER_ID, SVC_CODE, SVC_NAME, PROTOCOL, 
-		IP,PORT, SVC_URL, SVC_TYPE, MNT_ID, MONITOR_URL, STATUS, 
-		DUTIER_ID, DUTIER_NAME, DUTIER_PHONE, DUTIER_EMAIL, DEP_TIME, USER_ID, 
-		USER_NAME, APP_ID, APP_IMAGE_ID, CUSTOM_1, CUSTOM_2, CUSTOM_3, 
-		CUSTOM_4, CUSTOM_5, CUSTOM_6, DATA_STATUS, CREATE_TIME, MODIFY_TIME
+		IP, PORT, SVC_URL, DOMAIN_NAME, SVC_TYPE, MNT_ID, 
+		MONITOR_URL, STATUS, DUTIER_ID, DUTIER_NAME, DUTIER_PHONE, DUTIER_EMAIL, 
+		DEP_TIME, USER_ID, USER_NAME, APP_ID, APP_IMAGE_ID, CUSTOM_1, 
+		CUSTOM_2, CUSTOM_3, CUSTOM_4, CUSTOM_5, CUSTOM_6, DATA_STATUS, 
+		CREATE_TIME, MODIFY_TIME
 	</sql>
 	
 
@@ -459,18 +479,20 @@
 	<insert id="insert" parameterClass="java.util.Map">
 		insert into PC_SERVICE(
 			ID, DATA_CENTER_ID, RES_CENTER_ID, SVC_CODE, SVC_NAME, 
-			PROTOCOL, PORT, SVC_URL, SVC_TYPE, MNT_ID, 
-			MONITOR_URL, STATUS, DUTIER_ID, DUTIER_NAME, DUTIER_PHONE, 
-			DUTIER_EMAIL, DEP_TIME, USER_ID, USER_NAME, APP_ID, 
-			APP_IMAGE_ID, CUSTOM_1, CUSTOM_2, CUSTOM_3, CUSTOM_4, 
-			CUSTOM_5, CUSTOM_6, DATA_STATUS, CREATE_TIME, MODIFY_TIME)
+			PROTOCOL, IP, PORT, SVC_URL, DOMAIN_NAME, 
+			SVC_TYPE, MNT_ID, MONITOR_URL, STATUS, DUTIER_ID, 
+			DUTIER_NAME, DUTIER_PHONE, DUTIER_EMAIL, DEP_TIME, USER_ID, 
+			USER_NAME, APP_ID, APP_IMAGE_ID, CUSTOM_1, CUSTOM_2, 
+			CUSTOM_3, CUSTOM_4, CUSTOM_5, CUSTOM_6, DATA_STATUS, 
+			CREATE_TIME, MODIFY_TIME)
 		values (
 			#record.id:BIGINT#, #record.dataCenterId:BIGINT#, #record.resCenterId:BIGINT#, #record.svcCode:VARCHAR#, #record.svcName:VARCHAR#, 
-			#record.protocol:INTEGER#, #record.port:INTEGER#, #record.svcUrl:VARCHAR#, #record.svcType:INTEGER#, #record.mntId:BIGINT#, 
-			#record.monitorUrl:VARCHAR#, #record.status:INTEGER#, #record.dutierId:BIGINT#, #record.dutierName:VARCHAR#, #record.dutierPhone:VARCHAR#, 
-			#record.dutierEmail:VARCHAR#, #record.depTime:BIGINT#, #record.userId:BIGINT#, #record.userName:VARCHAR#, #record.appId:BIGINT#, 
-			#record.appImageId:BIGINT#, #record.custom1:BIGINT#, #record.custom2:BIGINT#, #record.custom3:BIGINT#, #record.custom4:VARCHAR#, 
-			#record.custom5:VARCHAR#, #record.custom6:VARCHAR#, #record.dataStatus:INTEGER#, #record.createTime:BIGINT#, #record.modifyTime:BIGINT#)
+			#record.protocol:INTEGER#, #record.ip:VARCHAR#, #record.port:INTEGER#, #record.svcUrl:VARCHAR#, #record.domainName:VARCHAR#, 
+			#record.svcType:INTEGER#, #record.mntId:BIGINT#, #record.monitorUrl:VARCHAR#, #record.status:INTEGER#, #record.dutierId:BIGINT#, 
+			#record.dutierName:VARCHAR#, #record.dutierPhone:VARCHAR#, #record.dutierEmail:VARCHAR#, #record.depTime:BIGINT#, #record.userId:BIGINT#, 
+			#record.userName:VARCHAR#, #record.appId:BIGINT#, #record.appImageId:BIGINT#, #record.custom1:BIGINT#, #record.custom2:BIGINT#, 
+			#record.custom3:BIGINT#, #record.custom4:VARCHAR#, #record.custom5:VARCHAR#, #record.custom6:VARCHAR#, #record.dataStatus:INTEGER#, 
+			#record.createTime:BIGINT#, #record.modifyTime:BIGINT#)
 	</insert>
 	
 
