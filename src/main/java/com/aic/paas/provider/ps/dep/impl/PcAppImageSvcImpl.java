@@ -19,12 +19,14 @@ import com.aic.paas.provider.ps.bean.PcAppImage;
 import com.aic.paas.provider.ps.bean.PcAppImgSvc;
 import com.aic.paas.provider.ps.bean.PcAppRes;
 import com.aic.paas.provider.ps.bean.PcAppVersion;
+import com.aic.paas.provider.ps.bean.PcImageRepository;
 import com.aic.paas.provider.ps.bean.PcKvPair;
 import com.aic.paas.provider.ps.bean.PcService;
 import com.aic.paas.provider.ps.db.PcAppDao;
 import com.aic.paas.provider.ps.db.PcAppImageDao;
 import com.aic.paas.provider.ps.db.PcAppImgSvcDao;
 import com.aic.paas.provider.ps.db.PcAppVersionDao;
+import com.aic.paas.provider.ps.db.PcImageRepositoryDao;
 import com.aic.paas.provider.ps.db.PcKvPairDao;
 import com.aic.paas.provider.ps.db.PcServiceDao;
 import com.aic.paas.provider.ps.dep.PcAppImageSvc;
@@ -68,6 +70,9 @@ public class PcAppImageSvcImpl implements PcAppImageSvc {
 
 	@Autowired
 	PcAppSvc appSvc;
+	
+	@Autowired
+	PcImageRepositoryDao pcImageRepositoryDao;
 
 	@Override
 	public Page<PcAppImage> queryPage(Integer pageNum, Integer pageSize, CPcAppImage cdt, String orders) {
@@ -668,6 +673,11 @@ public class PcAppImageSvcImpl implements PcAppImageSvc {
 		CPcAppImgSvc cdt = new CPcAppImgSvc();
 		cdt.setAppImgId(appImageId);
 		return appImgSvcDao.selectList(cdt, null);
+	}
+
+	@Override
+	public PcImageRepository getPcImageReposityById(Long id) {
+		return pcImageRepositoryDao.selectById(id);
 	}
 
 }

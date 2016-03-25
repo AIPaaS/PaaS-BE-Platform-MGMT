@@ -5,6 +5,7 @@ import java.util.List;
 import com.aic.paas.provider.ps.bean.CPcAppImage;
 import com.aic.paas.provider.ps.bean.PcAppImage;
 import com.aic.paas.provider.ps.bean.PcAppImgSvc;
+import com.aic.paas.provider.ps.bean.PcImageRepository;
 import com.aic.paas.provider.ps.bean.PcKvPair;
 import com.aic.paas.provider.ps.bean.PcService;
 import com.aic.paas.provider.ps.dep.bean.AppImageCallServiceRlt;
@@ -194,6 +195,8 @@ public interface PcAppImageSvc {
 	
 	
 	public List<PcAppImgSvc> getPcAppImgSvc(Long appImageId);
+	
+	public PcImageRepository getPcImageReposityById(Long id);
 }
 
 
